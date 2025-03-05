@@ -1,2 +1,1 @@
 # WTECH-ESHOP
-University project

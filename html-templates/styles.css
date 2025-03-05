@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .bg-white { background-color: #F7F5F0; }
+  .bg-pale-yellow { background-color: #F7EFD2; }
+  .bg-pale-yellow-2 { background: #DED9B7; }
+  .bg-dark-red { background-color: #7D3232; }
+  .bg-dark-violet { background-color: #332C2C; }
+
+  .text-white { color: #F7F5F0; }
+  .text-pale-yellow { color: #F7EFD2; }
+  .text-pale-yellow-2 { color: #DED9B7; }
+  .text-dark-red { color: #7D3232; }
+  .text-dark-violet { color: #332C2C; }
+}

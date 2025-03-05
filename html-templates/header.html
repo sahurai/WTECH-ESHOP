@@ -1,0 +1,46 @@
+<!-- This is the header section with a dropdown menu for categories -->
+<header class="bg-dark-red p-3 flex items-center justify-between">
+    <!-- Left side with logo and title -->
+    <div class="flex items-center space-x-4">
+        <div class="w-8 h-8 flex items-center justify-center">
+            <!-- Logo image -->
+            <img src="/assets/header/logo.svg" alt="Logo">
+        </div>
+        <span class="text-white text-lg font-bold">Owl Shop</span>
+    </div>
+    
+    <!-- Navigation area with categories and search -->
+    <nav class="flex items-center space-x-4 w-1/3">
+        <!-- Dropdown wrapper -->
+        <div class="relative group">
+            <!-- Button to show dropdown -->
+            <button class="bg-white text-dark-violet px-4 py-2 rounded">
+                Categories
+            </button>
+            <!-- Dropdown menu: appears on hover -->
+            <div class="absolute hidden group-hover:block bg-white shadow-md rounded mt-1 w-40 z-20">
+                <!-- Category links -->
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Fiction</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Non-Fiction</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Fantasy</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Mystery</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Sci-Fi</a>
+            </div>
+        </div>
+
+        <!-- Search input -->
+        <input 
+            type="text" 
+            placeholder="Search..." 
+            class="px-4 py-2 border border-none bg-white text-white rounded w-full"
+        >
+    </nav>
+
+    <!-- Right side with sign up/in and basket -->
+    <div class="flex items-center space-x-4">
+        <button class="bg-white text-dark-violet px-4 py-2 rounded">Sign up/in</button>
+        <button class="w-8 h-8">
+            <img src="/assets/header/basket.svg" alt="Basket">
+        </button>
+    </div>
+</header>
