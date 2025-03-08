@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Owl Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="bg-pale-yellow">
+    <!-- The header will be fetched from a separate file -->
+    <div id="header"></div>
+
+    <!-- Main wrapper with responsive padding and max width -->
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
+      <h1 class="text-xl font-bold mb-4 text-dark-red">Basket</h1>
+
+      <!-- User Actions (Sign in & Delete) -->
+      <section class="flex justify-end items-center space-x-4 mb-4">
+        <!-- Sign in -->
+        <a
+          href="#"
+          class="flex items-center space-x-2 text-black hover:text-gray-700 transition"
+        >
+          <span>Sign in</span>
+          <img
+            src="/assets/basket/user-icon.svg"
+            alt="User icon"
+            class="w-6 h-6"
+          />
+        </a>
+
+        <!-- Delete Button -->
+        <a href="#" class="hover:opacity-80 transition">
+          <img
+            src="/assets/basket/delete.svg"
+            alt="Delete basket"
+            class="w-6 h-6"
+          />
+        </a>
+      </section>
+
+      <!-- Basket -->
+      <section class="space-y-2 bg-pale-yellow-2 p-6 rounded-lg">
+        <!-- First book item  -->
+        <article
+          class="flex flex-col sm:flex-row items-center border-b pb-2 gap-2 sm:gap-4"
+        >
+          <div
+            class="sm:w-24 sm:h-36 w-20 h-32 max-w-[100px] sm:max-w-[120px] overflow-hidden flex-shrink-0"
+          >
+            <img
+              src="/assets/homepage/book-cover-1.png"
+              alt="Book Image"
+              class="w-full h-full rounded object-cover"
+            />
+          </div>
+          <!-- Book details -->
+          <div class="flex-1 flex flex-col sm:self-start">
+            <h2
+              class="text-gray-800 text-sm sm:text-base font-bold leading-tight px-2"
+            >
+              Hunting Adelina
+            </h2>
+            <p class="text-gray-600 text-sm sm:text-base px-2">H. D. Carlton</p>
+          </div>
+          <div class="w-24 h-8 text-center text-md">Price</div>
+          <!-- Quantity -->
+          <div
+            class="flex justify-center items-center border border-gray-300 rounded-lg w-20 h-8 sm:w-24 sm:h-10 bg-dark-violet"
+          >
+            <button
+              class="text-white px-3 rounded-l-lg hover:bg-gray-600 h-full min-w-[30px] w-8"
+            >
+              -
+            </button>
+            <span
+              class="bg-pale-yellow px-3 text-black flex justify-center items-center h-full min-w-[30px] w-8"
+              >2</span
+            >
+            <button
+              class="text-white px-3 rounded-r-lg hover:bg-gray-600 h-full min-w-[30px] w-8"
+            >
+              +
+            </button>
+          </div>
+          <div class="w-24 h-8 text-center text-md">Total price</div>
+        </article>
+      </section>
+    </div>
+
+    <script>
+      fetch("header.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("header").innerHTML = data;
+        });
+    </script>
+  </body>
+</html>
