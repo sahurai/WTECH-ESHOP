@@ -13,7 +13,7 @@
 
     <!-- Main wrapper with responsive padding and max width -->
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
-      <h1 class="text-xl font-bold mb-4 text-dark-red">Basket</h1>
+      <h1 class="text-2xl font-bold mb-4 text-dark-red">Basket</h1>
 
       <!-- User Actions (Sign in & Delete) -->
       <section class="flex justify-end items-center space-x-4 mb-4">
@@ -41,10 +41,10 @@
       </section>
 
       <!-- Basket -->
-      <section class="space-y-2 bg-pale-yellow-2 p-6 rounded-lg">
+      <section class="space-y-2 bg-pale-yellow-2 px-4 py-4 rounded-lg">
         <!-- First book item  -->
         <article
-          class="flex flex-col sm:flex-row items-center border-b pb-2 gap-2 sm:gap-4"
+          class="flex flex-col sm:flex-row items-center border-b border-black pb-2 gap-2 sm:gap-4"
         >
           <div
             class="sm:w-24 sm:h-36 w-20 h-32 max-w-[100px] sm:max-w-[120px] overflow-hidden flex-shrink-0"
@@ -64,7 +64,7 @@
             </h2>
             <p class="text-gray-600 text-sm sm:text-base px-2">H. D. Carlton</p>
           </div>
-          <div class="w-24 h-8 text-center text-md">Price</div>
+          <div class="w-24 h-8 text-center text-md">18.03 €</div>
           <!-- Quantity -->
           <div
             class="flex justify-center items-center border border-gray-300 rounded-lg w-20 h-8 sm:w-24 sm:h-10 bg-dark-violet"
@@ -84,9 +84,74 @@
               +
             </button>
           </div>
-          <div class="w-24 h-8 text-center text-md">Total price</div>
+          <div class="w-24 h-8 text-center text-md">36.06 €</div>
         </article>
+        <!-- Second book item  -->
+        <article
+          class="flex flex-col sm:flex-row items-center border-b border-black pb-2 gap-2 sm:gap-4"
+        >
+          <div
+            class="sm:w-24 sm:h-36 w-20 h-32 max-w-[100px] sm:max-w-[120px] overflow-hidden flex-shrink-0"
+          >
+            <img
+              src="/assets/homepage/book-cover-3.png"
+              alt="Book Image"
+              class="w-full h-full rounded object-cover"
+            />
+          </div>
+          <!-- Book details -->
+          <div class="flex-1 flex flex-col sm:self-start">
+            <h2
+              class="text-gray-800 text-sm sm:text-base font-bold leading-tight px-2"
+            >
+              Wild Side
+            </h2>
+            <p class="text-gray-600 text-sm sm:text-base px-2">Elsie Silver</p>
+          </div>
+          <div class="w-24 h-8 text-center text-md">12.00 €</div>
+          <!-- Quantity -->
+          <div
+            class="flex justify-center items-center border border-gray-300 rounded-lg w-20 h-8 sm:w-24 sm:h-10 bg-dark-violet"
+          >
+            <button
+              class="text-white px-3 rounded-l-lg hover:bg-gray-600 h-full min-w-[30px] w-8"
+            >
+              -
+            </button>
+            <span
+              class="bg-pale-yellow px-3 text-black flex justify-center items-center h-full min-w-[30px] w-8"
+              >1</span
+            >
+            <button
+              class="text-white px-3 rounded-r-lg hover:bg-gray-600 h-full min-w-[30px] w-8"
+            >
+              +
+            </button>
+          </div>
+          <div class="w-24 h-8 text-center text-md">12.00 €</div>
+        </article>
+
+        <!-- Total price -->
+
+        <div class="flex justify-end items-center my-6 px-4 gap-10">
+          <!-- Total price text -->
+          <div class="text-base font-semibold">Total price:</div>
+          <!-- Total price amount -->
+          <div class="text-xl font-bold text-gray-900">$48.06</div>
+        </div>
       </section>
+      <div class="flex flex-row justify-between m-8">
+        <a
+          href="#"
+          class="bg-dark-violet text-center font-semibold text-white px-4 py-2 rounded hover:bg-gray-600"
+          >Continue shopping</a
+        >
+        <a
+          href="#"
+          class="bg-dark-violet text-white font-semibold px-2 py-2 rounded hover:bg-gray-600"
+          >Proceed to checkout</a
+        >
+      </div>
     </div>
 
     <script>
