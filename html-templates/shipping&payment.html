@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Owl Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="bg-pale-yellow">
+    <!-- The header will be fetched from a separate file -->
+    <div id="header"></div>
+
+    <!-- Main wrapper with responsive padding and max width -->
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 my-12 gap-x-4 w-full">
+      <!-- Progress bar -->
+      <div class="flex items-center">
+        <!-- Step 1 -->
+
+        <div
+          class="sm:w-24 md:w-36 lg:w-40 bg-dark-red rounded-full px-4 py-2 text-center text-base font-medium text-white"
+        >
+          Checkout
+        </div>
+        <!-- Connector -->
+        <div class="flex-1 h-2 bg-pale-yellow-2"></div>
+
+        <!-- Step 2 -->
+        <div
+          class="sm:w-24 md:w-36 lg:w-40 bg-pale-yellow-2 rounded-full px-4 py-2 text-center text-base font-medium text-white"
+        >
+          Delivery
+        </div>
+        <!-- Connector -->
+        <div class="flex-1 h-2 bg-pale-yellow-2"></div>
+        <!-- Step 3 -->
+        <div
+          class="sm:w-24 md:w-36 lg:w-40 bg-pale-yellow-2 rounded-full px-4 py-2 text-center text-base font-medium text-white"
+        >
+          Summary
+        </div>
+      </div>
+      <section
+        class="flex justify-between sm:flex-col md:flex-row px-8 py-4 md:gap-4 gap-2"
+      >
+        <!-- Shipping section -->
+        <section class="flex-1 space-y-2">
+          <h2
+            class="text-lg sm:text-xl font-semibold border-l-4 border-red-800 ml-2 p-2"
+          >
+            Shipping
+          </h2>
+          <div class="space-y-2">
+            <label
+              class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border"
+            >
+              <input
+                type="radio"
+                name="shipping"
+                class="form-radio accent-red-400"
+              />
+              <span>Standard Shipping (5-7 days)</span>
+            </label>
+            <label
+              class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border"
+            >
+              <input
+                type="radio"
+                name="shipping"
+                class="form-radio accent-red-400"
+              />
+              <span>Express Shipping (2-3 days)</span>
+            </label>
+            <label
+              class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border"
+            >
+              <input
+                type="radio"
+                name="shipping"
+                class="form-radio accent-red-400"
+              />
+              <span>Next Day Delivery</span>
+            </label>
+            <label
+              class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border"
+            >
+              <input
+                type="radio"
+                name="shipping"
+                class="form-radio accent-red-400"
+              />
+              <span>Another</span>
+            </label>
+          </div>
+        </section>
+        <!-- Vertical line -->
+        <div class="hidden md:block w-1 min-h-20 bg-red-800"></div>
+        <!-- Payment section -->
+        <section class="flex-1 space-y-2">
+          <h2
+            class="text-lg sm:text-xl font-semibold border-l-4 border-red-800 ml-2 p-2"
+          >
+            Payment
+          </h2>
+          <div class="space-y-2">
+            <label
+              class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border"
+            >
+              <input
+                type="radio"
+                name="payment"
+                class="form-radio accent-red-400"
+              />
+              <span>Debit card</span>
+            </label>
+            <label
+              class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border"
+            >
+              <input
+                type="radio"
+                name="payment"
+                class="form-radio accent-red-400"
+              />
+              <span>PayPal</span>
+            </label>
+            <label
+              class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border"
+            >
+              <input
+                type="radio"
+                name="payment"
+                class="form-radio accent-red-400"
+              />
+              <span>Google Pay</span>
+            </label>
+            <label
+              class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border"
+            >
+              <input
+                type="radio"
+                name="payment"
+                class="form-radio accent-red-400"
+              />
+              <span>Apple Pay</span>
+            </label>
+          </div>
+        </section>
+      </section>
+      <div class="flex flex-row justify-between m-8">
+        <a
+          href="#"
+          class="bg-dark-violet text-center font-semibold text-white px-4 py-2 rounded hover:bg-gray-600"
+          >Continue shopping</a
+        >
+        <a
+          href="#"
+          class="bg-dark-violet text-white font-semibold px-2 py-2 rounded hover:bg-gray-600"
+          >Proceed to checkout</a
+        >
+      </div>
+    </div>
+    <script>
+      fetch("header.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("header").innerHTML = data;
+        });
+    </script>
+  </body>
+</html>
