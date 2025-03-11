@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="bg-white">
+<body class="bg-white-2">
   <!-- The header will be fetched from a separate file -->
   <div id="header"></div>
 
@@ -47,7 +47,7 @@
       <div class="relative">
         <!-- Left arrow button -->
         <button 
-          class="absolute left-2 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-r shadow z-20"
+          class="absolute left-2 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-white hover:bg-gray-200 rounded-r shadow z-20"
           type="button"
         >
           &lt;
@@ -56,8 +56,8 @@
         <!-- The outer wrapper with hidden overflow (no offsets changed) -->
         <div class="overflow-hidden relative">
           <!-- Fog overlays: one on the left, one on the right -->
-          <div class="pointer-events-none absolute top-0 left-0 h-full w-16 bg-gradient-to-r from-white to-transparent z-10"></div>
-          <div class="pointer-events-none absolute top-0 right-0 h-full w-16 bg-gradient-to-l from-white to-transparent z-10"></div>
+          <div class="pointer-events-none absolute top-0 left-0 h-full w-16 bg-gradient-to-r from-white-2 to-transparent z-10"></div>
+          <div class="pointer-events-none absolute top-0 right-0 h-full w-16 bg-gradient-to-l from-white-2 to-transparent z-10"></div>
 
           <!-- Inner row (books) -->
           <div class="flex space-x-5 px-8 py-2 relative z-0">
@@ -216,7 +216,7 @@
         
         <!-- Right arrow button -->
         <button 
-          class="absolute right-2 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-l shadow z-20"
+          class="absolute right-2 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-white hover:bg-gray-200 rounded-lg shadow z-20"
           type="button"
         >
           &gt;
@@ -230,7 +230,7 @@
 
       <div class="relative">
         <button 
-          class="absolute left-2 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-r shadow z-20"
+          class="absolute left-2 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-white hover:bg-gray-200 rounded-lg shadow z-20"
           type="button"
         >
           &lt;
@@ -238,8 +238,8 @@
 
         <div class="overflow-hidden relative">
           <!-- Fog overlays left and right -->
-          <div class="pointer-events-none absolute top-0 left-0 h-full w-16 bg-gradient-to-r from-white to-transparent z-10"></div>
-          <div class="pointer-events-none absolute top-0 right-0 h-full w-16 bg-gradient-to-l from-white to-transparent z-10"></div>
+          <div class="pointer-events-none absolute top-0 left-0 h-full w-16 bg-gradient-to-r from-white-2 to-transparent z-10"></div>
+          <div class="pointer-events-none absolute top-0 right-0 h-full w-16 bg-gradient-to-l from-white-2 to-transparent z-10"></div>
 
           <div class="flex space-x-5 px-8 py-2 relative z-0">
             <button>
@@ -396,7 +396,7 @@
         </div>
 
         <button 
-          class="absolute right-2 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-l shadow z-20"
+          class="absolute right-2 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-white hover:bg-gray-200 rounded-lg shadow z-20"
           type="button"
         >
           &gt;
