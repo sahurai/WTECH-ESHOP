@@ -5,6 +5,7 @@
 @layer utilities {
   .bg-white { background-color: #F7F5F0; }
   .bg-white-2 { background-color: #FBF7F5; }
+  .bg-blue { background-color: #00245B; }
   .bg-pale-yellow { background-color: #F7EFD2; }
   .bg-pale-yellow-2 { background: #DED9B7; }
   .bg-dark-red { background-color: #7D3232; }
@@ -16,6 +17,7 @@
 
   .text-white { color: #F7F5F0; }
   .text-white-2 { color: #FBF7F5; }
+  .text-blue { color: #00245B; }
   .text-pale-yellow { color: #F7EFD2; }
   .text-pale-yellow-2 { color: #DED9B7; }
   .text-dark-red { color: #7D3232; }
@@ -32,6 +34,10 @@
   .from-white-2 {
     --tw-gradient-from: #FBF7F5;
     --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(251,247,245,0));
+  }
+  .from-blue {
+    --tw-gradient-from: #00245B;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(0,36,91,0));
   }
   .from-pale-yellow {
     --tw-gradient-from: #F7EFD2;
