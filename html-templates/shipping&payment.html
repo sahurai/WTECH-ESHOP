@@ -7,18 +7,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body class="bg-pale-yellow">
+  <body class="bg-white-2">
     <!-- The header will be fetched from a separate file -->
     <div id="header"></div>
 
     <!-- Main wrapper with responsive padding and max width -->
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 my-12 gap-x-4 w-full">
       <!-- Progress bar -->
-      <div class="flex items-center">
+      <div class="flex items-center text-base md:text-lg lg:text-xl">
         <!-- Step 1 -->
 
         <div
-          class="sm:w-24 md:w-36 lg:w-40 bg-dark-red rounded-full px-4 py-2 text-center text-base font-medium text-white border-4 border-orange-700"
+          class="w-22 sm:w-24 md:w-36 lg:w-40 bg-dark-red rounded-full px-4 py-2 text-center font-medium text-white-2 border-4 border-orange-700"
         >
           Checkout
         </div>
@@ -27,7 +27,7 @@
 
         <!-- Step 2 -->
         <div
-          class="sm:w-24 md:w-36 lg:w-40 bg-pale-yellow-2 rounded-full px-4 py-2 text-center text-base font-medium text-white border-4 border-[#DED9B7]"
+          class="w-22 sm:w-24 md:w-36 lg:w-40 bg-pale-yellow-2 rounded-full px-4 py-2 text-center font-medium text-dark-red border-4 border-[#DED9B7]"
         >
           Delivery
         </div>
@@ -35,22 +35,22 @@
         <div class="flex-1 h-2 bg-pale-yellow-2"></div>
         <!-- Step 3 -->
         <div
-          class="sm:w-24 md:w-36 lg:w-40 bg-pale-yellow-2 rounded-full px-4 py-2 text-center text-base font-medium text-white border-4 border-[#DED9B7]"
+          class="w-22 sm:w-24 md:w-36 lg:w-40 bg-pale-yellow-2 rounded-full px-4 py-2 text-center font-medium text-dark-red border-4 border-[#DED9B7]"
         >
           Summary
         </div>
       </div>
       <section
-        class="flex justify-between sm:flex-col md:flex-row px-8 py-4 md:gap-4 gap-2"
+        class="flex justify-between flex-col md:flex-row px-8 py-4 md:gap-4 gap-2"
       >
         <!-- Shipping section -->
         <section class="flex-1 space-y-2">
           <h2
-            class="text-lg sm:text-xl font-semibold border-l-4 border-red-800 ml-2 p-2"
+            class="text-true-dark text-base sm:text-lg lg:text-xl font-bold border-l-4 border-red-800 ml-2 p-2"
           >
             Shipping
           </h2>
-          <div class="space-y-2">
+          <div class="space-y-2 text-sm md:text-base lg:text-lg text-blue">
             <label
               class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border transition shadow-md shadow-orange-200"
             >
@@ -59,7 +59,7 @@
                 name="shipping"
                 class="form-radio accent-red-400"
               />
-              <span>Standard Shipping (5-7 days)</span>
+              <span class="text-blue">Standard Shipping (5-7 days)</span>
             </label>
             <label
               class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border shadow-md shadow-orange-200"
@@ -69,7 +69,7 @@
                 name="shipping"
                 class="form-radio accent-red-400"
               />
-              <span>Express Shipping (2-3 days)</span>
+              <span class="text-blue">Express Shipping (2-3 days)</span>
             </label>
             <label
               class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border shadow-md shadow-orange-200"
@@ -79,7 +79,7 @@
                 name="shipping"
                 class="form-radio accent-red-400"
               />
-              <span>Next Day Delivery</span>
+              <span class="text-blue">Next Day Delivery</span>
             </label>
             <label
               class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border shadow-md shadow-orange-200"
@@ -89,7 +89,7 @@
                 name="shipping"
                 class="form-radio accent-red-400"
               />
-              <span>Another</span>
+              <span class="text-blue">Another</span>
             </label>
           </div>
         </section>
@@ -98,11 +98,11 @@
         <!-- Payment section -->
         <section class="flex-1 space-y-2">
           <h2
-            class="text-lg sm:text-xl font-semibold border-l-4 border-red-800 ml-2 p-2"
+            class="text-true-dark text-base sm:text-lg lg:text-xl font-bold border-l-4 border-red-800 ml-2 p-2"
           >
             Payment
           </h2>
-          <div class="space-y-2">
+          <div class="space-y-2 text-sm md:text-base lg:text-lg text-blue">
             <label
               class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border shadow-md shadow-orange-200"
             >
@@ -111,7 +111,7 @@
                 name="payment"
                 class="form-radio accent-red-400"
               />
-              <span>Debit card</span>
+              <span class="text-blue">Debit card</span>
             </label>
             <label
               class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border shadow-md shadow-orange-200"
@@ -121,7 +121,7 @@
                 name="payment"
                 class="form-radio accent-red-400"
               />
-              <span>PayPal</span>
+              <span class="text-blue">PayPal</span>
             </label>
             <label
               class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border shadow-md shadow-orange-200"
@@ -131,7 +131,7 @@
                 name="payment"
                 class="form-radio accent-red-400"
               />
-              <span>Google Pay</span>
+              <span class="text-blue">Google Pay</span>
             </label>
             <label
               class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border shadow-md shadow-orange-200"
@@ -141,15 +141,17 @@
                 name="payment"
                 class="form-radio accent-red-400"
               />
-              <span>Apple Pay</span>
+              <span class="text-blue">Apple Pay</span>
             </label>
           </div>
         </section>
       </section>
-      <div class="flex flex-row justify-between m-8">
+      <div
+        class="flex flex-row justify-between m-8 text-sm sm:text-base md:text-lg"
+      >
         <a
           href="#"
-          class="bg-dark-violet text-center font-semibold text-white px-4 py-2 rounded hover:bg-gray-600"
+          class="bg-dark-violet text-center font-semibold text-white px-2 py-2 rounded hover:bg-gray-600"
           >Continue shopping</a
         >
         <a
