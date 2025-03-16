@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Owl Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="bg-white-2">
+    <!-- The header will be fetched from a separate file -->
+    <div id="header"></div>
+
+    <!-- Main wrapper with responsive padding and max width -->
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 my-12 gap-x-4 w-full">
+      <!-- Progress bar -->
+      <div class="flex items-center text-base md:text-lg lg:text-xl">
+        <!-- Step 1 -->
+
+        <div
+          class="w-22 sm:w-24 md:w-36 lg:w-40 bg-dark-red rounded-full px-4 py-2 text-center font-medium text-white-2 border-4 border-orange-900"
+        >
+          Checkout
+        </div>
+        <!-- Connector -->
+        <div class="flex-1 h-2 bg-dark-red"></div>
+
+        <!-- Step 2 -->
+        <div
+          class="w-22 sm:w-24 md:w-36 lg:w-40 bg-dark-red rounded-full px-4 py-2 text-center font-medium text-white-2 border-4 border-orange-700"
+        >
+          Delivery
+        </div>
+        <!-- Connector -->
+        <div class="flex-1 h-2 bg-pale-yellow-2"></div>
+        <!-- Step 3 -->
+        <div
+          class="w-22 sm:w-24 md:w-36 lg:w-40 bg-pale-yellow-2 rounded-full px-4 py-2 text-center font-medium text-dark-red border-4 border-[#DED9B7]"
+        >
+          Summary
+        </div>
+      </div>
+      <form action="/checkout" method="POST">
+        <section
+          class="flex justify-between flex-col md:flex-row px-8 py-4 md:gap-4 gap-2"
+        >
+          <!-- Shipping section -->
+          <fieldset class="flex-1 space-y-2">
+            <legend
+              class="text-true-dark text-base sm:text-lg lg:text-xl font-bold border-l-4 border-red-800 ml-2 p-2"
+            >
+              Personal details
+            </legend>
+            <div class="space-y-2 text-sm md:text-base lg:text-lg text-blue">
+              <label class="block">
+                <span class="text-true-dark">E-mail</span>
+                <input
+                  type="email"
+                  name="email"
+                  class="w-full border shadow-md shadow-orange-200 rounded-md p-2 focus:ring focus:ring-orange-300"
+                  required
+                />
+              </label>
+              <label class="block">
+                <span class="text-true-dark">Name</span>
+                <input
+                  type="text"
+                  name="name"
+                  class="w-full border border-orange-300 shadow-md shadow-orange-200 rounded-md p-2 focus:ring focus:ring-orange-300"
+                  required
+                />
+              </label>
+              <label class="block">
+                <span class="text-true-dark">Surname</span>
+                <input
+                  type="text"
+                  name="surname"
+                  class="w-full border border-orange-300 shadow-md shadow-orange-200 rounded-md p-2 focus:ring focus:ring-orange-300"
+                  required
+                />
+              </label>
+              <label class="block">
+                <span class="text-true-dark">Phone number</span>
+                <input
+                  type="tel"
+                  name="number"
+                  class="w-full border border-orange-300 shadow-md shadow-orange-200 rounded-md p-2 focus:ring focus:ring-orange-300"
+                  required
+                />
+              </label>
+            </div>
+          </fieldset>
+          <!-- Vertical line -->
+          <div class="hidden md:block w-1 min-h-20 bg-red-800"></div>
+          <!-- Payment section -->
+          <section class="flex-1 space-y-2">
+            <legend
+              class="text-true-dark text-base sm:text-lg lg:text-xl font-bold border-l-4 border-red-800 ml-2 p-2"
+            >
+              Delivery address
+            </legend>
+            <div class="space-y-2 text-sm md:text-base lg:text-lg text-blue">
+              <label class="block">
+                <span class="text-true-dark">Street and house number</span>
+                <input
+                  type="text"
+                  name="street"
+                  class="w-full border border-orange-300 shadow-md shadow-orange-200 rounded-md p-2 focus:ring focus:ring-orange-300"
+                  required
+                />
+              </label>
+              <label class="block">
+                <span class="text-true-dark">Postal code or city</span>
+                <input
+                  type="text"
+                  name="post_code_city"
+                  class="w-full border border-orange-300 shadow-md shadow-orange-200 rounded-md p-2 focus:ring focus:ring-orange-300"
+                  required
+                />
+              </label>
+              <label class="block">
+                <span class="text-true-dark">Country</span>
+                <input
+                  type="text"
+                  name="country"
+                  class="w-full border border-orange-300 shadow-md shadow-orange-200 rounded-md p-2 focus:ring focus:ring-orange-300"
+                  required
+                />
+              </label>
+            </div>
+          </section>
+        </section>
+
+        <div
+          class="flex flex-row justify-between m-8 text-sm sm:text-base md:text-lg"
+        >
+          <a
+            href="#"
+            class="bg-dark-violet text-center font-semibold text-white px-2 py-2 rounded hover:bg-gray-600"
+            >Continue shopping</a
+          >
+          <button
+            class="bg-zinc-700 text-white font-semibold px-2 py-2 rounded hover:bg-gray-600"
+          >
+            Proceed to checkout
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      fetch("header.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("header").innerHTML = data;
+        });
+    </script>
+  </body>
+</html>
