@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Owl Shop - Sign In</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Optional: your additional stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-white-2 min-h-screen flex items-center justify-center">
+  <!-- Sign in card without 'rounded-md' -->
+  <div class="w-full max-w-sm bg-white shadow-lg p-6 rounded-md">
+    <!-- Page title -->
+    <h1 class="text-2xl font-bold text-true-dark mb-1">Sign in</h1>
+    <!-- Reduced bottom margin -->
+    <p class="text-mid-brown mb-2 text-sm">Enter your email below to log in to your account</p>
+
+    <!-- Sign in form -->
+    <form>
+      <!-- Email label and input (reduced margins) -->
+      <label for="email" class="block mb-1 text-true-dark font-semibold">Email</label>
+      <input 
+        type="email" 
+        id="email" 
+        name="email"
+        class="w-full rounded-md mb-2 p-2 border border-mid-brown bg-white-2 text-true-dark focus:outline-none focus:ring-2 focus:ring-blue"
+        placeholder="Enter your email"
+        required
+      />
+
+      <!-- Password label (removed "Forgot password?" link) -->
+      <label for="password" class="block mb-1 text-true-dark font-semibold">Password</label>
+      <input 
+        type="password" 
+        id="password" 
+        name="password"
+        class="w-full rounded-md mb-2 p-2 border border-mid-brown bg-white-2 text-true-dark focus:outline-none focus:ring-2 focus:ring-blue"
+        placeholder="Enter your password"
+        required
+      />
+
+      <!-- Sign in button -->
+      <button 
+        type="submit"
+        class="w-full bg-gray-100 text-true-black font-semibold py-2 px-4 hover:bg-gray-200 transition-colors rounded-md"
+      >
+        Sign in
+      </button>
+    </form>
+
+    <!-- Sign up link (reduced top margin) -->
+    <p class="mt-2 text-center text-true-dark">
+      Don't have an account?
+      <a href="#" class="text-blue font-semibold hover:underline">Sign up</a>
+    </p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Owl Shop - Product Page</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Optional: your additional stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-white-2">
+  <!-- The header will be fetched from a separate file -->
+  <div id="header"></div>
+
+  <!-- Main wrapper with responsive padding and max width -->
+  <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Product details section (min-height = 70vh) -->
+    <section class="flex flex-col md:flex-row gap-4 py-8 min-h-[70vh]">
+      <!-- Left: Big product image -->
+      <div class="w-full min-h-96 md:w-1/3 relative group transition-shadow duration-300 hover:shadow-lg">
+        <img
+          src="/assets/homepage/book-cover-1.png"
+          alt="Product Image"
+          class="absolute w-full h-full object-cover"
+        >
+      </div>
+
+      <!-- Right: Two columns (Main info & Reviews) -->
+      <div class="flex-1 flex flex-col md:flex-row gap-4">
+        <!-- Main Info Column: Full height; bottom area fixed for price, quantity & button -->
+        <div class="flex-1 flex flex-col justify-between h-full">
+          <!-- Top block: Title, Description, Other Data -->
+          <div class="flex-1 bg-white shadow p-4">
+            <!-- Header row: Title/Author and Rating -->
+            <div class="flex items-center justify-between">
+              <div>
+                <h1 class="text-xl font-bold text-true-dark">Hunting Adeline</h1>
+                <p class="text-gray-600">by H.D. Carlton</p>
+              </div>
+              <span class="inline-block bg-blue text-white px-3 py-1 rounded">
+                Rating: 4.5
+              </span>
+            </div>
+            <!-- Description block -->
+            <div class="mt-4">
+              <h2 class="text-lg font-semibold text-true-dark">Description</h2>
+              <p class="text-true-dark mt-2">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium similique deserunt ex omnis odit dolore impedit, neque, laboriosam officiis, necessitatibus itaque illum optio quas nisi voluptate esse nostrum dolorum cumque.
+              </p>
+            </div>
+            <!-- Other Data block -->
+            <div class="mt-4">
+              <h2 class="text-lg font-semibold text-true-dark">Other Data</h2>
+              <ul class="list-disc list-inside text-true-dark mt-2">
+                <li>Pages: 300</li>
+                <li>Language: English</li>
+                <li>Format: Hardcover</li>
+              </ul>
+            </div>
+          </div>
+          <!-- Bottom block: Price, quantity selector & Add to Basket (full width) -->
+          <div class="mt-4 rounded-md bg-white shadow p-4">
+            <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+              <p class="text-xl font-bold text-true-dark">Price: 18,03 €</p>
+              <div class="flex items-center space-x-2">
+                <label for="quantity" class="text-true-dark font-semibold">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" value="1" min="1" class="w-16 p-2 border border-gray-300 rounded" />
+              </div>
+              <button class="w-full md:w-auto text-true-dark font-semibold py-2 px-6 rounded-md bg-gray-100 hover:bg-gray-200">
+                Add to Basket
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reviews Column -->
+        <div class="w-full md:w-1/3 bg-white shadow p-4">
+          <h2 class="text-lg font-semibold text-true-dark mb-2">Reviews</h2>
+          
+          <!-- Example review #1 -->
+          <div class="mb-4 border-b border-gray-300 pb-2">
+            <p class="font-bold text-true-dark">John Doe</p>
+            <p class="text-xs text-mid-brown">Posted on 2025-03-18</p>
+            <p class="text-sm text-blue font-semibold">Rating: 4.5</p>
+            <p class="text-true-dark">
+              Great book! I really enjoyed the storyline.
+            </p>
+          </div>
+
+          <!-- Example review #2 -->
+          <div class="mb-4 border-b border-gray-300 pb-2">
+            <p class="font-bold text-true-dark">Jane Smith</p>
+            <p class="text-xs text-mid-brown">Posted on 2025-03-10</p>
+            <p class="text-sm text-blue font-semibold">Rating: 4.0</p>
+            <p class="text-true-dark">
+              A good read, but could use more character development.
+            </p>
+          </div>
+          <!-- Additional reviews can be added here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Recommendation Section -->
+    <section class="py-4">
+      <h2 class="text-xl font-bold mb-2 text-true-dark">Recommended</h2>
+
+      <div class="relative">
+        <button 
+          class="absolute left-2 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-white hover:bg-gray-200 rounded-lg shadow z-20"
+          type="button"
+        >
+          &lt;
+        </button>
+
+        <div class="overflow-hidden relative">
+          <!-- Fog overlays left and right -->
+          <div class="pointer-events-none absolute top-0 left-0 h-full w-16 bg-gradient-to-r from-white-2 to-transparent z-10"></div>
+          <div class="pointer-events-none absolute top-0 right-0 h-full w-16 bg-gradient-to-l from-white-2 to-transparent z-10"></div>
+
+          <div class="flex space-x-5 px-8 py-2 relative z-0">
+            <button>
+              <div class="bg-white shadow rounded-md text-left transition-shadow duration-300 hover:shadow-lg w-40 sm:w-44">
+                <!-- Fixed-height container for the book cover -->
+                <div class="w-full h-64 overflow-hidden mb-2">
+                  <img 
+                    src="/assets/homepage/book-cover-1.png" 
+                    alt="Book Cover" 
+                    class="w-full h-full object-cover"
+                  >
+                </div>
+                <!-- Book title -->
+                <h3 class="text-blue text-sm font-bold leading-tight mb-1 px-2">
+                  Hunting Adeline
+                </h3>
+                <!-- Book author -->
+                <p class="text-gray-600 text-sm mb-2 px-2">
+                  H.D. Carlton
+                </p>
+                <!-- Price/discount row -->
+                <div class="flex items-center justify-between px-2 pb-2">
+                  <span class="bg-red-100 text-red-600 px-2 py-1 rounded text-xs font-semibold">
+                    -18%
+                  </span>
+                  <p class="text-true-black font-bold text-sm">
+                    18,03 €
+                  </p>
+                </div>
+              </div>
+            </button>
+
+            <button>
+              <div class="bg-white shadow rounded-md text-left transition-shadow duration-300 hover:shadow-lg w-40 sm:w-44">
+                <div class="w-full h-64 overflow-hidden mb-2">
+                  <img 
+                    src="/assets/homepage/book-cover-2.png" 
+                    alt="Book Cover" 
+                    class="w-full h-full object-cover"
+                  >
+                </div>
+                <h3 class="text-blue text-sm font-bold leading-tight mb-1 px-2">
+                  Pravidlá hry
+                </h3>
+                <p class="text-gray-600 text-sm mb-2 px-2">
+                  Michala Ries
+                </p>
+                <div class="flex items-center justify-end px-2 pb-2">
+                  <p class="text-true-black font-bold text-sm">
+                    14,59 €
+                  </p>
+                </div>
+              </div>
+            </button>
+
+            <button>
+              <div class="bg-white shadow rounded-md text-left transition-shadow duration-300 hover:shadow-lg w-40 sm:w-44">
+                <div class="w-full h-64 overflow-hidden mb-2">
+                  <img 
+                    src="/assets/homepage/book-cover-3.png" 
+                    alt="Book Cover" 
+                    class="w-full h-full object-cover"
+                  >
+                </div>
+                <h3 class="text-blue text-sm font-bold leading-tight mb-1 px-2">
+                  Wild Side
+                </h3>
+                <p class="text-gray-600 text-sm mb-2 px-2">
+                  Elsie Silver
+                </p>
+                <div class="flex items-center justify-end px-2 pb-2">
+                  <p class="text-true-dark font-bold text-sm">
+                    12,00 €
+                  </p>
+                </div>
+              </div>
+            </button>
+
+            <button>
+              <div class="bg-white shadow rounded-md text-left transition-shadow duration-300 hover:shadow-lg w-40 sm:w-44">
+                <div class="w-full h-64 overflow-hidden mb-2">
+                  <img 
+                    src="/assets/homepage/book-cover-4.png" 
+                    alt="Book Cover" 
+                    class="w-full h-full object-cover"
+                  >
+                </div>
+                <h3 class="text-blue text-sm font-bold leading-tight mb-1 px-2">
+                  The Secret of Secrets
+                </h3>
+                <p class="text-gray-600 text-sm mb-2 px-2">
+                  Dan Brown
+                </p>
+                <div class="flex items-center justify-end px-2 pb-2">
+                  <p class="text-true-dark font-bold text-sm">
+                    30,21 €
+                  </p>
+                </div>
+              </div>
+            </button>
+
+            <button>
+                <div class="bg-white shadow rounded-md text-left transition-shadow duration-300 hover:shadow-lg w-40 sm:w-44">
+                  <div class="w-full h-64 overflow-hidden mb-2">
+                    <img 
+                      src="/assets/homepage/book-cover-5.png" 
+                      alt="Book Cover" 
+                      class="w-full h-full object-cover"
+                    >
+                  </div>
+                  <h3 class="text-blue text-sm font-bold leading-tight mb-1 px-2">
+                    King of Envy
+                  </h3>
+                  <p class="text-gray-600 text-sm mb-2 px-2">
+                    Ana Huang
+                  </p>
+                  <div class="flex items-center justify-between px-2 pb-2">
+                    <span class="bg-red-100 text-red-600 px-2 py-1 rounded text-xs font-semibold">
+                      -20%
+                    </span>
+                    <p class="text-true-dark font-bold text-sm">
+                      18,03 €
+                    </p>
+                  </div>
+                </div>
+            </button>
+            
+            <button>
+                <div class="bg-white shadow rounded-md text-left transition-shadow duration-300 hover:shadow-lg w-40 sm:w-44">
+                  <div class="w-full h-64 overflow-hidden mb-2">
+                    <img 
+                      src="/assets/homepage/book-cover-6.png" 
+                      alt="Book Cover" 
+                      class="w-full h-full object-cover"
+                    >
+                  </div>
+                  <h3 class="text-blue text-sm font-bold leading-tight mb-1 px-2">
+                    The Ragpicker King
+                  </h3>
+                  <p class="text-gray-600 text-sm mb-2 px-2">
+                    Cassandra Clare
+                  </p>
+                  <div class="flex items-center justify-between px-2 pb-2">
+                    <span class="bg-red-100 text-red-600 px-2 py-1 rounded text-xs font-semibold">
+                      -10%
+                    </span>
+                    <p class="text-true-dark font-bold text-sm">
+                      16,00 €
+                    </p>
+                  </div>
+                </div>
+            </button>
+          </div>
+        </div>
+
+        <button 
+          class="absolute right-2 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-white hover:bg-gray-200 rounded-lg shadow z-20"
+          type="button"
+        >
+          &gt;
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Script to fetch and insert the header -->
+  <script>
+    fetch("header.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("header").innerHTML = data;
+      });
+  </script>
+</body>
+</html>

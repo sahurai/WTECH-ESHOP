@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Owl Shop - Sign Up</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Optional: your additional stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-white-2 min-h-screen flex items-center justify-center">
+  <!-- Sign up card (same style as sign in) -->
+  <div class="w-full max-w-sm bg-white shadow-lg p-6 rounded-md">
+    <!-- Page title -->
+    <h1 class="text-2xl font-bold text-true-dark mb-1">Sign up</h1>
+    <!-- Small descriptive text -->
+    <p class="text-mid-brown mb-2 text-sm">
+      Enter your details below to create a new account
+    </p>
+
+    <!-- Sign up form -->
+    <form>
+      <!-- Email label + input -->
+      <label for="email" class="block mb-1 text-true-dark font-semibold">Email</label>
+      <input 
+        type="email" 
+        id="email" 
+        name="email"
+        class="w-full rounded-md mb-2 p-2 border border-mid-brown bg-white-2 text-true-dark focus:outline-none focus:ring-2 focus:ring-blue"
+        placeholder="Enter your email"
+        required
+      />
+
+      <!-- Password label + input -->
+      <label for="password" class="block mb-1 text-true-dark font-semibold">Password</label>
+      <input 
+        type="password" 
+        id="password" 
+        name="password"
+        class="w-full rounded-md mb-2 p-2 border border-mid-brown bg-white-2 text-true-dark focus:outline-none focus:ring-2 focus:ring-blue"
+        placeholder="Create a password"
+        required
+      />
+
+      <!-- Confirm Password label + input (optional, but common for sign up) -->
+      <label for="confirm_password" class="block mb-1 text-true-dark font-semibold">Confirm Password</label>
+      <input 
+        type="password" 
+        id="confirm_password" 
+        name="confirm_password"
+        class="w-full rounded-md mb-2 p-2 border border-mid-brown bg-white-2 text-true-dark focus:outline-none focus:ring-2 focus:ring-blue"
+        placeholder="Re-enter your password"
+        required
+      />
+
+      <!-- Sign up button -->
+      <button 
+        type="submit"
+        class="w-full bg-gray-100 text-true-black font-semibold py-2 px-4 hover:bg-gray-200 transition-colors rounded-md"
+      >
+        Sign up
+      </button>
+    </form>
+
+    <!-- Link to sign in -->
+    <p class="mt-2 text-center text-true-dark">
+      Already have an account?
+      <a href="#" class="text-blue font-semibold hover:underline">Sign in</a>
+    </p>
+  </div>
+</body>
+</html>
