@@ -2,132 +2,366 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <!-- Ensures proper mobile responsiveness -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Owl Shop - Edit Book</title>
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Optional: your additional stylesheet -->
+  <!-- Optional: your custom stylesheet (if needed) -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="bg-white-2">
-  <!-- Header will be fetched from a separate file -->
+  <!-- Header is fetched from an external file -->
   <div id="header"></div>
 
-  <!-- Main wrapper with responsive padding and max width -->
+  <!-- Main container with padding and a maximum width -->
   <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <h1 class="text-2xl font-bold mb-6 text-true-dark">Edit Book</h1>
-    <!-- Book editing form -->
-    <form action="/edit-book" method="POST" enctype="multipart/form-data" class="space-y-6">
+
+    <!-- Form for editing the book -->
+    <form
+      action="/edit-book"
+      method="POST"
+      enctype="multipart/form-data"
+      class="space-y-6"
+      id="editBookForm"
+    >
+      <!-- Top-level layout: left column vs right column -->
       <div class="flex flex-col md:flex-row gap-6">
-        <!-- Left column: Book Cover upload, Price & Quantity, Save button -->
+        <!-- Left column: cover, price/quantity (desktop), and buttons (desktop) -->
         <div class="w-full md:w-1/3">
-          <label for="bookCover" class="block text-lg font-semibold text-gray-700 mb-2">Book Cover</label>
-          <div class="w-full h-1/2 border-2 border-dashed border-gray-300 flex items-center justify-center">
-            <!-- In edit mode you might display the existing cover image as background -->
-            <input type="file" id="bookCover" name="bookCover" accept="image/*" class="w-full h-full opacity-0 cursor-pointer" />
+          <!-- Book Cover label -->
+          <label for="bookCover" class="block text-lg font-semibold text-gray-700 mb-2">
+            Book Cover
+          </label>
+          <!-- Book cover upload area; larger for mobile screens -->
+          <div
+            class="w-full h-64 sm:h-80 md:h-1/2 border-2 border-dashed border-gray-300 flex items-center justify-center"
+          >
+            <input
+              type="file"
+              id="bookCover"
+              name="bookCover"
+              accept="image/*"
+              class="w-full h-full opacity-0 cursor-pointer"
+            />
           </div>
-          <!-- Price and Quantity -->
-          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- Price -->
+
+          <!-- Price and Quantity (visible on md+ screens, hidden on mobile) -->
+          <div class="hidden md:grid mt-4 grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Price (desktop) -->
             <div>
-              <label for="price" class="block text-lg font-semibold text-gray-700">Price (€)</label>
-              <input type="number" step="0.01" id="price" name="price" value="18.03" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter price" required />
+              <label for="price" class="block text-lg font-semibold text-gray-700">
+                Price (€)
+              </label>
+              <input
+                type="number"
+                step="0.01"
+                id="price"
+                name="price"
+                value="18.03"
+                class="mt-1 w-full p-2 border border-gray-300 rounded"
+                placeholder="Enter price"
+                required
+              />
             </div>
-            <!-- Quantity -->
+            <!-- Quantity (desktop) -->
             <div>
-              <label for="quantity" class="block text-lg font-semibold text-gray-700">Quantity</label>
-              <input type="number" id="quantity" name="quantity" value="10" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter quantity" required />
+              <label for="quantity" class="block text-lg font-semibold text-gray-700">
+                Quantity
+              </label>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                value="10"
+                class="mt-1 w-full p-2 border border-gray-300 rounded"
+                placeholder="Enter quantity"
+                required
+              />
             </div>
           </div>
-          <div class="flex gap-4 mt-4">
-            <!-- Delete Book button -->
-            <button type="submit" class="w-full py-3 px-6 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-md">
+
+          <!-- Desktop buttons for Save / Delete -->
+          <div class="hidden md:flex gap-4 mt-4">
+            <!-- Delete Book button (desktop) -->
+            <button
+              type="submit"
+              class="w-full py-3 px-6 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-md"
+            >
               Delete Book
             </button>
-            <!-- Save Changes button -->
-            <button type="submit" class="w-full py-3 px-6 bg-gray-200 hover:bg-gray-300 text-true-dark font-semibold rounded-md">
+            <!-- Save Changes button (desktop) -->
+            <button
+              type="submit"
+              class="w-full py-3 px-6 bg-gray-200 hover:bg-gray-300 text-true-dark font-semibold rounded-md"
+            >
               Save Changes
             </button>
           </div>
         </div>
-        <!-- Right column: Book details -->
+
+        <!-- Right column: Title, author, description, other fields -->
         <div class="w-full md:w-2/3 space-y-4">
           <!-- Book Title -->
           <div>
-            <label for="bookTitle" class="block text-lg font-semibold text-gray-700">Book Title</label>
-            <input type="text" id="bookTitle" name="bookTitle" value="Hunting Adeline" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter book title" required />
+            <label for="bookTitle" class="block text-lg font-semibold text-gray-700">
+              Book Title
+            </label>
+            <input
+              type="text"
+              id="bookTitle"
+              name="bookTitle"
+              value="Hunting Adeline"
+              class="mt-1 w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter book title"
+              required
+            />
           </div>
           <!-- Author -->
           <div>
-            <label for="author" class="block text-lg font-semibold text-gray-700">Author</label>
-            <input type="text" id="author" name="author" value="H.D. Carlton" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter author name" required />
+            <label for="author" class="block text-lg font-semibold text-gray-700">
+              Author
+            </label>
+            <input
+              type="text"
+              id="author"
+              name="author"
+              value="H.D. Carlton"
+              class="mt-1 w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter author name"
+              required
+            />
           </div>
           <!-- Description -->
           <div>
-            <label for="description" class="block text-lg font-semibold text-gray-700">Description</label>
-            <textarea id="description" name="description" rows="4" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter book description" required>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</textarea>
+            <label for="description" class="block text-lg font-semibold text-gray-700">
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              rows="4"
+              class="mt-1 w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter book description"
+              required
+            >Lorem ipsum dolor sit amet, consectetur adipisicing elit...</textarea>
           </div>
-          <!-- Other Data fields -->
+
+          <!-- Additional fields (pages, genre, category, etc.) -->
           <div>
             <h2 class="text-xl font-bold text-true-dark mb-2">Other Data</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <!-- Pages -->
               <div>
-                <label for="pages" class="block text-lg font-semibold text-gray-700">Pages</label>
-                <input type="number" id="pages" name="pages" value="300" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter number of pages" />
+                <label for="pages" class="block text-lg font-semibold text-gray-700">
+                  Pages
+                </label>
+                <input
+                  type="number"
+                  id="pages"
+                  name="pages"
+                  value="300"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded"
+                  placeholder="Enter number of pages"
+                />
               </div>
               <!-- Genre -->
               <div>
-                <label for="genre" class="block text-lg font-semibold text-gray-700">Genre</label>
-                <input type="text" id="genre" name="genre" value="Mystery, Thriller" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter genre(s)" />
+                <label for="genre" class="block text-lg font-semibold text-gray-700">
+                  Genre
+                </label>
+                <input
+                  type="text"
+                  id="genre"
+                  name="genre"
+                  value="Mystery, Thriller"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded"
+                  placeholder="Enter genre(s)"
+                />
               </div>
               <!-- Category -->
               <div>
-                <label for="category" class="block text-lg font-semibold text-gray-700">Category</label>
-                <input type="text" id="category" name="category" value="Classic, Bestseller" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter category(s)" />
+                <label for="category" class="block text-lg font-semibold text-gray-700">
+                  Category
+                </label>
+                <input
+                  type="text"
+                  id="category"
+                  name="category"
+                  value="Classic, Bestseller"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded"
+                  placeholder="Enter category(s)"
+                />
               </div>
               <!-- Year -->
               <div>
-                <label for="year" class="block text-lg font-semibold text-gray-700">Year</label>
-                <input type="number" id="year" name="year" value="2020" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter year" />
+                <label for="year" class="block text-lg font-semibold text-gray-700">
+                  Year
+                </label>
+                <input
+                  type="number"
+                  id="year"
+                  name="year"
+                  value="2020"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded"
+                  placeholder="Enter year"
+                />
               </div>
               <!-- Language -->
               <div>
-                <label for="language" class="block text-lg font-semibold text-gray-700">Language</label>
-                <input type="text" id="language" name="language" value="English" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter language" />
+                <label for="language" class="block text-lg font-semibold text-gray-700">
+                  Language
+                </label>
+                <input
+                  type="text"
+                  id="language"
+                  name="language"
+                  value="English"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded"
+                  placeholder="Enter language"
+                />
               </div>
               <!-- Format -->
               <div>
-                <label for="format" class="block text-lg font-semibold text-gray-700">Format</label>
-                <input type="text" id="format" name="format" value="Hardcover" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter format" />
+                <label for="format" class="block text-lg font-semibold text-gray-700">
+                  Format
+                </label>
+                <input
+                  type="text"
+                  id="format"
+                  name="format"
+                  value="Hardcover"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded"
+                  placeholder="Enter format"
+                />
               </div>
               <!-- Publisher -->
               <div>
-                <label for="publisher" class="block text-lg font-semibold text-gray-700">Publisher</label>
-                <input type="text" id="publisher" name="publisher" value="XYZ Publishing" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter publisher" />
+                <label for="publisher" class="block text-lg font-semibold text-gray-700">
+                  Publisher
+                </label>
+                <input
+                  type="text"
+                  id="publisher"
+                  name="publisher"
+                  value="XYZ Publishing"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded"
+                  placeholder="Enter publisher"
+                />
               </div>
               <!-- ISBN -->
               <div>
-                <label for="isbn" class="block text-lg font-semibold text-gray-700">ISBN</label>
-                <input type="text" id="isbn" name="isbn" value="978-3-16-148410-0" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter ISBN" />
+                <label for="isbn" class="block text-lg font-semibold text-gray-700">
+                  ISBN
+                </label>
+                <input
+                  type="text"
+                  id="isbn"
+                  name="isbn"
+                  value="978-3-16-148410-0"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded"
+                  placeholder="Enter ISBN"
+                />
               </div>
               <!-- Edition -->
               <div>
-                <label for="edition" class="block text-lg font-semibold text-gray-700">Edition</label>
-                <input type="text" id="edition" name="edition" value="1st" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter edition" />
+                <label for="edition" class="block text-lg font-semibold text-gray-700">
+                  Edition
+                </label>
+                <input
+                  type="text"
+                  id="edition"
+                  name="edition"
+                  value="1st"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded"
+                  placeholder="Enter edition"
+                />
               </div>
               <!-- Dimensions -->
               <div>
-                <label for="dimensions" class="block text-lg font-semibold text-gray-700">Dimensions</label>
-                <input type="text" id="dimensions" name="dimensions" value="15x21 cm" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g. 15x21 cm" />
+                <label for="dimensions" class="block text-lg font-semibold text-gray-700">
+                  Dimensions
+                </label>
+                <input
+                  type="text"
+                  id="dimensions"
+                  name="dimensions"
+                  value="15x21 cm"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded"
+                  placeholder="e.g. 15x21 cm"
+                />
               </div>
               <!-- Weight -->
               <div>
-                <label for="weight" class="block text-lg font-semibold text-gray-700">Weight</label>
-                <input type="text" id="weight" name="weight" value="500g" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g. 500g" />
+                <label for="weight" class="block text-lg font-semibold text-gray-700">
+                  Weight
+                </label>
+                <input
+                  type="text"
+                  id="weight"
+                  name="weight"
+                  value="500g"
+                  class="mt-1 w-full p-2 border border-gray-300 rounded"
+                  placeholder="e.g. 500g"
+                />
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Mobile-only price/quantity and buttons at the bottom of the form -->
+      <div class="block md:hidden mt-6 space-y-4">
+        <!-- Price and Quantity (mobile version) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Price (mobile) -->
+          <div>
+            <label for="price-mobile" class="block text-lg font-semibold text-gray-700">
+              Price (€)
+            </label>
+            <!-- Use the same name if you want a single final price value.
+                 If you want them separate, use a different name. -->
+            <input
+              type="number"
+              step="0.01"
+              id="price-mobile"
+              name="price"
+              class="mt-1 w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter price"
+            />
+          </div>
+          <!-- Quantity (mobile) -->
+          <div>
+            <label for="quantity-mobile" class="block text-lg font-semibold text-gray-700">
+              Quantity
+            </label>
+            <input
+              type="number"
+              id="quantity-mobile"
+              name="quantity"
+              class="mt-1 w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter quantity"
+            />
+          </div>
+        </div>
+
+        <!-- Mobile buttons for Delete / Save -->
+        <div class="flex gap-4">
+          <!-- Delete Book button (mobile) -->
+          <button
+            type="submit"
+            class="w-full py-3 px-6 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-md"
+          >
+            Delete Book
+          </button>
+          <!-- Save Changes button (mobile) -->
+          <button
+            type="submit"
+            class="w-full py-3 px-6 bg-gray-200 hover:bg-gray-300 text-true-dark font-semibold rounded-md"
+          >
+            Save Changes
+          </button>
         </div>
       </div>
     </form>
@@ -136,8 +370,8 @@
   <!-- Script to fetch and insert the header -->
   <script>
     fetch("header.html")
-      .then(response => response.text())
-      .then(data => {
+      .then((response) => response.text())
+      .then((data) => {
         document.getElementById("header").innerHTML = data;
       });
   </script>
