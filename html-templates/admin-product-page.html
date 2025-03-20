@@ -106,102 +106,69 @@
   <!-- Main wrapper with responsive padding and max width -->
   <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
     
-    <!-- Product details section (min-height = 70vh) -->
+    <!-- Product details section -->
     <section class="flex flex-col md:flex-row gap-4 py-8 min-h-[70vh]">
       <!-- Left: Big product image -->
       <div class="w-full min-h-96 md:w-1/3 relative group transition-shadow duration-300 hover:shadow-lg">
         <img
           src="/assets/homepage/book-cover-1.png"
           alt="Product Image"
-          class="absolute w-full h-full object-cover"
+          class="absolute w-full h-full object-cover rounded-md"
         >
       </div>
-
-      <!-- Right: Two columns (Main info & Reviews) -->
-      <div class="flex-1 flex flex-col md:flex-row gap-4">
-        <!-- Main Info Column: Full height; bottom area fixed for price, quantity & button -->
-        <div class="flex-1 flex flex-col justify-between h-full">
-          <!-- Top block: Title, Description, Other Data -->
-          <div class="flex-1 bg-white shadow p-4">
-            <!-- Header row: Title/Author and Rating -->
+      <!-- Right: Main info column -->
+      <div class="flex-1 flex flex-col justify-between">
+        <!-- Top block: Title, Description, Other Data -->
+        <div class="flex flex-col bg-white shadow p-4 h-full rounded-md">
+          <!-- Header row: Title and Author and settings button -->
+          <div class="flex items-center justify-between">
             <div class="flex items-center justify-between">
               <div>
                 <h1 class="text-xl font-bold text-true-dark">Hunting Adeline</h1>
                 <p class="text-gray-600">by H.D. Carlton</p>
               </div>
-              <div class="flex flex-row gap-2 items-center">
-                <button class="w-5 h-5" title="Edit">
-                  <img src="/assets/admin/product-page/edit.svg" alt="Edit">
-                </button>
-                <span class="inline-block bg-blue text-white px-3 py-1 rounded">
-                  Rating: 4.5
-                </span>
-              </div>
             </div>
-            <!-- Description block -->
-            <div class="mt-4">
-              <h2 class="text-lg font-semibold text-true-dark">Description</h2>
-              <p class="text-true-dark mt-2">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium similique deserunt ex omnis odit dolore impedit, neque, laboriosam officiis, necessitatibus itaque illum optio quas nisi voluptate esse nostrum dolorum cumque.
-              </p>
-            </div>
-            <!-- Other Data block -->
-            <div class="mt-4">
-              <h2 class="text-lg font-semibold text-true-dark">Other Data</h2>
-              <ul class="list-disc list-inside text-true-dark mt-2 grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
-                <li><span class="font-semibold">Pages:</span> 300</li>
-                <li><span class="font-semibold">Genre:</span> Mystery</li>
-                <li><span class="font-semibold">Category:</span> Classic</li>
-                <li><span class="font-semibold">Year:</span> 2020</li>
-                <li><span class="font-semibold">Language:</span> English</li>
-                <li><span class="font-semibold">Format:</span> Hardcover</li>
-                <li><span class="font-semibold">Publisher:</span> XYZ Publishing</li>
-                <li><span class="font-semibold">ISBN:</span> 978-3-16-148410-0</li>
-                <li><span class="font-semibold">Edition:</span> 1st</li>
-                <li><span class="font-semibold">Dimensions:</span> 15x21 cm</li>
-                <li><span class="font-semibold">Weight:</span> 500g</li>
-              </ul>
-            </div>
+            <button class="w-6 h-6" title="Edit">
+              <img src="/assets/admin/product-page/edit.svg" alt="Edit">
+            </button>
           </div>
-          <!-- Bottom block: Price, quantity selector & Add to Basket (full width) -->
-          <div class="mt-4 rounded-md bg-white shadow p-4">
-            <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-              <p class="text-xl font-bold text-true-dark">Price: 18,03 €</p>
-              <div class="flex items-center space-x-2">
-                <label for="quantity" class="text-true-dark font-semibold">Quantity:</label>
-                <input type="number" id="quantity" name="quantity" value="1" min="1" class="w-16 p-2 border border-gray-300 rounded" />
-              </div>
-              <button class="w-full md:w-auto text-true-dark font-semibold py-2 px-6 rounded-md bg-gray-100 hover:bg-gray-200">
-                Add to Basket
-              </button>
-            </div>
+          <!-- Description block -->
+          <div class="mt-4">
+            <h2 class="text-lg font-semibold text-true-dark">Description</h2>
+            <p class="text-true-dark mt-2 h-full">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium similique deserunt ex omnis odit dolore impedit, neque, laboriosam officiis, necessitatibus itaque illum optio quas nisi voluptate esse nostrum dolorum cumque.
+            </p>
+          </div>
+          <!-- Other Data block -->
+          <div class="mt-4">
+            <h2 class="text-lg font-semibold text-true-dark">Other Data</h2>
+            <ul class="list-disc list-inside text-true-dark mt-2 grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
+              <li><span class="font-semibold">Pages:</span> 300</li>
+              <li><span class="font-semibold">Genre:</span> Mystery</li>
+              <li><span class="font-semibold">Category:</span> Classic</li>
+              <li><span class="font-semibold">Year:</span> 2020</li>
+              <li><span class="font-semibold">Language:</span> English</li>
+              <li><span class="font-semibold">Format:</span> Hardcover</li>
+              <li><span class="font-semibold">Publisher:</span> XYZ Publishing</li>
+              <li><span class="font-semibold">ISBN:</span> 978-3-16-148410-0</li>
+              <li><span class="font-semibold">Edition:</span> 1st</li>
+              <li><span class="font-semibold">Dimensions:</span> 15x21 cm</li>
+              <li><span class="font-semibold">Weight:</span> 500g</li>
+            </ul>
           </div>
         </div>
-
-        <!-- Reviews Column -->
-        <div class="w-full md:w-1/3 bg-white shadow p-4">
-          <h2 class="text-lg font-semibold text-true-dark mb-2">Reviews</h2>
-          
-          <!-- Example review #1 -->
-          <div class="mb-4 border-b border-gray-300 pb-2">
-            <p class="font-bold text-true-dark">John Doe</p>
-            <p class="text-xs text-mid-brown">Posted on 2025-03-18</p>
-            <p class="text-sm text-blue font-semibold">Rating: 4.5</p>
-            <p class="text-true-dark">
-              Great book! I really enjoyed the storyline.
-            </p>
+        <!-- Bottom block: Price, quantity selector & Add to Basket (full width) -->
+        <div class="mt-4 rounded-md bg-white shadow p-4">
+          <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+            <p class="text-xl font-bold text-true-dark">Price: 18,03 €</p>
+            <div class="flex items-center space-x-2">
+              <label for="quantity" class="text-true-dark font-semibold">Quantity:</label>
+              <input type="number" id="quantity" name="quantity" value="1" min="1" class="w-16 p-2 border border-gray-300 rounded" />
+            </div>
+            <button class="w-full md:w-auto text-true-dark font-semibold py-2 px-6 rounded-md bg-gray-100 hover:bg-gray-200">
+              Add to Basket
+            </button>
           </div>
-
-          <!-- Example review #2 -->
-          <div class="mb-4 border-b border-gray-300 pb-2">
-            <p class="font-bold text-true-dark">Jane Smith</p>
-            <p class="text-xs text-mid-brown">Posted on 2025-03-10</p>
-            <p class="text-sm text-blue font-semibold">Rating: 4.0</p>
-            <p class="text-true-dark">
-              A good read, but could use more character development.
-            </p>
-          </div>
-          <!-- Additional reviews can be added here -->
         </div>
       </div>
     </section>
