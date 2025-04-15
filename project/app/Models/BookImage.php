@@ -7,40 +7,27 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- * Class OrderItem
+ * Class BookImage
  *
  * @property int         $id
- * @property int         $order_id
  * @property int         $book_id
- * @property int         $quantity
- * @property float       $price
+ * @property string      $image_url
+ * @property int         $sort_order
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
- * @property-read Order $order
  * @property-read Book $book
  */
-class OrderItem extends Model
+class BookImage extends Model
 {
     protected $fillable = [
-        'order_id',
         'book_id',
-        'quantity',
-        'price'
+        'image_url',
+        'sort_order'
     ];
 
     /**
-     * Get the order that owns the order item.
-     *
-     * @return BelongsTo
-     */
-    public function order(): BelongsTo
-    {
-        return $this->belongsTo(Order::class);
-    }
-
-    /**
-     * Get the book that is associated with the order item.
+     * Get the book that owns the image.
      *
      * @return BelongsTo
      */

@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->timestamp('order_date')->nullable()->useCurrent();
-            $table->decimal('total_amount', 10);
-            $table->string('status', 50)->nullable()->default('New');
+            $table->string('name', 50);
+            $table->text('description')->nullable();
             $table->timestamp('updated_at')->nullable()->useCurrent();
             $table->timestamp('created_at')->nullable()->useCurrent();
         });
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('roles');
     }
 };

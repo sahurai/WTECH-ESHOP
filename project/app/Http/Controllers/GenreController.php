@@ -10,16 +10,25 @@ use Illuminate\View\View;
 class GenreController extends Controller
 {
     /**
+     * Apply middleware to protect actions that require admin or moderator role.
+     */
+    public function __construct()
+    {
+        // Apply the 'check.role' middleware only to the specified methods.
+        $this->middleware('check.role')->only(['create', 'store', 'edit', 'update', 'destroy']);
+    }
+
+    /**
      * Display a listing of all genres.
      *
      * @return View
      */
     public function index(): View
     {
-        // Get all genres from the database
+        // Retrieve all genres from the database
         $genres = Genre::all();
 
-        // Return the 'genres.index' view with the list of genres
+        // Return the 'genres.index' view along with the genres data
         return view('genres.index', compact('genres'));
     }
 
@@ -42,35 +51,28 @@ class GenreController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // Validate incoming data from the create form
+        // Validate the incoming request data
         $validatedData = $request->validate([
             'name'        => 'required|string|max:100|unique:genres,name',
             'description' => 'nullable|string',
         ]);
 
-        // Create a new genre record with the validated data
+        // Create a new genre record using the validated data
         Genre::query()->create($validatedData);
 
         // Redirect to the genres index page with a success message
-        return redirect()->route('genres.index')->with('success', 'Genre created successfully.');
+        return redirect()->route('genres.index')
+            ->with('success', 'Genre created successfully.');
     }
 
     /**
      * Display the specified genre.
      *
-     * @param int $id
-     * @return View|RedirectResponse
+     * @param Genre $genre
+     * @return View
      */
-    public function show(int $id): View|RedirectResponse
+    public function show(Genre $genre): View
     {
-        // Find the genre by ID
-        $genre = Genre::query()->find($id);
-
-        // If the genre is not found, redirect back with an error message
-        if (!$genre) {
-            return redirect()->route('genres.index')->with('error', 'Genre not found.');
-        }
-
         // Return the view to display the genre details
         return view('genres.show', compact('genre'));
     }
@@ -78,20 +80,12 @@ class GenreController extends Controller
     /**
      * Show the form for editing the specified genre.
      *
-     * @param int $id
-     * @return View|RedirectResponse
+     * @param Genre $genre
+     * @return View
      */
-    public function edit(int $id): View|RedirectResponse
+    public function edit(Genre $genre): View
     {
-        // Find the genre by ID
-        $genre = Genre::query()->find($id);
-
-        // If the genre is not found, redirect back with an error message
-        if (!$genre) {
-            return redirect()->route('genres.index')->with('error', 'Genre not found.');
-        }
-
-        // Return the edit form view with the genre data
+        // Return the view to edit the specified genre
         return view('genres.edit', compact('genre'));
     }
 
@@ -99,52 +93,38 @@ class GenreController extends Controller
      * Update the specified genre in storage.
      *
      * @param Request $request
-     * @param int $id
+     * @param Genre $genre
      * @return RedirectResponse
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(Request $request, Genre $genre): RedirectResponse
     {
-        // Find the genre by ID
-        $genre = Genre::query()->find($id);
-
-        // If the genre is not found, redirect with an error message
-        if (!$genre) {
-            return redirect()->route('genres.index')->with('error', 'Genre not found.');
-        }
-
-        // Validate incoming data from the edit form. Use 'unique' rule with the exception for current genre ID.
+        // Validate the request data. The 'unique' rule is applied with an exception for the current genre.
         $validatedData = $request->validate([
-            'name'        => 'required|string|max:100|unique:genres,name,' . $id,
+            'name'        => 'required|string|max:100|unique:genres,name,' . $genre->id,
             'description' => 'nullable|string',
         ]);
 
         // Update the genre record with the validated data
         $genre->update($validatedData);
 
-        // Redirect to the genre's detail page with a success message
-        return redirect()->route('genres.show', $genre->id)->with('success', 'Genre updated successfully.');
+        // Redirect to the genre detail page with a success message
+        return redirect()->route('genres.show', $genre->id)
+            ->with('success', 'Genre updated successfully.');
     }
 
     /**
      * Remove the specified genre from storage.
      *
-     * @param int $id
+     * @param Genre $genre
      * @return RedirectResponse
      */
-    public function destroy(int $id): RedirectResponse
+    public function destroy(Genre $genre): RedirectResponse
     {
-        // Find the genre by ID
-        $genre = Genre::query()->find($id);
-
-        // If the genre is not found, redirect back with an error message
-        if (!$genre) {
-            return redirect()->route('genres.index')->with('error', 'Genre not found.');
-        }
-
         // Delete the genre record from the database
         $genre->delete();
 
         // Redirect to the genres index page with a success message
-        return redirect()->route('genres.index')->with('success', 'Genre deleted successfully.');
+        return redirect()->route('genres.index')
+            ->with('success', 'Genre deleted successfully.');
     }
 }

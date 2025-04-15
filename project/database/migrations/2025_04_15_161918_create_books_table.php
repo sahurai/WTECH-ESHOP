@@ -27,7 +27,6 @@ return new class extends Migration
             $table->string('edition', 50)->nullable();
             $table->string('dimensions', 100)->nullable();
             $table->decimal('weight', 10)->nullable();
-            $table->text('cover_url')->nullable();
             $table->timestamp('updated_at')->nullable()->useCurrent();
             $table->timestamp('created_at')->nullable()->useCurrent();
         });

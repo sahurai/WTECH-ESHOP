@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,16 +12,26 @@ use Illuminate\View\View;
 class UserController extends Controller
 {
     /**
+     * Constructor
+     *
+     * Apply the "check.role" middleware only to edit, update, and destroy actions
+     * so that only admin or moderator users can perform these actions.
+     */
+    public function __construct()
+    {
+        $this->middleware('check.role')->only(['index', 'edit', 'update', 'destroy']);
+    }
+
+    /**
      * Display a listing of all users.
      *
      * @return View
      */
     public function index(): View
     {
-        // Get all users from the database
+        // Retrieve all users from the database
         $users = User::all();
 
-        // Return the 'users.index' view with the list of users
         return view('users.index', compact('users'));
     }
 
@@ -31,19 +42,21 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        // Return the view to create a new user
         return view('users.create');
     }
 
     /**
      * Store a newly created user in storage.
      *
+     * This method validates incoming request data, creates a user,
+     * and forcefully assigns the default "user" role.
+     *
      * @param Request $request
      * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
-        // Validate incoming data from the create form
+        // Validate request data
         $validatedData = $request->validate([
             'username'     => 'required|string|max:255',
             'email'        => 'required|string|email|max:255|unique:users',
@@ -55,77 +68,58 @@ class UserController extends Controller
             'country'      => 'nullable|string|max:100',
         ]);
 
-        // Hash the password before storing it in the database
+        // Hash the password before saving it to the database
         $validatedData['password_hash'] = Hash::make($validatedData['password_hash']);
 
-        // Create a new user record with the validated data
-        User::query()->create($validatedData);
+        // Create the new user
+        $user = User::query()->create($validatedData);
 
-        // Redirect to the index page with a success message
+        // Force default role assignment (ignoring any roles from the request)
+        $defaultRole = Role::query()->where('name', 'user')->first();
+        if ($defaultRole) {
+            $user->roles()->sync([$defaultRole->id]);
+        }
+
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
     /**
      * Display the specified user.
      *
-     * @param int $id
-     * @return View|RedirectResponse
+     * @param User $user
+     * @return View
      */
-    public function show(int $id): View|RedirectResponse
+    public function show(User $user): View
     {
-        // Find the user by ID
-        $user = User::query()->find($id);
-
-        // If the user is not found, redirect back with an error message
-        if (!$user) {
-            return redirect()->route('users.index')->with('error', 'User not found.');
-        }
-
-        // Return the view to display the user details
         return view('users.show', compact('user'));
     }
 
     /**
      * Show the form for editing the specified user.
+     * Only admins or moderators can access this.
      *
-     * @param int $id
-     * @return View|RedirectResponse
+     * @param User $user
+     * @return View
      */
-    public function edit(int $id): View|RedirectResponse
+    public function edit(User $user): View
     {
-        // Find the user by ID
-        $user = User::query()->find($id);
-
-        // If user not found, redirect back with an error message
-        if (!$user) {
-            return redirect()->route('users.index')->with('error', 'User not found.');
-        }
-
-        // Return the edit form view with the user data
         return view('users.edit', compact('user'));
     }
 
     /**
      * Update the specified user in storage.
+     * Only admins or moderators are allowed.
      *
      * @param Request $request
-     * @param int $id
+     * @param User $user
      * @return RedirectResponse
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(Request $request, User $user): RedirectResponse
     {
-        // Find the user by ID
-        $user = User::query()->find($id);
-
-        // If user not found, redirect with an error message
-        if (!$user) {
-            return redirect()->route('users.index')->with('error', 'User not found.');
-        }
-
-        // Validate incoming data from the edit form. Use 'sometimes' for optional fields.
+        // Validate the incoming request data.
         $validatedData = $request->validate([
             'username'     => 'sometimes|required|string|max:255',
-            'email'        => 'sometimes|required|string|email|max:255|unique:users,email,' . $id,
+            'email'        => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
             'password_hash'=> 'sometimes|required|string|min:6',
             'address_line' => 'nullable|string|max:255',
             'city'         => 'nullable|string|max:100',
@@ -134,38 +128,29 @@ class UserController extends Controller
             'country'      => 'nullable|string|max:100',
         ]);
 
-        // If a new password is provided, hash it before updating
+        // Hash the new password if provided.
         if (isset($validatedData['password_hash'])) {
             $validatedData['password_hash'] = Hash::make($validatedData['password_hash']);
         }
 
-        // Update the user record with the validated data
         $user->update($validatedData);
 
-        // Redirect to the user's detail page with a success message
-        return redirect()->route('users.show', $user->id)->with('success', 'User updated successfully.');
+        return redirect()->route('users.show', $user->id)
+            ->with('success', 'User updated successfully.');
     }
 
     /**
      * Remove the specified user from storage.
+     * Only admins or moderators are allowed.
      *
-     * @param int $id
+     * @param User $user
      * @return RedirectResponse
      */
-    public function destroy(int $id): RedirectResponse
+    public function destroy(User $user): RedirectResponse
     {
-        // Find the user by ID
-        $user = User::query()->find($id);
-
-        // If user not found, redirect back with an error message
-        if (!$user) {
-            return redirect()->route('users.index')->with('error', 'User not found.');
-        }
-
-        // Delete the user record from the database
         $user->delete();
 
-        // Redirect to the users index page with a success message
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('users.index')
+            ->with('success', 'User deleted successfully.');
     }
 }
