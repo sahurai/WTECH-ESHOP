@@ -1,4 +1,5 @@
-<a href="{{ route('books.show', ['id' => $book['id']]) }}">
+{{-- href="{{ route('books.show', ['id' => $book['id']]) }}" --}}
+<a>
     <div class="bg-white shadow rounded-md text-left transition-shadow duration-300 hover:shadow-lg w-40 sm:w-44">
         <!-- Fixed-height container for the book cover -->
         <div class="w-full h-64 overflow-hidden mb-2">
