@@ -33,7 +33,7 @@ Route::get('/product-demo', function () {
         'title' => 'Hunting Adeline',
         'author' => 'H.D. Carlton',
         'image' => 'book-cover-1.png',
-        'price' => '18,03',
+        'price' => '18.03',
         'discount' => 18,
         'description' => 'A dark romance thriller with mystery and suspense.',
         'pages' => 300,
@@ -63,4 +63,41 @@ Route::get('/product-demo', function () {
         'recommendations' => $recommended,
         'isAdmin' => true // or true if you want to test admin mode
     ]);
+});
+
+
+Route::get('/add', function () {
+    // test data
+
+    $isAdmin = true;
+
+    return view('book-page', compact('isAdmin'));
+});
+
+Route::get('/edit', function () {
+    // test data
+    $book = [
+        'id' => 1,
+        'title' => 'Hunting Adeline',
+        'author' => 'H.D. Carlton',
+        'image' => 'book-cover-1.png',
+        'price' => '18.03',
+        'discount' => 18,
+        'description' => 'A dark romance thriller with mystery and suspense.',
+        'pages' => 300,
+        'genre' => 'Mystery',
+        'category' => 'Classic',
+        'year' => 2020,
+        'language' => 'English',
+        'format' => 'Hardcover',
+        'publisher' => 'XYZ Publishing',
+        'isbn' => '978-3-16-148410-0',
+        'edition' => '1st',
+        'dimensions' => '15x21 cm',
+        'weight' => 500
+    ];
+
+    $isAdmin = true;
+
+    return view('book-page', compact('book', 'isAdmin'));
 });
