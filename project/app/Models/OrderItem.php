@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderItem extends Model
 {
@@ -19,7 +20,7 @@ class OrderItem extends Model
     /**
      * Get the order that owns the order item.
      */
-    public function order()
+    public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
@@ -27,7 +28,7 @@ class OrderItem extends Model
     /**
      * Get the book that belongs to the order item.
      */
-    public function book()
+    public function book(): BelongsTo
     {
         return $this->belongsTo(Book::class);
     }

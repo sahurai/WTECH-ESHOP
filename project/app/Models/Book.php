@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Book extends Model
 {
@@ -30,7 +32,7 @@ class Book extends Model
     /**
      * The categories that belong to the book.
      */
-    public function categories()
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'book_categories', 'book_id', 'category_id');
     }
@@ -38,7 +40,7 @@ class Book extends Model
     /**
      * The genres that belong to the book.
      */
-    public function genres()
+    public function genres(): BelongsToMany
     {
         return $this->belongsToMany(Genre::class, 'book_genres', 'book_id', 'genre_id');
     }
@@ -46,7 +48,7 @@ class Book extends Model
     /**
      * Get the order items for the book.
      */
-    public function orderItems()
+    public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
