@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\CategoryController;
 Route::get('/', function () {
     // test data
     $books = [
@@ -101,3 +101,5 @@ Route::get('/edit', function () {
 
     return view('book-page', compact('book', 'isAdmin'));
 });
+
+Route::get('/category/{id}/books', [CategoryController::class, 'booksById'])->name('category.books');
