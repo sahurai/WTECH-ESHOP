@@ -36,7 +36,7 @@
     .bg-true-dark {
         background-color: #1c1c1c;
     }
-    /.text-white {
+    .text-white {
         color: #f7f5f0;
     }
     .text-white-2 {
@@ -125,4 +125,5 @@
         --tw-gradient-stops: var(--tw-gradient-from),
             var(--tw-gradient-to, rgba(28, 28, 28, 0));
     }
+
 }

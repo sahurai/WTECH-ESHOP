@@ -1,9 +1,12 @@
 <section class="flex flex-col md:flex-row gap-4 py-8 min-h-[70vh]">
     <!-- Left: Big product image -->
     <div class="w-full min-h-96 md:w-1/3 relative group transition-shadow duration-300 hover:shadow-lg">
-        <img src="{{ asset('assets/homepage/' . $book['image']) }}" alt="Book cover for {{ $book['title'] }}"
-            class="absolute w-full h-full object-cover rounded-md">
+        @foreach ($book->images as $image)
+            <img src="{{ asset('assets/homepage/' . $image->image_url) }}" alt="Book cover for {{ $book->title }}"
+                class="absolute w-full h-full object-cover rounded-md">
+        @endforeach
     </div>
+
     <!-- Right: Main info column -->
     <div class="flex-1 flex flex-col justify-between">
         <!-- Top block: Title, Description, Other Data -->
@@ -11,8 +14,8 @@
             <!-- Header row: Title and Author and settings button -->
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-xl font-bold text-true-dark">{{ $book['title'] }}</h1>
-                    <p class="text-gray-600">by {{ $book['author'] }}</p>
+                    <h1 class="text-xl font-bold text-true-dark">{{ $book->title }}</h1>
+                    <p class="text-gray-600">by {{ $book->author }}</p>
                 </div>
                 @if ($isAdmin)
                     <button class="w-6 h-6" title="Edit">
@@ -24,31 +27,31 @@
             <div class="mt-4">
                 <h2 class="text-lg font-semibold text-true-dark">Description</h2>
                 <p class="text-true-dark mt-2 h-full">
-                    {{ $book['description'] }}
+                    {{ $book->description }}
                 </p>
             </div>
             <!-- Other Data block -->
             <div class="mt-4">
                 <h2 class="text-lg font-semibold text-true-dark">Other Data</h2>
                 <ul class="list-disc list-inside text-true-dark mt-2 grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
-                    <li><span class="font-semibold">Pages:</span> {{ $book['pages'] }}</li>
-                    <li><span class="font-semibold">Genre:</span> {{ $book['genre'] }}</li>
-                    <li><span class="font-semibold">Category:</span> {{ $book['category'] }}</li>
-                    <li><span class="font-semibold">Year:</span> {{ $book['year'] }}</li>
-                    <li><span class="font-semibold">Language:</span> {{ $book['language'] }}</li>
-                    <li><span class="font-semibold">Format:</span> {{ $book['format'] }}</li>
-                    <li><span class="font-semibold">Publisher:</span> {{ $book['publisher'] }}</li>
-                    <li><span class="font-semibold">ISBN:</span>{{ $book['isbn'] }}</li>
-                    <li><span class="font-semibold">Edition:</span> {{ $book['edition'] }}</li>
-                    <li><span class="font-semibold">Dimensions:</span> {{ $book['dimensions'] }}</li>
-                    <li><span class="font-semibold">Weight:</span> {{ $book['weight'] }}g</li>
+                    <li><span class="font-semibold">Pages:</span> {{ $book->pages }}</li>
+                    <li><span class="font-semibold">Genre:</span> {{ $book->genre }}</li>
+                    <li><span class="font-semibold">Category:</span> {{ $book->category }}</li>
+                    <li><span class="font-semibold">Year:</span> {{ $book->year }}</li>
+                    <li><span class="font-semibold">Language:</span> {{ $book->language }}</li>
+                    <li><span class="font-semibold">Format:</span> {{ $book->format }}</li>
+                    <li><span class="font-semibold">Publisher:</span> {{ $book->publisher }}</li>
+                    <li><span class="font-semibold">ISBN:</span>{{ $book->isbn }}</li>
+                    <li><span class="font-semibold">Edition:</span> {{ $book->edition }}</li>
+                    <li><span class="font-semibold">Dimensions:</span> {{ $book->dimensions }}</li>
+                    <li><span class="font-semibold">Weight:</span> {{ $book->weight }}g</li>
                 </ul>
             </div>
         </div>
         <!-- Bottom block: Price, quantity selector & Add to Basket (full width) -->
         <div class="mt-4 rounded-md bg-white shadow p-4">
             <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-                <p class="text-xl font-bold text-true-dark">Price: {{ $book['price'] }} €</p>
+                <p class="text-xl font-bold text-true-dark">Price: {{ $book->price }} €</p>
                 <div class="flex items-center space-x-2">
                     <label for="quantity" class="text-true-dark font-semibold">Quantity:</label>
                     <input type="number" id="quantity" name="quantity" value="1" min="1"

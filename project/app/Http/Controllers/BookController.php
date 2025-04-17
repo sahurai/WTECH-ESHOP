@@ -94,8 +94,12 @@ class BookController extends Controller
     public function show(Book $book): View
     {
         // Eager load the relationships: categories, genres, and images
+        $isAdmin = false;
         $book->load(['categories', 'genres', 'images']);
-        return view('books.show', compact('book'));
+        $recommends= Book::whereHas('categories',function($query) use($book){
+            $query->whereIn('categories.id',$book->categories->pluck('id'));
+        })->where('books.id','!=',$book->id)->take(10)->get();
+        return view('product-page', compact('book','isAdmin','recommends'));
     }
 
     /**

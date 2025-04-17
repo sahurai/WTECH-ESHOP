@@ -19,8 +19,8 @@
 
             <div class="flex space-x-5 px-8 py-2 relative z-0">
 
-                @foreach ($recommendations as $book)
-                    @include('partials.book-card', ['book' => $book])
+                @foreach ($recommends as $recommend)
+                    @include('partials.book-card', ['book' => $recommend])
                 @endforeach
             </div>
         </div>
