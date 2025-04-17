@@ -125,5 +125,12 @@
         --tw-gradient-stops: var(--tw-gradient-from),
             var(--tw-gradient-to, rgba(28, 28, 28, 0));
     }
-
+    .scrollbar-hidden {
+        -ms-overflow-style: none; /* IE/Edge */
+        scrollbar-width: none; /* Firefox */
+      }
+    
+      .scrollbar-hidden::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+      }
 }

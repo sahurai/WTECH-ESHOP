@@ -17,11 +17,15 @@
                 class="pointer-events-none absolute top-0 right-0 h-full w-16 bg-gradient-to-l from-white-2 to-transparent z-10">
             </div>
 
-            <div class="flex space-x-5 px-8 py-2 relative z-0">
+            <div
+                class="overflow-x-auto  scroll-smooth snap-x snap-mandatory flex space-x-5 px-8 py-2 relative z-0 scrollbar-hidden">
 
                 @foreach ($recommends as $recommend)
-                    @include('partials.book-card', ['book' => $recommend])
+                    <div class="snap-start shrink-0">
+                        @include('partials.book-card', ['book' => $recommend])
+                    </div>
                 @endforeach
+
             </div>
         </div>
 

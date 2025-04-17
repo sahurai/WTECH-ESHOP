@@ -96,7 +96,7 @@ class BookController extends Controller
         // Eager load the relationships: categories, genres, and images
         $isAdmin = false;
         $book->load(['categories', 'genres', 'images']);
-        $recommends= Book::whereHas('categories',function($query) use($book){
+        $recommends= Book::with('images')->whereHas('categories',function($query) use($book){
             $query->whereIn('categories.id',$book->categories->pluck('id'));
         })->where('books.id','!=',$book->id)->take(10)->get();
         return view('product-page', compact('book','isAdmin','recommends'));

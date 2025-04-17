@@ -1,10 +1,12 @@
 <section class="flex flex-col md:flex-row gap-4 py-8 min-h-[70vh]">
     <!-- Left: Big product image -->
     <div class="w-full min-h-96 md:w-1/3 relative group transition-shadow duration-300 hover:shadow-lg">
-        @foreach ($book->images as $image)
-            <img src="{{ asset('assets/homepage/' . $image->image_url) }}" alt="Book cover for {{ $book->title }}"
-                class="absolute w-full h-full object-cover rounded-md">
-        @endforeach
+        {{-- @foreach ($book->images as $image) --}}
+        @if ($book->images->isNotEmpty())
+            <img src="{{ asset('assets/homepage/' . $book->images->first()->image_url) }}"
+                alt="Book cover for {{ $book->title }}" class="absolute w-full h-full object-cover rounded-md">
+        @endif
+        {{-- @endforeach --}}
     </div>
 
     <!-- Right: Main info column -->
