@@ -159,16 +159,20 @@ class CategoryController extends Controller
         case 'price_desc':
             $query->orderBy('price', 'desc');
             break;
+        case 'title_desc':
+            $query->orderBy('title', 'desc');
+            break;
+        case 'title_asc':
+            $query->orderBy('title', 'asc');
+            break;
         case 'new':
-            $query->orderBy('created_at', 'desc');
+            defaulte:
+            $query->orderBy('release_year', 'desc');
             break;
-        case 'bestsellers':
-        default:
-            // $query->orderBy('is_bestseller', 'desc');
-            break;
+        
     }
 
-    $books = $query->get();
+    $books = $query->paginate(10);
     $isAdmin = auth()->check() && auth()->user()->is_admin;
 
     return view('category', compact('books', 'isAdmin', 'category'));

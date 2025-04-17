@@ -17,6 +17,12 @@ class CategorySeeder extends Seeder
             ['name' => 'Sci-Fi', 'description' => 'Futuristic fiction'],
             ['name' => 'Romance', 'description' => 'Love and relationships'],
             ['name' => 'Mystery', 'description' => 'Crime and suspense'],
+            ['name' => 'Dystopia', 'description' => 'Dark future and oppressive societies'],
+            ['name' => 'Classic', 'description' => 'Timeless literature and novels'],
+            ['name' => 'Philosophy', 'description' => 'Books with deep thoughts and meaning'],
+            ['name' => 'Adventure', 'description' => 'Exciting journeys and explorations'],
+            
+            
         ]);
     }
 }

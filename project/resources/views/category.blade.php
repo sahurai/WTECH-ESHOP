@@ -12,8 +12,8 @@
 
             <!-- Main content: subcategories, sorting, and book list -->
             <div class="flex-1 flex flex-col gap-4">
-                <!-- Category header with subcategories -->
-                @include('partials.category-header')
+                {{-- <!-- Category header with subcategories -->
+                @include('partials.category-header') --}}
 
                 <!-- Sorting section with radio buttons -->
                 @include('partials.sorting-sec')
@@ -29,7 +29,11 @@
                     @foreach ($books as $book)
                         @include('partials.book-card', ['book' => $book])
                     @endforeach
+
                 </section>
+                <div class="mt-4">
+                    {{ $books->withQueryString()->links() }}
+                </div>
             </div>
         </div>
     </main>

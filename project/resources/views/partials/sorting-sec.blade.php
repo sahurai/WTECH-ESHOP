@@ -15,26 +15,31 @@
         <div class="flex flex-row items-center">
             <div class="flex items-center space-x-4">
                 <label class="inline-flex items-center text-blue">
-                    <input type="radio" name="sort" value="bestsellers" class="form-radio text-dark-red"
-                        onchange="this.form.submit()"
-                        {{ request('sort', 'bestsellers') === 'bestsellers' ? 'checked' : '' }}>
-                    <span class="ml-2">Bestsellers</span>
+                    <input type="radio" name="sort" value="new" class="form-radio text-dark-red"
+                        onchange="this.form.submit()" {{ request('sort', 'new') === 'new' ? 'checked' : '' }}>
+                    <span class="ml-2">New</span>
                 </label>
                 <label class="inline-flex items-center text-blue">
-                    <input type="radio" name="sort" value="most_expensive" class="form-radio text-dark-red"
-                        onchange="this.form.submit()" {{ request('sort') === 'most_expensive' ? 'checked' : '' }}>
+                    <input type="radio" name="sort" value="title_asc" class="form-radio text-dark-red"
+                        onchange="this.form.submit()" {{ request('sort') === 'title_asc' ? 'checked' : '' }}>
+                    <span class="ml-2">Title A-Z</span>
+                </label>
+                <label class="inline-flex items-center text-blue">
+                    <input type="radio" name="sort" value="title_desc" class="form-radio text-dark-red"
+                        onchange="this.form.submit()" {{ request('sort') === 'title_desc' ? 'checked' : '' }}>
+                    <span class="ml-2">Title Z-A</span>
+                </label>
+                <label class="inline-flex items-center text-blue">
+                    <input type="radio" name="sort" value="price_desc" class="form-radio text-dark-red"
+                        onchange="this.form.submit()" {{ request('sort') === 'price_desc' ? 'checked' : '' }}>
                     <span class="ml-2">Most expensive</span>
                 </label>
                 <label class="inline-flex items-center text-blue">
-                    <input type="radio" name="sort" value="most_cheap" class="form-radio text-dark-red"
-                        onchange="this.form.submit()" {{ request('sort') === 'most_cheap' ? 'checked' : '' }}>
+                    <input type="radio" name="sort" value="price_asc" class="form-radio text-dark-red"
+                        onchange="this.form.submit()" {{ request('sort') === 'price_asc' ? 'checked' : '' }}>
                     <span class="ml-2">Most cheap</span>
                 </label>
-                <label class="inline-flex items-center text-blue">
-                    <input type="radio" name="sort" value="new" class="form-radio text-dark-red"
-                        onchange="this.form.submit()" {{ request('sort') === 'new' ? 'checked' : '' }}>
-                    <span class="ml-2">New</span>
-                </label>
+
             </div>
         </div>
     </form>
