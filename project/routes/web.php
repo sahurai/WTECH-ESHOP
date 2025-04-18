@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BookController;
@@ -84,3 +85,6 @@ Route::get('/edit', function () {
 Route::get('/category/{id}/books', [CategoryController::class, 'booksById'])->name('category.books');
 
 Route::get('/book/{book}',[BookController::class,'show'])->name('books.show');
+
+Auth::routes();
+

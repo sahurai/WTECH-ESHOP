@@ -1,91 +1,176 @@
-<!-- Header  -->
+<!-- Header component -->
 <div>
-    <!-- Hidden checkbox for mobile menu toggle -->
-    <input type="checkbox" id="menu-toggle" class="hidden peer">
-
-    <header class="bg-dark-red p-3 flex items-center justify-between">
-        <!-- Left side with logo and title -->
-        <div class="flex items-center space-x-4">
-            <div class="w-8 h-8 flex items-center justify-center">
-                <!-- Logo image -->
-                <img src="{{ asset('assets/header/logo.svg') }}" alt="Logo">
+    <!-- ─────────── TOP BAR ─────────── -->
+    <header class="bg-dark-red px-4 py-3 flex items-center justify-between">
+        {{-- Logo + title --}}
+        <a href="/">
+            <div class="flex items-center gap-3">
+                <img class="w-8 h-8" src="{{ asset('assets/header/logo.svg') }}" alt="Logo">
+                <span class="text-lg font-bold text-white">Owl Shop</span>
             </div>
-            <span class="text-white text-lg font-bold">Owl Shop</span>
-        </div>
+        </a>
 
-        <!-- Desktop navigation area -->
-        <nav class="hidden md:flex items-center space-x-4 w-1/3">
-            <!-- Dropdown wrapper for categories -->
-            <div class="relative group">
-                <!-- Button to show dropdown -->
-                <button class="bg-white text-dark-violet px-4 py-2 rounded">
+        {{-- Desktop NAV --}}
+        <nav class="hidden md:flex items-center gap-6 w-1/2">
+            {{-- Categories button --}}
+            <div class="relative">
+                <button id="categories-btn"
+                        class="flex items-center gap-1 px-4 py-2 rounded-md bg-white text-dark-red">
                     Categories
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 0 1 1.1 1.02l-4.25 4.25a.75.75 0 0 1-1.06 0L5.21 8.25a.75.75 0 0 1 .02-1.04z"/>
+                    </svg>
                 </button>
-                <!-- Dropdown menu: appears on hover, full width -->
-                <div class="absolute hidden group-hover:block bg-white shadow-md rounded mt-1 w-full z-20">
-                    <!-- Category links (full width) -->
-                    @foreach ($categories as $category)
+                <div id="categories-menu"
+                     class="absolute left-0 top-full mt-1 w-56 hidden rounded-md bg-white shadow-lg z-30">
+                    @foreach($categories as $category)
                         <a href="{{ route('category.books', ['id' => $category->id]) }}"
-                            class="block w-full px-4 py-2 hover:bg-gray-100">{{ $category->name }}</a>
+                           class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">{{ $category->name }}</a>
                     @endforeach
-
-                    {{-- <a href="#" class="block w-full px-4 py-2 hover:bg-gray-100">Fiction</a>
-                    <a href="#" class="block w-full px-4 py-2 hover:bg-gray-100">Non-Fiction</a>
-                    <a href="#" class="block w-full px-4 py-2 hover:bg-gray-100">Fantasy</a>
-                    <a href="#" class="block w-full px-4 py-2 hover:bg-gray-100">Mystery</a>
-                    <a href="#" class="block w-full px-4 py-2 hover:bg-gray-100">Sci-Fi</a> --}}
                 </div>
             </div>
 
-            <!-- Search input -->
-            <input type="text" placeholder="Search..."
-                class="px-4 py-2 border border-none bg-white text-dark-violet rounded w-full">
+            {{-- Search --}}
+            <input type="text" placeholder="Search…"
+                   class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none">
         </nav>
 
-        <!-- Right side with sign up/in, basket and burger menu label for mobile -->
-        <div class="flex items-center space-x-4">
-            <!-- Sign up/in button always visible -->
-            <!-- User button -->
-            <button class="w-8 h-8">
-                <img src="{{ asset('assets/header/user.svg') }}" alt="User">
-            </button>
-            <!-- Basket button -->
-            <button class="w-8 h-8">
-                <img src="{{ asset('assets/header/basket.svg') }}" alt="Basket">
-            </button>
-            <!-- Burger menu label for mobile (toggles the hidden checkbox) -->
-            <label for="menu-toggle" class="md:hidden cursor-pointer">
-                <!-- Burger icon with three lines -->
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
-                    </path>
-                </svg>
-            </label>
-        </div>
-    </header>
-
-    <!-- Mobile menu: toggled by the checkbox above using peer selector -->
-    <div id="mobile-menu" class="md:hidden hidden peer-checked:block bg-gray-50 shadow-md relative">
-        <!-- Mobile categories dropdown using checkbox hack -->
-        <div class="relative">
-            <!-- Hidden checkbox for mobile categories toggle -->
-            <input type="checkbox" id="mobile-categories-toggle" class="hidden peer">
-            <!-- Label for toggling mobile categories list -->
-            <label for="mobile-categories-toggle" class="block px-4 py-2 text-dark-violet border-b cursor-pointer">
-                Categories
-            </label>
-            <!-- Mobile categories list: absolutely positioned, full width -->
-            <div id="mobile-categories-list"
-                class="hidden peer-checked:block absolute left-0 top-full w-full bg-white shadow-md z-50">
-                @foreach ($categories as $category)
-                    <a href="{{ route('category.books', ['id' => $category->id]) }}"
-                        class="block w-full px-4 py-2 hover:bg-gray-100">{{ $category->name }}</a>
-                @endforeach
+        {{-- Desktop profile --}}
+        <div class="hidden md:flex items-center">
+            <div class="relative">
+                @guest
+                    <button id="profile-btn" class="px-4 py-2 rounded-md bg-white text-dark-red">
+                        Profile
+                    </button>
+                    <div id="profile-menu" class="absolute right-0 top-full mt-1 hidden w-44 rounded-md bg-white shadow-lg z-30">
+                        <a  class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Basket</a>
+                        <a href="{{ route('login') }}"    class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Sign in</a>
+                        <a href="{{ route('register') }}" class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Sign up</a>
+                    </div>
+                @else
+                    <button id="user-btn" class="px-4 py-2 rounded-md bg-white text-dark-red">
+                        {{ Auth::user()->username }}
+                    </button>
+                    <div id="user-menu"
+                         class="absolute right-0 top-full mt-1 hidden w-44 rounded-md bg-white shadow-lg z-30">
+                        <a  class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Basket</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                    class="block w-full text-left px-4 py-2 hover:bg-gray-100 hover:rounded-md">
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                @endguest
             </div>
         </div>
-        <!-- Mobile search input -->
-        <div class="p-4">
-            <input type="text" placeholder="Search..." class="w-full px-4 py-2 border border-gray-300 rounded">
+
+        {{-- Burger (mobile) --}}
+        <button id="mobile-menu-btn" class="md:hidden text-white">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+    </header>
+
+    <!-- ─────────── MOBILE MENU ─────────── -->
+    <div id="mobile-menu"
+         class="fixed inset-0 bg-gray-50 translate-y-[-110%] transition-transform md:hidden z-40">
+        {{-- Close mobile menu --}}
+        <button id="mobile-close"
+                class="absolute top-4 right-4 text-dark-violet">
+            <svg class="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                      d="M10 8.586L15.657 2.93a1 1 0 111.414 1.414L11.414 10l5.657 5.657a1 1 0 01-1.414 1.414L10 11.414l-5.657 5.657a1 1 0 01-1.414-1.414L8.586 10 2.93 4.343a1 1 0 011.414-1.414L10 8.586z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </button>
+
+        {{-- Account card --}}
+        <div class="mx-4 mt-6 rounded-lg bg-white shadow-md">
+            @guest
+                <a  class="block px-4 py-3 hover:bg-gray-100">Basket</a>
+                <a href="{{ route('login') }}"  class="block px-4 py-3 hover:bg-gray-100">Sign in</a>
+                <a href="{{ route('register') }}" class="block px-4 py-3 hover:bg-gray-100">Sign up</a>
+            @else
+                <span class="block px-4 py-3 font-medium text-dark-red">{{ Auth::user()->username }}</span>
+                <a  class="block px-4 py-3 hover:bg-gray-100">Basket</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit"
+                            class="w-full text-left px-4 py-3 hover:bg-gray-100">
+                        Logout
+                    </button>
+                </form>
+            @endguest
+        </div>
+
+        {{-- Categories accordion --}}
+        <button id="mobile-categories-btn" class="mx-4 mt-6 w-[calc(100%-2rem)] text-left px-4 py-3 rounded-lg bg-white shadow-md flex items-center justify-between">
+            Categories
+            <svg id="mobile-categories-arrow" class="w-4 h-4 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 0 1 1.1 1.02l-4.25 4.25a.75.75 0 0 1-1.06 0L5.21 8.25a.75.75 0 0 1 .02-1.04z"/>
+            </svg>
+        </button>
+        <div id="mobile-categories-list" class="mx-4 overflow-hidden max-h-0 transition-[max-height] bg-white rounded-b-lg shadow-md">
+            @foreach($categories as $category)
+                <a href="{{ route('category.books', ['id' => $category->id]) }}"
+                   class="block px-6 py-3 hover:bg-gray-100">
+                    {{ $category->name }}
+                </a>
+            @endforeach
+        </div>
+
+        {{-- Search --}}
+        <div class="mt-6 px-4">
+            <input type="text" placeholder="Search…"
+                   class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none">
         </div>
     </div>
 </div>
+
+<!-- ─────────── JS ─────────── -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        /* desktop categories */
+        const catBtn = document.getElementById('categories-btn');
+        const catMenu = document.getElementById('categories-menu');
+        catBtn.addEventListener('click', e => { e.stopPropagation(); catMenu.classList.toggle('hidden'); });
+        document.addEventListener('click', e => { if (!catMenu.contains(e.target)) catMenu.classList.add('hidden'); });
+
+        /* desktop profile (guest) */
+        const pBtn = document.getElementById('profile-btn');
+        const pMenu = document.getElementById('profile-menu');
+        if (pBtn && pMenu) {
+            pBtn.addEventListener('click', e => { e.stopPropagation(); pMenu.classList.toggle('hidden'); });
+            document.addEventListener('click', e => { if (!pMenu.contains(e.target)) pMenu.classList.add('hidden'); });
+        }
+
+        /* desktop profile (auth) */
+        const uBtn = document.getElementById('user-btn');
+        const uMenu = document.getElementById('user-menu');
+        if (uBtn && uMenu) {
+            uBtn.addEventListener('click', e => { e.stopPropagation(); uMenu.classList.toggle('hidden'); });
+            document.addEventListener('click', e => { if (!uMenu.contains(e.target)) uMenu.classList.add('hidden'); });
+        }
+
+        /* mobile menu */
+        const mobBtn = document.getElementById('mobile-menu-btn');
+        const mobMenu = document.getElementById('mobile-menu');
+        const mobClose = document.getElementById('mobile-close');
+        mobBtn.addEventListener('click', () => mobMenu.style.transform = 'translateY(0)');
+        mobClose.addEventListener('click', () => mobMenu.style.transform = 'translateY(-110%)');
+
+        /* mobile categories accordion */
+        const mobCatBtn = document.getElementById('mobile-categories-btn');
+        const mobCatList = document.getElementById('mobile-categories-list');
+        const mobCatArrow = document.getElementById('mobile-categories-arrow');
+        mobCatBtn.addEventListener('click', () => {
+            const open = mobCatList.style.maxHeight && mobCatList.style.maxHeight !== '0px';
+            mobCatList.style.maxHeight = open ? '0' : mobCatList.scrollHeight + 'px';
+            mobCatArrow.style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+        });
+    });
+</script>

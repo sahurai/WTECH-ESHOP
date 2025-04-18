@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
  * @property string      $username
  * @property string      $email
  * @property string      $password_hash
+ * @property string      $remember_token
  * @property string|null $address_line
  * @property string|null $city
  * @property string|null $state
@@ -25,7 +26,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  *
  * @property-read Collection|Order[] $orders
- * @property-read Collection|\App\Models\Role[]  $roles
+ * @property-read Collection|Role[] $roles
  */
 class User extends Authenticatable
 {
@@ -74,5 +75,12 @@ class User extends Authenticatable
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+    }
+
+
+    public function getAuthPassword(): string
+    {
+        // Return the custom hash column
+        return $this->password_hash;
     }
 }
