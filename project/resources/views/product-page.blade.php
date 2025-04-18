@@ -10,6 +10,6 @@
         @include('partials.product-details')
 
         <!-- Recommendation Section -->
-        @include('partials.recommendations')
+        @include('partials.specific-books', ['specific' => $recommends, 'title' => 'Recommended'])
     </main>
 @endsection

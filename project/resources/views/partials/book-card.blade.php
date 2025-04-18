@@ -8,7 +8,7 @@
             @endif
         </div>
         <!-- Book title -->
-        <h3 class="text-blue text-sm font-bold leading-tight mb-1 px-2">
+        <h3 class="text-blue text-sm font-bold leading-tight mb-1 px-2 truncate">
             {{ $book->title }}
         </h3>
         <!-- Book author -->

@@ -250,4 +250,11 @@ class BookController extends Controller
         return redirect()->route('books.index')
             ->with('success', 'Book deleted successfully.');
     }
+
+    public function homepage(): View
+    {
+        $bestsellers=Book::with('images')->inRandomOrder()->take(10)->get();
+        $new=Book::with('images')->orderBy('release_year','desc')->take(10)->get();
+        return view('homepage',compact('bestsellers','new'));
+    }
 }

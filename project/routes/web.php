@@ -3,29 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BookController;
-Route::get('/', function () {
-    // test data
-    $books = [
-        [
-            'title' => 'Book One',
-            'author' => 'Author A',
-            'price' => '10.00',
-            'discount' => 15,
-            'image' => 'book-cover-1.png',
-        ],
-        [
-            'title' => 'Book Two',
-            'author' => 'Author B',
-            'price' => '15.00',
-            'discount' => null,
-            'image' => 'book-cover-2.png',
-        ],
-    ];
-
-    $isAdmin = false;
-
-    return view('category', compact('books', 'isAdmin'));
-});
+Route::get('/', [BookController::class,'homepage'])->name('homepage');
 
 
 Route::get('/product-demo', function () {

@@ -1,5 +1,5 @@
 <section class="py-4">
-    <h2 class="text-xl font-bold mb-2 text-true-dark">Recommended</h2>
+    <h2 class="text-xl font-bold mb-2 text-true-dark">{{ $title }}</h2>
 
     <div class="relative">
         <button
@@ -20,9 +20,9 @@
             <div
                 class="overflow-x-auto  scroll-smooth snap-x snap-mandatory flex space-x-5 px-8 py-2 relative z-0 scrollbar-hidden">
 
-                @foreach ($recommends as $recommend)
+                @foreach ($specific as $book)
                     <div class="snap-start shrink-0">
-                        @include('partials.book-card', ['book' => $recommend])
+                        @include('partials.book-card', ['book' => $book])
                     </div>
                 @endforeach
 
