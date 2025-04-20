@@ -1,11 +1,13 @@
 <!-- Filters section -->
 <aside class="bg-white-2 p-4 w-full md:w-1/5 rounded-lg shadow-md border border-white">
     <h2 class="text-lg font-semibold text-true-dark">Filters</h2>
-    <form method="GET" action="{{ route('category.books', ['id' => $category->id]) }}">
-        @if (request('sort'))
-            <input type="hidden" name="sort" value="{{ request('sort') }}">
-        @endif
-
+    <form method="GET"
+        action="{{ isset($category) ? route('category.books', ['id' => $category->id]) : route('books.search') }}">
+        @foreach (['sort', 'query'] as $param)
+            @if (request($param))
+                <input name="{{ $param }}" type="hidden" value="{{ request($param) }}">
+            @endif
+        @endforeach
         <!-- Language filter example -->
         <section class="mb-1">
             <h3 class="font-medium text-true-dark">Language</h3>

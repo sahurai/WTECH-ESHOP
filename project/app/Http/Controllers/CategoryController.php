@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Book;
+use App\Services\BookFilterService;
 
 class CategoryController extends Controller
 {
@@ -130,49 +131,7 @@ class CategoryController extends Controller
     public function booksById(Request $request, int $id)
 {
     $category =  Category::findOrFail($id);
-
-    $query = Book::whereHas('categories', function ($q) use ($category) {
-        $q->where('category_id', $category->id);
-    });
-    
-
-    if ($request->filled('author')) {
-        $query->whereIn('author', $request->input('author'));
-    }
-
-    if ($request->filled('language')) {
-        $query->whereIn('language', $request->input('language'));
-    }
-
-    if ($request->filled('price_min')) {
-        $query->where('price', '>=', $request->input('price_min'));
-    }
-
-    if ($request->filled('price_max')) {
-        $query->where('price', '<=', $request->input('price_max'));
-    }
-
-    switch ($request->input('sort')) {
-        case 'price_asc':
-            $query->orderBy('price', 'asc');
-            break;
-        case 'price_desc':
-            $query->orderBy('price', 'desc');
-            break;
-        case 'title_desc':
-            $query->orderBy('title', 'desc');
-            break;
-        case 'title_asc':
-            $query->orderBy('title', 'asc');
-            break;
-        case 'new':
-            defaulte:
-            $query->orderBy('release_year', 'desc');
-            break;
-        
-    }
-
-    $books = $query->paginate(10);
+    $books =BookFilterService::filter($request,$category->id);
     $isAdmin = auth()->check() && auth()->user()->is_admin;
 
     return view('category', compact('books', 'isAdmin', 'category'));

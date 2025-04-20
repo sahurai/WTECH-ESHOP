@@ -14,25 +14,28 @@
         <nav class="hidden md:flex items-center gap-6 w-1/2">
             {{-- Categories button --}}
             <div class="relative">
-                <button id="categories-btn"
-                        class="flex items-center gap-1 px-4 py-2 rounded-md bg-white text-dark-red">
+                <button id="categories-btn" class="flex items-center gap-1 px-4 py-2 rounded-md bg-white text-dark-red">
                     Categories
                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 0 1 1.1 1.02l-4.25 4.25a.75.75 0 0 1-1.06 0L5.21 8.25a.75.75 0 0 1 .02-1.04z"/>
+                        <path
+                            d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 0 1 1.1 1.02l-4.25 4.25a.75.75 0 0 1-1.06 0L5.21 8.25a.75.75 0 0 1 .02-1.04z" />
                     </svg>
                 </button>
                 <div id="categories-menu"
-                     class="absolute left-0 top-full mt-1 w-56 hidden rounded-md bg-white shadow-lg z-30">
-                    @foreach($categories as $category)
+                    class="absolute left-0 top-full mt-1 w-56 hidden rounded-md bg-white shadow-lg z-30">
+                    @foreach ($categories as $category)
                         <a href="{{ route('category.books', ['id' => $category->id]) }}"
-                           class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">{{ $category->name }}</a>
+                            class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">{{ $category->name }}</a>
                     @endforeach
                 </div>
             </div>
 
             {{-- Search --}}
-            <input type="text" placeholder="Search…"
-                   class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none">
+            <form method="GET" action="{{ route('books.search') }}">
+                <input name="query" type="text" placeholder="Search…"
+                    class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none"
+                    value="{{ request('query') }}">
+            </form>
         </nav>
 
         {{-- Desktop profile --}}
@@ -42,22 +45,25 @@
                     <button id="profile-btn" class="px-4 py-2 rounded-md bg-white text-dark-red">
                         Profile
                     </button>
-                    <div id="profile-menu" class="absolute right-0 top-full mt-1 hidden w-44 rounded-md bg-white shadow-lg z-30">
-                        <a  class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Basket</a>
-                        <a href="{{ route('login') }}"    class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Sign in</a>
-                        <a href="{{ route('register') }}" class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Sign up</a>
+                    <div id="profile-menu"
+                        class="absolute right-0 top-full mt-1 hidden w-44 rounded-md bg-white shadow-lg z-30">
+                        <a class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Basket</a>
+                        <a href="{{ route('login') }}" class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Sign
+                            in</a>
+                        <a href="{{ route('register') }}" class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Sign
+                            up</a>
                     </div>
                 @else
                     <button id="user-btn" class="px-4 py-2 rounded-md bg-white text-dark-red">
                         {{ Auth::user()->username }}
                     </button>
                     <div id="user-menu"
-                         class="absolute right-0 top-full mt-1 hidden w-44 rounded-md bg-white shadow-lg z-30">
-                        <a  class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Basket</a>
+                        class="absolute right-0 top-full mt-1 hidden w-44 rounded-md bg-white shadow-lg z-30">
+                        <a class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Basket</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit"
-                                    class="block w-full text-left px-4 py-2 hover:bg-gray-100 hover:rounded-md">
+                                class="block w-full text-left px-4 py-2 hover:bg-gray-100 hover:rounded-md">
                                 Logout
                             </button>
                         </form>
@@ -69,38 +75,34 @@
         {{-- Burger (mobile) --}}
         <button id="mobile-menu-btn" class="md:hidden text-white">
             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M4 6h16M4 12h16M4 18h16"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </button>
     </header>
 
     <!-- ─────────── MOBILE MENU ─────────── -->
-    <div id="mobile-menu"
-         class="fixed inset-0 bg-gray-50 translate-y-[-110%] transition-transform md:hidden z-40">
+    <div id="mobile-menu" class="fixed inset-0 bg-gray-50 translate-y-[-110%] transition-transform md:hidden z-40">
         {{-- Close mobile menu --}}
-        <button id="mobile-close"
-                class="absolute top-4 right-4 text-dark-violet">
+        <button id="mobile-close" class="absolute top-4 right-4 text-dark-violet">
             <svg class="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd"
-                      d="M10 8.586L15.657 2.93a1 1 0 111.414 1.414L11.414 10l5.657 5.657a1 1 0 01-1.414 1.414L10 11.414l-5.657 5.657a1 1 0 01-1.414-1.414L8.586 10 2.93 4.343a1 1 0 011.414-1.414L10 8.586z"
-                      clip-rule="evenodd"/>
+                    d="M10 8.586L15.657 2.93a1 1 0 111.414 1.414L11.414 10l5.657 5.657a1 1 0 01-1.414 1.414L10 11.414l-5.657 5.657a1 1 0 01-1.414-1.414L8.586 10 2.93 4.343a1 1 0 011.414-1.414L10 8.586z"
+                    clip-rule="evenodd" />
             </svg>
         </button>
 
         {{-- Account card --}}
         <div class="mx-4 mt-6 rounded-lg bg-white shadow-md">
             @guest
-                <a  class="block px-4 py-3 hover:bg-gray-100">Basket</a>
-                <a href="{{ route('login') }}"  class="block px-4 py-3 hover:bg-gray-100">Sign in</a>
+                <a class="block px-4 py-3 hover:bg-gray-100">Basket</a>
+                <a href="{{ route('login') }}" class="block px-4 py-3 hover:bg-gray-100">Sign in</a>
                 <a href="{{ route('register') }}" class="block px-4 py-3 hover:bg-gray-100">Sign up</a>
             @else
                 <span class="block px-4 py-3 font-medium text-dark-red">{{ Auth::user()->username }}</span>
-                <a  class="block px-4 py-3 hover:bg-gray-100">Basket</a>
+                <a class="block px-4 py-3 hover:bg-gray-100">Basket</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit"
-                            class="w-full text-left px-4 py-3 hover:bg-gray-100">
+                    <button type="submit" class="w-full text-left px-4 py-3 hover:bg-gray-100">
                         Logout
                     </button>
                 </form>
@@ -108,16 +110,20 @@
         </div>
 
         {{-- Categories accordion --}}
-        <button id="mobile-categories-btn" class="mx-4 mt-6 w-[calc(100%-2rem)] text-left px-4 py-3 rounded-lg bg-white shadow-md flex items-center justify-between">
+        <button id="mobile-categories-btn"
+            class="mx-4 mt-6 w-[calc(100%-2rem)] text-left px-4 py-3 rounded-lg bg-white shadow-md flex items-center justify-between">
             Categories
-            <svg id="mobile-categories-arrow" class="w-4 h-4 transition-transform" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 0 1 1.1 1.02l-4.25 4.25a.75.75 0 0 1-1.06 0L5.21 8.25a.75.75 0 0 1 .02-1.04z"/>
+            <svg id="mobile-categories-arrow" class="w-4 h-4 transition-transform" fill="currentColor"
+                viewBox="0 0 20 20">
+                <path
+                    d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 0 1 1.1 1.02l-4.25 4.25a.75.75 0 0 1-1.06 0L5.21 8.25a.75.75 0 0 1 .02-1.04z" />
             </svg>
         </button>
-        <div id="mobile-categories-list" class="mx-4 overflow-hidden max-h-0 transition-[max-height] bg-white rounded-b-lg shadow-md">
-            @foreach($categories as $category)
+        <div id="mobile-categories-list"
+            class="mx-4 overflow-hidden max-h-0 transition-[max-height] bg-white rounded-b-lg shadow-md">
+            @foreach ($categories as $category)
                 <a href="{{ route('category.books', ['id' => $category->id]) }}"
-                   class="block px-6 py-3 hover:bg-gray-100">
+                    class="block px-6 py-3 hover:bg-gray-100">
                     {{ $category->name }}
                 </a>
             @endforeach
@@ -126,7 +132,7 @@
         {{-- Search --}}
         <div class="mt-6 px-4">
             <input type="text" placeholder="Search…"
-                   class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none">
+                class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none">
         </div>
     </div>
 </div>
@@ -137,23 +143,38 @@
         /* desktop categories */
         const catBtn = document.getElementById('categories-btn');
         const catMenu = document.getElementById('categories-menu');
-        catBtn.addEventListener('click', e => { e.stopPropagation(); catMenu.classList.toggle('hidden'); });
-        document.addEventListener('click', e => { if (!catMenu.contains(e.target)) catMenu.classList.add('hidden'); });
+        catBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            catMenu.classList.toggle('hidden');
+        });
+        document.addEventListener('click', e => {
+            if (!catMenu.contains(e.target)) catMenu.classList.add('hidden');
+        });
 
         /* desktop profile (guest) */
         const pBtn = document.getElementById('profile-btn');
         const pMenu = document.getElementById('profile-menu');
         if (pBtn && pMenu) {
-            pBtn.addEventListener('click', e => { e.stopPropagation(); pMenu.classList.toggle('hidden'); });
-            document.addEventListener('click', e => { if (!pMenu.contains(e.target)) pMenu.classList.add('hidden'); });
+            pBtn.addEventListener('click', e => {
+                e.stopPropagation();
+                pMenu.classList.toggle('hidden');
+            });
+            document.addEventListener('click', e => {
+                if (!pMenu.contains(e.target)) pMenu.classList.add('hidden');
+            });
         }
 
         /* desktop profile (auth) */
         const uBtn = document.getElementById('user-btn');
         const uMenu = document.getElementById('user-menu');
         if (uBtn && uMenu) {
-            uBtn.addEventListener('click', e => { e.stopPropagation(); uMenu.classList.toggle('hidden'); });
-            document.addEventListener('click', e => { if (!uMenu.contains(e.target)) uMenu.classList.add('hidden'); });
+            uBtn.addEventListener('click', e => {
+                e.stopPropagation();
+                uMenu.classList.toggle('hidden');
+            });
+            document.addEventListener('click', e => {
+                if (!uMenu.contains(e.target)) uMenu.classList.add('hidden');
+            });
         }
 
         /* mobile menu */

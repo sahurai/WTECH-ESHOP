@@ -12,7 +12,17 @@
 
             <!-- Main content: subcategories, sorting, and book list -->
             <div class="flex-1 flex flex-col gap-4">
+                <header class="bg-white-2 px-2 rounded-lg  ">
+                    <h1 class="text-xl font-bold mt-4 text-true-black">
+                        @if (isset($category))
+                            {{ $category->name }}
+                        @elseif(isset($query))
+                            Search results for "{{ $query }}"
+                        @endif
+                    </h1>
+                </header>
                 {{-- <!-- Category header with subcategories -->
+               
                 @include('partials.category-header') --}}
 
                 <!-- Sorting section with radio buttons -->

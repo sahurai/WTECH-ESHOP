@@ -7,6 +7,7 @@ use App\Models\BookImage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Services\BookFilterService;
 
 class BookController extends Controller
 {
@@ -256,5 +257,13 @@ class BookController extends Controller
         $bestsellers=Book::with('images')->inRandomOrder()->take(10)->get();
         $new=Book::with('images')->orderBy('release_year','desc')->take(10)->get();
         return view('homepage',compact('bestsellers','new'));
+    }
+
+    public function search(Request $request): View
+    {
+        $query=$request->query('query');
+        $books=BookFilterService::filter($request);
+        $isAdmin = auth()->check() && auth()->user()->is_admin;
+        return view('category',compact('books','query','isAdmin'));
     }
 }

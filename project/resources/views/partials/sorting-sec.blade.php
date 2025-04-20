@@ -1,6 +1,7 @@
 <!-- Sorting section with radio buttons -->
 <section class="bg-white-2 p-2 rounded-lg shadow-md border border-white">
-    <form method="GET" action="{{ route('category.books', ['id' => $category->id]) }}">
+    <form method="GET"
+        action="{{ isset($category) ? route('category.books', ['id' => $category->id]) : route('books.search') }}">
 
         @foreach (request()->except('sort') as $key => $value)
             @if (is_array($value))
