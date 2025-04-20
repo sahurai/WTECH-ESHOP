@@ -24,8 +24,8 @@
         </section>
 
         <!-- Basket-table -->
-        @include('partials.basket-table')
+        @include('basket.partials.basket-table')
 
-        @include('order-buttons')
+        @include('basket.partials.order-buttons')
     </main>
 @endsection
