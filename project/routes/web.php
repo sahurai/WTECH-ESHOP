@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\CartController;
+
+
 Route::get('/', [BookController::class,'homepage'])->name('homepage');
 
 Route::get('/add', function () {
@@ -49,3 +52,5 @@ Route::get('/book/{book}',[BookController::class,'show'])->name('books.show');
 Auth::routes();
 
 Route::get('/search',[BookController::class,'search'])->name('books.search');
+
+Route::get('/basket',[CartController::class,'index'])->name('basket.index');

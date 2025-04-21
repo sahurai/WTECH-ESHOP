@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Collection;
 
 use App\Models\Book;
 use Illuminate\Http\RedirectResponse;
@@ -28,9 +29,10 @@ class CartController extends Controller
         if (!empty($cart)) {
             $books = Book::query()->whereIn('id', array_keys($cart))->get()->keyBy('id');
         }
+        $totalPrice = collect($cart)->sum(fn($quantity,$id)=>$books[$id]->price*$quantity);
 
         // Return the cart view with the cart data and associated books.
-        return view('cart.index', compact('cart', 'books'));
+        return view('basket.basket', compact('cart', 'books','totalPrice'));
     }
 
     /**

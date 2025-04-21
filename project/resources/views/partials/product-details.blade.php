@@ -57,6 +57,7 @@
                 <div class="flex items-center space-x-2">
                     <label for="quantity" class="text-true-dark font-semibold">Quantity:</label>
                     <input type="number" id="quantity" name="quantity" value="1" min="1"
+                        max="{{ $book->quantity }}" oninput="this.value=Math.min(this.value, {{ $book->quantity }})"
                         class="w-16 p-2 border border-gray-300 rounded" />
                 </div>
                 <button

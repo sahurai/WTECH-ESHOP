@@ -47,11 +47,7 @@
                     </button>
                     <div id="profile-menu"
                         class="absolute right-0 top-full mt-1 hidden w-44 rounded-md bg-white shadow-lg z-30">
-                        <a class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Basket</a>
-                        <a href="{{ route('login') }}" class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Sign
-                            in</a>
-                        <a href="{{ route('register') }}" class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Sign
-                            up</a>
+                        @include('partials.drop-menu-guest')
                     </div>
                 @else
                     <button id="user-btn" class="px-4 py-2 rounded-md bg-white text-dark-red">
@@ -59,14 +55,7 @@
                     </button>
                     <div id="user-menu"
                         class="absolute right-0 top-full mt-1 hidden w-44 rounded-md bg-white shadow-lg z-30">
-                        <a class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">Basket</a>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit"
-                                class="block w-full text-left px-4 py-2 hover:bg-gray-100 hover:rounded-md">
-                                Logout
-                            </button>
-                        </form>
+                        @include('partials.drop-menu-user')
                     </div>
                 @endguest
             </div>
@@ -94,18 +83,10 @@
         {{-- Account card --}}
         <div class="mx-4 mt-6 rounded-lg bg-white shadow-md">
             @guest
-                <a class="block px-4 py-3 hover:bg-gray-100">Basket</a>
-                <a href="{{ route('login') }}" class="block px-4 py-3 hover:bg-gray-100">Sign in</a>
-                <a href="{{ route('register') }}" class="block px-4 py-3 hover:bg-gray-100">Sign up</a>
+                @include('partials.drop-menu-guest')
             @else
                 <span class="block px-4 py-3 font-medium text-dark-red">{{ Auth::user()->username }}</span>
-                <a class="block px-4 py-3 hover:bg-gray-100">Basket</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="w-full text-left px-4 py-3 hover:bg-gray-100">
-                        Logout
-                    </button>
-                </form>
+                @include('partials.drop-menu-user')
             @endguest
         </div>
 

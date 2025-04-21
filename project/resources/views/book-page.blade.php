@@ -46,7 +46,8 @@
                             <label for="quantity" class="block text-lg font-semibold text-gray-700">
                                 Quantity
                             </label>
-                            <input type="number" id="quantity" name="quantity"
+                            <input type="number" id="quantity" name="quantity" <input type="number" id="quantity-mobile"
+                                value="{{ old('quantity', $book['quantity'] ?? '') }}" name="quantity"
                                 class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter quantity"
                                 required />
                         </div>
@@ -234,7 +235,7 @@
                             Price (€)
                         </label>
                         <!-- Use the same name if you want a single final price value.
-                                                               If you want them separate, use a different name. -->
+                                                                           If you want them separate, use a different name. -->
                         <input type="number" step="0.01" id="price-mobile" name="price"
                             value="{{ old('price', $book['price'] ?? '') }}"
                             class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter price" />
@@ -244,7 +245,8 @@
                         <label for="quantity-mobile" class="block text-lg font-semibold text-gray-700">
                             Quantity
                         </label>
-                        <input type="number" id="quantity-mobile" name="quantity"
+                        <input type="number" id="quantity-mobile"
+                            value="{{ old('quantity', $book['quantity'] ?? '') }}" name="quantity"
                             class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter quantity" />
                     </div>
                 </div>
