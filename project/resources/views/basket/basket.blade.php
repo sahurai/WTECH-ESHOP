@@ -10,18 +10,17 @@
                 Basket
             </h1>
 
-            <!-- User Actions (Sign in & Delete) -->
+            <!-- User Actions ( Delete) -->
             <section class="flex justify-end items-center space-x-4 mb-4">
-                <!-- Sign in -->
-                <a href="#" class="flex items-center space-x-2 text-black hover:text-gray-700 transition">
-                    <span>Sign in</span>
-                    <img src="{{ asset('assets/basket-page/user-icon.svg') }}" alt="User icon" class="w-6 h-6" />
-                </a>
 
                 <!-- Delete Button -->
-                <a href="#" class="hover:opacity-80 transition">
-                    <img src="{{ asset('assets/basket-page/delete.svg') }}" alt="Delete basket" class="w-6 h-6" />
-                </a>
+                <form action="{{ route('basket.clear') }}" method="POST"
+                    onsubmit="return confirm('Clear the entire basket?')">
+                    @csrf
+                    <button type="submit" class="hover:opacity-80 transition">
+                        <img src="{{ asset('assets/basket-page/delete.svg') }}" alt="Delete basket" class="w-6 h-6" />
+                    </button>
+                </form>
             </section>
 
             <!-- Basket-table -->

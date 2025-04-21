@@ -92,11 +92,17 @@ class CartController extends Controller
         // Validate incoming data.
         $validated = $request->validate([
             'book_id'  => 'required|integer|exists:books,id',
-            'quantity' => 'required|integer|min:1',
+            'quantity' => 'required|integer|min:0',
         ]);
 
         $cart = session()->get('cart', []);
         if (isset($cart[$validated['book_id']])) {
+            if ((int)$validated['quantity'] === 0) {
+                unset($cart[$validated['book_id']]);
+                session()->put('cart', $cart);
+                return redirect()->back()->with('success', 'Book removed from cart.');
+            }
+             // Update quantity
             $cart[$validated['book_id']] = $validated['quantity'];
             session()->put('cart', $cart);
             return redirect()->back()->with('success', 'Cart updated successfully.');

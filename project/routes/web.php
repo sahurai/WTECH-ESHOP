@@ -55,3 +55,7 @@ Route::get('/search',[BookController::class,'search'])->name('books.search');
 
 Route::get('/basket',[CartController::class,'index'])->name('basket.index');
 Route::post('/basket',[CartController::class,'add'])->name('basket.add');
+
+Route::post('/basket/update', [CartController::class, 'update'])->name('basket.update');
+Route::post('/basket/clear', [CartController::class, 'clear'])->name('basket.clear');
+

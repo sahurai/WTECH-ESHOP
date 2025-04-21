@@ -22,14 +22,24 @@
             <!-- Quantity -->
             <div
                 class="flex justify-center items-center border border-gray-300 rounded-lg w-16 h-7 sm:w-24 sm:h-10 bg-dark-violet">
-                <button class="text-white sm:px-3 rounded-l-lg hover:bg-gray-600 h-full min-w-4 w-8">
-                    -
-                </button>
+                <form action="{{ route('basket.update') }}" method="POST" class="h-full">
+                    @csrf
+                    <input type="hidden" name="book_id" value="{{ $item->id }}">
+                    <input type="hidden" name="quantity" value="{{ max(0, $cart[$item->id] - 1) }}">
+                    <button class="text-white sm:px-3 rounded-l-lg hover:bg-gray-600 h-full min-w-4 w-8">
+                        -
+                    </button>
+                </form>
                 <span
                     class="bg-pale-yellow px-3 text-blue flex justify-center items-center h-full min-w-4 w-4 sm:w-8">{{ $cart[$item->id] }}</span>
-                <button class="text-white sm:px-3 rounded-r-lg hover:bg-gray-600 h-full min-w-4 w-8">
-                    +
-                </button>
+                <form action="{{ route('basket.update') }}" method="POST" class="h-full">
+                    @csrf
+                    <input type="hidden" name="book_id" value="{{ $item->id }}">
+                    <input type="hidden" name="quantity" value="{{ $cart[$item->id] + 1 }}">
+                    <button class="text-white sm:px-3 rounded-r-lg hover:bg-gray-600 h-full min-w-4 w-8">
+                        +
+                    </button>
+                </form>
             </div>
             <div class="sm:w-24 sm:h-8 text-center font-medium mx-2 sm:mx-0 md:mx-2 text-blue">
                 {{ $cart[$item->id] * $item->price }} €
