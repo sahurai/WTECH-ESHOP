@@ -52,7 +52,26 @@
         </div>
         <!-- Bottom block: Price, quantity selector & Add to Basket (full width) -->
         <div class="mt-4 rounded-md bg-white shadow p-4">
-            <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+            {{-- Flash messages --}}
+            <div>
+                @if (session('success'))
+                    <div class="mx-auto w-fit px-6 py-3 rounded-md bg-green-100 text-green-800 shadow">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+
+                @if ($errors->has('quantity'))
+                    <div class="mb-4 px-4 py-3 rounded bg-red-100 text-red-800 font-medium text-center">
+                        {{ $errors->first('quantity') }}
+                    </div>
+                @endif
+            </div>
+
+            <form method="POST" action="{{ route('basket.add') }}"
+                class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+                @csrf
+                <input type="hidden" name="book_id" value="{{ $book->id }}">
                 <p class="text-xl font-bold text-true-dark">Price: {{ $book->price }} €</p>
                 <div class="flex items-center space-x-2">
                     <label for="quantity" class="text-true-dark font-semibold">Quantity:</label>
@@ -60,11 +79,12 @@
                         max="{{ $book->quantity }}" oninput="this.value=Math.min(this.value, {{ $book->quantity }})"
                         class="w-16 p-2 border border-gray-300 rounded" />
                 </div>
-                <button
+                <button type="submit"
                     class="w-full md:w-auto text-true-dark font-semibold py-2 px-6 rounded-md bg-gray-100 hover:bg-gray-200">
                     Add to Basket
                 </button>
-            </div>
+            </form>
+
         </div>
     </div>
 </section>

@@ -54,3 +54,4 @@ Auth::routes();
 Route::get('/search',[BookController::class,'search'])->name('books.search');
 
 Route::get('/basket',[CartController::class,'index'])->name('basket.index');
+Route::post('/basket',[CartController::class,'add'])->name('basket.add');

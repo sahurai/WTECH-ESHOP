@@ -29,7 +29,12 @@ class CartController extends Controller
         if (!empty($cart)) {
             $books = Book::query()->whereIn('id', array_keys($cart))->get()->keyBy('id');
         }
-        $totalPrice = collect($cart)->sum(fn($quantity,$id)=>$books[$id]->price*$quantity);
+        $totalPrice=0;
+        foreach ($cart as $bookId => $quantity) {
+            if (isset($books[$bookId])) {
+                $totalPrice += $books[$bookId]->price * $quantity;
+            }
+        }
 
         // Return the cart view with the cart data and associated books.
         return view('basket.basket', compact('cart', 'books','totalPrice'));
@@ -51,17 +56,26 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        // Retrieve the current cart from session or initialize an empty array.
+        $book = Book::findOrFail($validated['book_id']);
+  
         $cart = session()->get('cart', []);
 
-        // If the book is already in the cart, increment its quantity; otherwise, add it.
-        if (isset($cart[$validated['book_id']])) {
-            $cart[$validated['book_id']] += $validated['quantity'];
-        } else {
-            $cart[$validated['book_id']] = $validated['quantity'];
-        }
-        session()->put('cart', $cart);
+        // Get current quantity of this book in the cart (if any)
+        $existingQty = $cart[$book->id] ?? 0;
 
+        // Calculate new total quantity
+        $totalQty = $existingQty + $validated['quantity'];
+
+        // Prevent adding more items than available in stock
+        if ($totalQty > $book->quantity) {
+            return redirect()->back()->withErrors(['quantity' => 'Not enough books in stock.']);
+        }
+
+
+        // Add or update the book quantity in the cart
+        $cart[$book->id] = $totalQty;
+        session()->put('cart', $cart);
+    
         return redirect()->back()->with('success', 'Book added to cart.');
     }
 
