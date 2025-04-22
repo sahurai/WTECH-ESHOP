@@ -23,7 +23,7 @@
         @include('partials.specific-books', ['specific' => $bestsellers, 'title' => 'Bestsellers'])
 
         <!-- New books section (same logic) -->
-        @include('partials.specific-books', ['specific' => $new, 'title' => 'New'])
+        @include('partials.specific-books', ['specific' => $newest, 'title' => 'Newest'])
 
     </main>
 @endsection
