@@ -77,7 +77,10 @@ class BookController extends Controller
 
         // Filter by language if provided
         if ($request->filled('language')) {
-            $query->where('language', $request->input('language'));
+            $query->whereIn('language', $request->input('language'));
+        }
+        if ($request->filled('author')) {
+            $query->whereIn('author', $request->input('author'));
         }
 
         // Full-text search on title, author, and description (case-insensitive)
@@ -109,11 +112,21 @@ class BookController extends Controller
         [$sortBy, $order] = $sortMap[$sortOption];
         $query->orderBy($sortBy, $order);
 
+        $availableLanguages = Book::select('language')
+        ->distinct()
+        ->whereNotNull('language')
+        ->pluck('language');
+
+        $availableAuthors = Book::select('author')
+        ->distinct()
+        ->whereNotNull('author')
+        ->pluck('author');
+
         // Paginate results: 12 books per page
         $books = $query->paginate(12);
 
         // Return category view with books, admin flag, and category context
-        return view('category', compact('books', 'isAdmin', 'category'));
+        return view('category', compact('books', 'isAdmin', 'category','availableLanguages','availableAuthors'));
     }
 
     /**

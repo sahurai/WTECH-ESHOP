@@ -11,7 +11,7 @@
         <section class="mb-1">
             <h3 class="font-medium text-true-dark">Language</h3>
             <ul class="space-y-1">
-                @foreach (['English', 'Spanish', 'French'] as $lang)
+                @foreach ($availableLanguages as $lang)
                     <li>
                         <label class="inline-flex items-center space-x-2 text-blue">
                             <input type="checkbox" class="form-checkbox" name="language[]" value="{{ $lang }}"
@@ -28,7 +28,7 @@
 
             <h3 class="font-medium">Author</h3>
             <ul class="space-y-1">
-                @foreach (['Dostoevsky', 'Gogol', 'Pushkin'] as $author)
+                @foreach ($availableAuthors as $author)
                     <li>
                         <label class="inline-flex items-center space-x-2 text-blue">
                             <input type="checkbox" class="form-checkbox" name="author[]" value="{{ $author }}"
