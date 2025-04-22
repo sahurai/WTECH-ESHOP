@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\BookImage;
 use App\Models\Category;
-use Exception;
+use App\Models\Genre;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -154,26 +154,28 @@ class BookController extends Controller
         return view('product-page', compact('book', 'isAdmin', 'recommends'));
     }
 
-    /**
-     * Show the form for creating a new book (admin/moderator only).
-     */
     public function create(): View
     {
-        return view('book-page');
+        $categories = Category::all();
+        $genres     = Genre::all();
+        return view('book-page', compact('categories','genres'));
     }
 
-    /**
-     * Store a newly created book along with its images.
-     */
     public function store(Request $request): RedirectResponse
     {
-        // Validate book data
-        $validatedData = $request->validate([
+        // Validate all fields and multiple images
+        $validated = $request->validate([
             'title'        => 'required|string|max:255',
             'author'       => 'required|string|max:255',
             'description'  => 'required|string',
             'price'        => 'required|numeric',
             'quantity'     => 'required|integer',
+            'images'       => 'required|array|min:2',
+            'images.*'     => 'image|max:2048',
+            'genres'       => 'required|array|min:1',
+            'genres.*'     => 'exists:genres,id',
+            'categories'   => 'required|array|min:1',
+            'categories.*' => 'exists:categories,id',
             'pages_count'  => 'nullable|integer',
             'release_year' => 'nullable|integer',
             'language'     => 'nullable|string|max:50',
@@ -185,58 +187,70 @@ class BookController extends Controller
             'weight'       => 'nullable|numeric',
         ]);
 
-        // Execute within a transaction to ensure atomicity
-        DB::transaction(function () use ($validatedData, $request) {
-            // Create book record
-            $book = Book::query()->create($validatedData);
+        DB::transaction(function() use ($validated, $request) {
+            // 1) create book record
+            $book = Book::create([
+                'title'        => $validated['title'],
+                'author'       => $validated['author'],
+                'description'  => $validated['description'],
+                'price'        => $validated['price'],
+                'quantity'     => $validated['quantity'],
+                'pages_count'  => $validated['pages_count'] ?? null,
+                'release_year' => $validated['release_year'] ?? null,
+                'language'     => $validated['language'] ?? null,
+                'format'       => $validated['format'] ?? null,
+                'publisher'    => $validated['publisher'] ?? null,
+                'isbn'         => $validated['isbn'] ?? null,
+                'edition'      => $validated['edition'] ?? null,
+                'dimensions'   => $validated['dimensions'] ?? null,
+                'weight'       => $validated['weight'] ?? null,
+            ]);
 
-            // Sync categories and genres
-            $categories = $request->input('categories', []);
-            $genres     = $request->input('genres', []);
-            $book->categories()->sync($categories);
-            $book->genres()->sync($genres);
+            // 2) sync genres & categories
+            $book->genres()->sync($validated['genres']);
+            $book->categories()->sync($validated['categories']);
 
-            // Validate image URLs (at least 2 required)
-            $images = $request->input('images', []);
-            if (count($images) < 2) {
-                // Throw exception to rollback
-                throw new Exception('At least two images are required.');
-            }
-
-            // Save images with sort order
-            foreach ($images as $index => $url) {
-                BookImage::query()->create([
-                    'book_id'   => $book->id,
-                    'image_url' => $url,
-                    'sort_order'=> $index,
+            // 3) store each uploaded image
+            foreach ($request->file('images') as $index => $file) {
+                $path = $file->store('book-images','public');
+                BookImage::create([
+                    'book_id'    => $book->id,
+                    'image_url'  => $path,
+                    'sort_order' => $index,
+                    'is_cover'   => $index === 0,
                 ]);
             }
         });
 
         return redirect()->route('books.index')
-            ->with('success', 'Book created successfully.');
+            ->with('success','Book created successfully.');
     }
 
-    /**
-     * Show the form for editing an existing book (admin/moderator only).
-     */
     public function edit(Book $book): View
     {
-        return view('book-page', compact('book'));
+        // eager-load relations including images
+        $book->load(['genres','categories','images']);
+
+        $categories = Category::all();
+        $genres     = Genre::all();
+        return view('book-page', compact('book','categories','genres'));
     }
 
-    /**
-     * Update the specified book along with its images.
-     */
     public function update(Request $request, Book $book): RedirectResponse
     {
-        // Validate provided fields
-        $validatedData = $request->validate([
-            'title'        => 'sometimes|required|string|max:255',
-            'author'       => 'sometimes|required|string|max:255',
-            'description'  => 'sometimes|required|string',
-            'price'        => 'sometimes|required|numeric',
-            'quantity'     => 'sometimes|required|integer',
+        // Validate all fields; images optional
+        $validated = $request->validate([
+            'title'        => 'required|string|max:255',
+            'author'       => 'required|string|max:255',
+            'description'  => 'required|string',
+            'price'        => 'required|numeric',
+            'quantity'     => 'required|integer',
+            'images'       => 'sometimes|array|min:2',
+            'images.*'     => 'image|max:2048',
+            'genres'       => 'required|array|min:1',
+            'genres.*'     => 'exists:genres,id',
+            'categories'   => 'required|array|min:1',
+            'categories.*' => 'exists:categories,id',
             'pages_count'  => 'nullable|integer',
             'release_year' => 'nullable|integer',
             'language'     => 'nullable|string|max:50',
@@ -248,45 +262,50 @@ class BookController extends Controller
             'weight'       => 'nullable|numeric',
         ]);
 
-        // Update book record
-        $book->update($validatedData);
+        // 1) update book fields
+        $book->update([
+            'title'        => $validated['title'],
+            'author'       => $validated['author'],
+            'description'  => $validated['description'],
+            'price'        => $validated['price'],
+            'quantity'     => $validated['quantity'],
+            'pages_count'  => $validated['pages_count'] ?? null,
+            'release_year' => $validated['release_year'] ?? null,
+            'language'     => $validated['language'] ?? null,
+            'format'       => $validated['format'] ?? null,
+            'publisher'    => $validated['publisher'] ?? null,
+            'isbn'         => $validated['isbn'] ?? null,
+            'edition'      => $validated['edition'] ?? null,
+            'dimensions'   => $validated['dimensions'] ?? null,
+            'weight'       => $validated['weight'] ?? null,
+        ]);
 
-        // Sync categories and genres
-        $book->categories()->sync($request->input('categories', []));
-        $book->genres()->sync($request->input('genres', []));
+        // 2) sync genres & categories
+        $book->genres()->sync($validated['genres']);
+        $book->categories()->sync($validated['categories']);
 
-        // Update images if provided
-        if ($request->has('images')) {
-            $images = $request->input('images', []);
-            if (count($images) < 2) {
-                return redirect()->back()
-                    ->withInput()
-                    ->with('error', 'At least two images are required.');
-            }
-
-            // Delete old images and save new ones
+        // 3) if new images uploaded, replace old
+        if ($request->hasFile('images')) {
             $book->images()->delete();
-            foreach ($images as $index => $url) {
-                BookImage::query()->create([
-                    'book_id'   => $book->id,
-                    'image_url' => $url,
-                    'sort_order'=> $index,
+            foreach ($request->file('images') as $index => $file) {
+                $path = $file->store('book-images','public');
+                BookImage::create([
+                    'book_id'    => $book->id,
+                    'image_url'  => $path,
+                    'sort_order' => $index,
+                    'is_cover'   => $index === 0,
                 ]);
             }
         }
 
         return redirect()->route('books.show', $book)
-            ->with('success', 'Book updated successfully.');
+            ->with('success','Book updated successfully.');
     }
 
-    /**
-     * Remove the specified book from storage (admin/moderator only).
-     */
     public function destroy(Book $book): RedirectResponse
     {
         $book->delete();
-
         return redirect()->route('books.index')
-            ->with('success', 'Book deleted successfully.');
+            ->with('success','Book deleted successfully.');
     }
 }

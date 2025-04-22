@@ -4,7 +4,7 @@
         <article
             class="flex flex-row sm:flex-row items-center justify-center border-b border-black pb-2 gap-2 text-sm sm:text-base md:text-lg">
             <div class="w-16 h-24 sm:w-24 sm:h-36 max-w-[100px] sm:max-w-[120px] overflow-hidden flex-shrink-0">
-                <img src="{{ asset('assets/homepage/' . $item->images->first()->image_url) }}"
+                <img src="{{ asset('storage/' . $item->images->first()->image_url) }}"
                     alt="Book Image for
                     {{ $item->title }}"
                     class="w-full h-full rounded object-cover" />

@@ -3,7 +3,7 @@
         <!-- Fixed-height container for the book cover -->
         <div class="w-full h-64 overflow-hidden mb-2">
             @if ($book->images->isNotEmpty())
-                <img src="{{ asset('assets/homepage/' . $book->images->first()->image_url) }}"
+                <img src="{{ asset('storage/' . $book->images->first()->image_url) }}"
                     alt="Book cover for {{ $book->title }}" class="w-full h-full object-cover">
             @endif
         </div>

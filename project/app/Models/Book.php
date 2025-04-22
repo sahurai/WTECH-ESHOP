@@ -11,28 +11,28 @@ use Illuminate\Support\Carbon;
 /**
  * Class Book
  *
- * @property int         $id
- * @property string      $title
- * @property string      $author
- * @property string|null $description
- * @property float       $price
- * @property int         $quantity
- * @property int|null    $pages_count
- * @property int|null    $release_year
- * @property string|null $language
- * @property string|null $format
- * @property string|null $publisher
- * @property string|null $isbn
- * @property string|null $edition
- * @property string|null $dimensions
- * @property float|null  $weight
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
+ * @property int            $id
+ * @property string         $title
+ * @property string         $author
+ * @property string|null    $description
+ * @property float          $price
+ * @property int            $quantity
+ * @property int|null       $pages_count
+ * @property int|null       $release_year
+ * @property string|null    $language
+ * @property string|null    $format
+ * @property string|null    $publisher
+ * @property string|null    $isbn
+ * @property string|null    $edition
+ * @property string|null    $dimensions
+ * @property float|null     $weight
+ * @property Carbon|null    $updated_at
+ * @property Carbon|null    $created_at
  *
- * @property-read Collection|Category[] $categories
- * @property-read Collection|Genre[] $genres
- * @property-read Collection|OrderItem[] $orderItems
- * @property-read Collection|BookImage[] $images
+ * @property-read Collection|Category[]     $categories
+ * @property-read Collection|Genre[]        $genres
+ * @property-read Collection|OrderItem[]    $orderItems
+ * @property-read Collection|BookImage[]    $images
  */
 class Book extends Model
 {
