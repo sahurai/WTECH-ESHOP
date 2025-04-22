@@ -66,21 +66,21 @@ Route::post('/basket/clear', [CartController::class, 'clear'])->name('basket.cle
 // --------------------------------------------------------------------------
 
 // Show delivery information form
-Route::get('/checkout/delivery', [OrderController::class, 'showDelivery'])->name('checkout.delivery');
+Route::get('/checkout/delivery', [CartController::class, 'showDelivery'])->name('checkout.delivery');
 
 // Store delivery information
-Route::post('/checkout/delivery', [OrderController::class, 'storeDelivery'])->name('checkout.store');
+Route::post('/checkout/delivery', [CartController::class, 'storeDelivery'])->name('checkout.store');
 
 // Show shipping & payment selection
-Route::get('/checkout/shippingpayment', [OrderController::class, 'showShippingPayment'])
+Route::get('/checkout/shippingpayment', [CartController::class, 'showShippingPayment'])
     ->name('checkout.shippingpayment');
 
 // Store shipping selection
-Route::post('/checkout/shipping', [OrderController::class, 'storeShipping'])
+Route::post('/checkout/shipping', [CartController::class, 'storeShipping'])
     ->name('checkout.shipping.store');
 
 // Show order summary before confirmation
-Route::get('/checkout/summary', [OrderController::class, 'showSummary'])->name('checkout.summary');
+Route::get('/checkout/summary', [CartController::class, 'showSummary'])->name('checkout.summary');
 
 // Final order confirmation
-Route::post('/checkout/confirm', [OrderController::class, 'confirmOrder'])->name('checkout.confirm');
+Route::post('/checkout/confirm', [CartController::class, 'confirmOrder'])->name('checkout.confirm');
