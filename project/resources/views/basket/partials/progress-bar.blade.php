@@ -1,8 +1,8 @@
 @php
-    $active = 'bg-dark-red text-white-2 border-orange-900';
+    $active = 'bg-dark-red text-white-2 border-orange-600';
     $next = 'bg-pale-yellow-2 text-dark-red border-[#DED9B7]';
     $next_line = 'bg-pale-yellow-2';
-    $previous = 'bg-dark-red text-white-2 border-orange-700';
+    $previous = 'bg-dark-red text-white-2 border-orange-900';
     $previous_line = 'bg-dark-red';
 @endphp
 

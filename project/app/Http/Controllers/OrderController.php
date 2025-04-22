@@ -247,49 +247,6 @@ class OrderController extends Controller
         return redirect()->route('orders.show', $order->id)
             ->with('success', 'Order item deleted successfully.');
     }
-    public function showDelivery()
-    {
-        return view('basket.delivery', ['step' => 1]);
-    }
-
-    public function showShippingPayment()
-    {
-        return view('basket.shipping-payment', ['step' => 2]);
-    }
-    public function storeShipping(Request $request)
-    {
-        $validated = $request->validate([
-            'shipping' => 'required|string',
-            'payment' => 'required|string',
-        ]);
-
-        // Store shipping and payment methods in session
-        session()->put('shipping_details', $validated);
-        return redirect()->route('checkout.summary');
-    }
-    public function storeDelivery(Request $request)
-    {
-        // Validate and store shipping info in session or DB
-        session()->put('info', $request->only(['name', 'email', 'address', 'country']));
-        return redirect()->route('checkout.shippingpayment');
-    }
-    public function showSummary()
-    {
-        $shipping = session('shipping');
-        $cart = session('cart', []);
-        return view('basket.summary', compact('shipping', 'cart'))->with('step', 3);
-    }
-    public function confirmOrder(Request $request)
-    {
-        $cart = session('cart', []);
-        $shipping = session('shipping_details', []);
-        $delivery = session('info', []);
-
-        //  save into db
-
-        session()->forget(['cart', 'shipping_details', 'delivery_info']);
-
-        return redirect()->route('homepage')->with('success', 'Your order has been confirmed!');
-    }
+    
 
 }

@@ -2,13 +2,13 @@
     <h2 class="text-xl font-bold mb-2 text-true-dark">{{ $title }}</h2>
 
     <div class="relative">
-        <button
+        <button id="scrollLeft-{{ $title }}"
             class="absolute left-2 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-white hover:bg-gray-200 rounded-lg shadow z-20"
             type="button">
             &lt;
         </button>
 
-        <div class="overflow-hidden relative">
+        <div id="carousel-{{ $title }}" class="overflow-hidden relative">
             <!-- Fog overlays left and right -->
             <div
                 class="pointer-events-none absolute top-0 left-0 h-full w-16 bg-gradient-to-r from-white-2 to-transparent z-10">
@@ -29,10 +29,35 @@
             </div>
         </div>
 
-        <button
+        <button id="scrollRight-{{ $title }}"
             class="absolute right-2 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-white hover:bg-gray-200 rounded-lg shadow z-20"
             type="button">
             &gt;
         </button>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const title = @json($title);
+            const scrollContainer = document.querySelector(`#carousel-${title} .overflow-x-auto`);
+
+            const cardWidth = scrollContainer.querySelector('.shrink-0')?.offsetWidth || 300;
+
+
+
+            document.getElementById(`scrollLeft-${title}`).addEventListener('click', () => {
+                scrollContainer.scrollBy({
+                    left: -cardWidth * 2,
+                    behavior: 'smooth'
+                });
+            });
+            document.getElementById(`scrollRight-${title}`).addEventListener('click', () => {
+                scrollContainer.scrollBy({
+                    left: cardWidth * 2,
+                    behavior: 'smooth'
+                });
+            });
+
+
+        })
+    </script>
 </section>

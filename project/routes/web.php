@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\OrderController;
 
 Route::get('/', [BookController::class, 'index'])->name('homepage');
 
@@ -57,11 +56,11 @@ Route::post('/basket',[CartController::class,'add'])->name('basket.add');
 Route::post('/basket/update', [CartController::class, 'update'])->name('basket.update');
 Route::post('/basket/clear', [CartController::class, 'clear'])->name('basket.clear');
 
-Route::get('checkout/delivery',[OrderController::class,'showDelivery'])->name('checkout.delivery');
-Route::post('checkout',[OrderController::class,'storeDelivery'])->name('checkout.store');
-Route::get('/checkout/shippingpayment', [OrderController::class, 'showShippingPayment'])
+Route::get('checkout/delivery',[ CartController::class,'showDelivery'])->name('checkout.delivery');
+Route::post('checkout',[ CartController::class,'storeDelivery'])->name('checkout.store');
+Route::get('/checkout/shippingpayment', [ CartController::class, 'showShippingPayment'])
     ->name('checkout.shippingpayment');
-Route::post('checkout/shipping',[OrderController::class,'storeShipping'])->name('checkout.shipping.store');
-Route::get('checkout/summary',[OrderController::class,'showSummary'])->name('checkout.summary');
+Route::post('checkout/shipping',[ CartController::class,'storeShipping'])->name('checkout.shipping.store');
+Route::get('checkout/summary',[ CartController::class,'showSummary'])->name('checkout.summary');
 
-Route::post('checkout/confirm', [OrderController::class, 'confirmOrder'])->name('checkout.confirm');
+Route::post('checkout/confirm', [ CartController::class, 'confirmOrder'])->name('checkout.confirm');

@@ -15,7 +15,6 @@
                     <li>
                         <label class="inline-flex items-center space-x-2 text-blue">
                             <input type="checkbox" class="form-checkbox" name="language[]" value="{{ $lang }}"
-                                onchange="this.form.submit()"
                                 {{ in_array($lang, request()->input('language', [])) ? 'checked' : '' }}>
                             <span>{{ $lang }}</span>
                         </label>
@@ -32,7 +31,6 @@
                     <li>
                         <label class="inline-flex items-center space-x-2 text-blue">
                             <input type="checkbox" class="form-checkbox" name="author[]" value="{{ $author }}"
-                                onchange="this.form.submit()"
                                 {{ in_array($author, request()->input('author', [])) ? 'checked' : '' }}>
                             <span>{{ $author }}</span>
                         </label>
@@ -45,12 +43,18 @@
             <h3 class="font-medium text-true-dark">Price</h3>
             <div class="flex items-center space-x-2">
                 <input type="number" name="price_min" placeholder="From"
-                    class="w-20 rounded border border-gray-300 p-1" value="{{ request('price_min') }}"
-                    onchange="this.form.submit()" />
+                    class="w-20 rounded border border-gray-300 p-1" value="{{ request('price_min') }}" />
                 <span>-</span>
                 <input type="number" name="price_max" placeholder="To" class="w-20 rounded border border-gray-300 p-1"
-                    value="{{ request('price_max') }}" onchange="this.form.submit()" />
+                    value="{{ request('price_max') }}" />
             </div>
         </section>
+        <!-- Submit button -->
+        <div class="mt-3">
+            <button type="submit"
+                class="w-full bg-red-800 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded">
+                Apply Filters
+            </button>
+        </div>
     </form>
 </aside>
