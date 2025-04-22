@@ -146,7 +146,7 @@ class BookController extends Controller
      */
     public function create(): View
     {
-        return view('books.create');
+        return view('book-page');
     }
 
     /**

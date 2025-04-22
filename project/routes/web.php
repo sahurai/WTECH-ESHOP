@@ -49,6 +49,7 @@ Route::get('/book/{book}',[BookController::class,'show'])->name('books.show');
 
 Auth::routes();
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
+Route::get('/book-page', [BookController::class, 'create'])->name('books.create');
 
 Route::get('/basket',[CartController::class,'index'])->name('basket.index');
 Route::post('/basket',[CartController::class,'add'])->name('basket.add');
