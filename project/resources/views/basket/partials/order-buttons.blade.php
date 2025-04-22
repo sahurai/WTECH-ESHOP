@@ -21,7 +21,7 @@
             class="bg-dark-violet text-center font-semibold text-white px-2 py-2 rounded hover:bg-gray-600">Back</a>
         <form method="POST" action="{{ route('checkout.confirm') }}">
             @csrf
-            <button type="submit" class="bg-dark-violet text-white font-semibold px-2 py-2 rounded hover:bg-gray-600">
+            <button type="submit" class="bg-zinc-700 text-white font-semibold px-2 py-2 rounded hover:bg-gray-600">
                 Finish
             </button>
         </form>
