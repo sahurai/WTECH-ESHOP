@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'HomePage')
+@section('title', 'Homepage')
 
 @section('content')
     <!-- Main wrapper with responsive padding and max width -->

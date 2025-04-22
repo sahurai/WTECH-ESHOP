@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use App\Http\Controllers\CartController;
 
 class OrderController extends Controller
 {
@@ -263,7 +262,7 @@ class OrderController extends Controller
             'shipping' => 'required|string',
             'payment' => 'required|string',
         ]);
-    
+
         // Store shipping and payment methods in session
         session()->put('shipping_details', $validated);
         return redirect()->route('checkout.summary');
@@ -284,7 +283,7 @@ class OrderController extends Controller
     {
         $cart = session('cart', []);
         $shipping = session('shipping_details', []);
-        $delivery = session('info', []); 
+        $delivery = session('info', []);
 
         //  save into db
 
