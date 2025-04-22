@@ -31,7 +31,7 @@
             </div>
 
             {{-- Search --}}
-            <form method="GET" action="{{ route('books.search') }}">
+            <form method="GET" action="{{ route('books.search') }}" class="w-full">
                 <input name="query" type="text" placeholder="Search…"
                     class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none"
                     value="{{ request('query') }}">
@@ -112,8 +112,7 @@
 
         {{-- Search --}}
         <div class="mt-6 px-4">
-            <input type="text" placeholder="Search…"
-                class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none">
+            <input type="text" placeholder="Search…" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none">
         </div>
     </div>
 </div>
