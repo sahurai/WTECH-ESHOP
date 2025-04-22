@@ -61,6 +61,7 @@ Route::post('/basket/update', [CartController::class, 'update'])->name('basket.u
 Route::post('/basket/clear', [CartController::class, 'clear'])->name('basket.clear');
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Route::get('checkout/delivery',[ CartController::class,'showDelivery'])->name('checkout.delivery');
 Route::post('checkout',[ CartController::class,'storeDelivery'])->name('checkout.store');
 Route::get('/checkout/shippingpayment', [ CartController::class, 'showShippingPayment'])
@@ -70,6 +71,8 @@ Route::get('checkout/summary',[ CartController::class,'showSummary'])->name('che
 
 Route::post('checkout/confirm', [ CartController::class, 'confirmOrder'])->name('checkout.confirm');
 =======
+=======
+>>>>>>> Stashed changes
 // --------------------------------------------------------------------------
 // Checkout Flow Routes
 // --------------------------------------------------------------------------
@@ -93,4 +96,7 @@ Route::get('/checkout/summary', [OrderController::class, 'showSummary'])->name('
 
 // Final order confirmation
 Route::post('/checkout/confirm', [OrderController::class, 'confirmOrder'])->name('checkout.confirm');
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
