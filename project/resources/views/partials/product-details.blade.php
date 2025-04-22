@@ -20,7 +20,7 @@
                     <p class="text-gray-600">by {{ $book->author }}</p>
                 </div>
                 @if ($isAdmin)
-                    <button class="w-6 h-6" title="Edit">
+                    <button class="w-6 h-6" title="Edit" onclick="window.location='{{ route('books.edit', $book) }}'">
                         <img src="{{ asset('assets/admin/product-page/edit.svg') }}" alt="Edit">
                     </button>
                 @endif
@@ -36,10 +36,10 @@
             <div class="mt-4">
                 <h2 class="text-lg font-semibold text-true-dark">Other Data</h2>
                 <ul class="list-disc list-inside text-true-dark mt-2 grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
-                    <li><span class="font-semibold">Pages:</span> {{ $book->pages }}</li>
                     <li><span class="font-semibold">Genre:</span> {{ $book->genre }}</li>
                     <li><span class="font-semibold">Category:</span> {{ $book->category }}</li>
-                    <li><span class="font-semibold">Year:</span> {{ $book->year }}</li>
+                    <li><span class="font-semibold">Pages:</span> {{ $book->pages_count }}</li>
+                    <li><span class="font-semibold">Year:</span> {{ $book->release_year }}</li>
                     <li><span class="font-semibold">Language:</span> {{ $book->language }}</li>
                     <li><span class="font-semibold">Format:</span> {{ $book->format }}</li>
                     <li><span class="font-semibold">Publisher:</span> {{ $book->publisher }}</li>

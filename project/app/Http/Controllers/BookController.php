@@ -222,7 +222,7 @@ class BookController extends Controller
      */
     public function edit(Book $book): View
     {
-        return view('books.edit', compact('book'));
+        return view('book-page', compact('book'));
     }
 
     /**

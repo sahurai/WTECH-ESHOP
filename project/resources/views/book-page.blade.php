@@ -9,10 +9,14 @@
 
         <!-- Form for editing the book -->
         {{-- {{ isset($book) ? route('books.update', $book['id']) : route('books.store') }} --}}
-        <form action="#" method="POST" enctype="multipart/form-data" class="space-y-6"
-            id="{{ isset($book) ? 'editBookForm' : 'addBookForm' }}">
+        <form action="{{ isset($book)
+                 ? route('books.update', $book)
+                 : route('books.store') }}"
+              method="POST"
+              enctype="multipart/form-data"
+              class="space-y-6">
             @csrf
-            @if (isset($book))
+            @if(isset($book))
                 @method('PUT')
             @endif
             <!-- Top-level layout: left column vs right column -->
@@ -38,7 +42,7 @@
                                 Price (€)
                             </label>
                             <input type="number" step="0.01" id="price" name="price"
-                                value="{{ old('price', $book['price'] ?? '') }}"
+                                value="{{ old('price', $book->price ?? '') }}"
                                 class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter price" required />
                         </div>
                         <!-- Quantity (desktop) -->
@@ -46,8 +50,8 @@
                             <label for="quantity" class="block text-lg font-semibold text-gray-700">
                                 Quantity
                             </label>
-                            <input type="number" id="quantity" name="quantity" <input type="number" id="quantity-mobile"
-                                value="{{ old('quantity', $book['quantity'] ?? '') }}" name="quantity"
+                            <input type="number" id="quantity-mobile"
+                                value="{{ old('quantity', $book->quantity ?? '') }}" name="quantity"
                                 class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter quantity"
                                 required />
                         </div>
@@ -64,8 +68,8 @@
                         @endif
                         <!-- Save Changes button (desktop) -->
                         <button type="submit"
-                            class="w-full py-3 px-6 bg-gray-200 hover:bg-gray-300 text-true-dark font-semibold rounded-md">
-                            Save Changes
+                                class="w-full py-3 px-6 bg-gray-200 hover:bg-gray-300 rounded-md">
+                            {{ isset($book) ? 'Save Changes' : 'Add Book' }}
                         </button>
                     </div>
                 </div>
@@ -77,8 +81,8 @@
                         <label for="bookTitle" class="block text-lg font-semibold text-gray-700">
                             Book Title
                         </label>
-                        <input type="text" id="bookTitle" name="bookTitle"
-                            value="{{ old('title', $book['title'] ?? '') }}"
+                        <input type="text" id="bookTitle" name="title"
+                            value="{{ old('title', $book->title ?? '') }}"
                             class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter book title"
                             required />
                     </div>
@@ -88,7 +92,7 @@
                             Author
                         </label>
                         <input type="text" id="author" name="author"
-                            value="{{ old('author', $book['author'] ?? '') }}"
+                            value="{{ old('author', $book->author ?? '') }}"
                             class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter author name"
                             required />
                     </div>
@@ -98,23 +102,13 @@
                             Description
                         </label>
                         <textarea id="description" name="description" rows="4" class="mt-1 w-full p-2 border border-gray-300 rounded"
-                            placeholder="Enter book description" required>{{ old('description', $book['description'] ?? '') }}</textarea>
+                            placeholder="Enter book description" required>{{ old('description', $book->description ?? '') }}</textarea>
                     </div>
 
                     <!-- Additional fields (pages, genre, category, etc.) -->
                     <div>
                         <h2 class="text-xl font-bold text-true-dark mb-2">Other Data</h2>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <!-- Pages -->
-                            <div>
-                                <label for="pages" class="block text-lg font-semibold text-gray-700">
-                                    Pages
-                                </label>
-                                <input type="number" id="pages" name="pages"
-                                    value="{{ old('pages', $book['pages'] ?? '') }}"
-                                    class="mt-1 w-full p-2 border border-gray-300 rounded"
-                                    placeholder="Enter number of pages" />
-                            </div>
                             <!-- Genre -->
                             <div>
                                 <label for="genre" class="block text-lg font-semibold text-gray-700">
@@ -122,7 +116,7 @@
                                 </label>
                                 <div class="flex items-center gap-1">
                                     <input type="text" id="genre" name="genre"
-                                        value="{{ old('genre', $book['genre'] ?? '') }}"
+                                        value="{{ old('genre', $book->genre ?? '') }}"
                                         class="mt-1 w-full p-2 border border-gray-300 rounded"
                                         placeholder="Enter genre(s)" />
                                     <button type="button"
@@ -138,7 +132,7 @@
                                 </label>
                                 <div class="flex items-center gap-1">
                                     <input type="text" id="category" name="category"
-                                        value="{{ old('category', $book['category'] ?? '') }}"
+                                        value="{{ old('category', $book->category ?? '') }}"
                                         class="mt-1 w-full p-2 border border-gray-300 rounded"
                                         placeholder="Enter category(s)" />
                                     <button type="button"
@@ -147,14 +141,24 @@
                                     </button>
                                 </div>
                             </div>
-                            <!-- Year -->
+                            <!-- Pages Count -->
+                            <div>
+                                <label for="pages" class="block text-lg font-semibold text-gray-700">
+                                    Pages Count
+                                </label>
+                                <input type="number" id="pages_count" name="pages_count"
+                                       value="{{ old('pages_count', $book->pages_count ?? '') }}"
+                                       class="mt-1 w-full p-2 border border-gray-300 rounded"
+                                       placeholder="Enter number of pages" />
+                            </div>
+                            <!-- Release Year -->
                             <div>
                                 <label for="year" class="block text-lg font-semibold text-gray-700">
-                                    Year
+                                    Release Year
                                 </label>
-                                <input type="number" id="year" name="year"
-                                    value="{{ old('year', $book['year'] ?? '') }}"
-                                    class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter year" />
+                                <input type="number" id="$release_year" name="$release_year"
+                                    value="{{ old('release_year', $book->release_year ?? '') }}"
+                                    class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter release year" />
                             </div>
                             <!-- Language -->
                             <div>
@@ -162,7 +166,7 @@
                                     Language
                                 </label>
                                 <input type="text" id="language" name="language"
-                                    value="{{ old('language', $book['language'] ?? '') }}"
+                                    value="{{ old('language', $book->language ?? '') }}"
                                     class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter language" />
                             </div>
                             <!-- Format -->
@@ -171,7 +175,7 @@
                                     Format
                                 </label>
                                 <input type="text" id="format" name="format"
-                                    value="{{ old('format', $book['format'] ?? '') }}"
+                                    value="{{ old('format', $book->format ?? '') }}"
                                     class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter format" />
                             </div>
                             <!-- Publisher -->
@@ -180,7 +184,7 @@
                                     Publisher
                                 </label>
                                 <input type="text" id="publisher" name="publisher"
-                                    value="{{ old('publisher', $book['publisher'] ?? '') }}"
+                                    value="{{ old('publisher', $book->publisher ?? '') }}"
                                     class="mt-1 w-full p-2 border border-gray-300 rounded"
                                     placeholder="Enter publisher" />
                             </div>
@@ -190,7 +194,7 @@
                                     ISBN
                                 </label>
                                 <input type="text" id="isbn" name="isbn"
-                                    value="{{ old('isbn', $book['isbn'] ?? '') }}"
+                                    value="{{ old('isbn', $book->isbn ?? '') }}"
                                     class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter ISBN" />
                             </div>
                             <!-- Edition -->
@@ -199,7 +203,7 @@
                                     Edition
                                 </label>
                                 <input type="text" id="edition" name="edition"
-                                    value="{{ old('edition', $book['edition'] ?? '') }}"
+                                    value="{{ old('edition', $book->edition ?? '') }}"
                                     class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter edition" />
                             </div>
                             <!-- Dimensions -->
@@ -208,7 +212,7 @@
                                     Dimensions
                                 </label>
                                 <input type="text" id="dimensions" name="dimensions"
-                                    value="{{ old('dimensions', $book['dimensions'] ?? '') }}"
+                                    value="{{ old('dimensions', $book->dimensions ?? '') }}"
                                     class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g. 15x21 cm" />
                             </div>
                             <!-- Weight -->
@@ -217,7 +221,7 @@
                                     Weight
                                 </label>
                                 <input type="text" id="weight" name="weight"
-                                    value="{{ old('weight', isset($book['weight']) ? $book['weight'] . 'g' : '') }}"
+                                    value="{{ old('weight', isset($book->weight) ? $book->weight . 'g' : '') }}"
                                     class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g. 500g" />
                             </div>
                         </div>
@@ -237,7 +241,7 @@
                         <!-- Use the same name if you want a single final price value.
                                                                            If you want them separate, use a different name. -->
                         <input type="number" step="0.01" id="price-mobile" name="price"
-                            value="{{ old('price', $book['price'] ?? '') }}"
+                            value="{{ old('price', $book->price ?? '') }}"
                             class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter price" />
                     </div>
                     <!-- Quantity (mobile) -->
@@ -246,7 +250,7 @@
                             Quantity
                         </label>
                         <input type="number" id="quantity-mobile"
-                            value="{{ old('quantity', $book['quantity'] ?? '') }}" name="quantity"
+                            value="{{ old('quantity', $book->quantity ?? '') }}" name="quantity"
                             class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="Enter quantity" />
                     </div>
                 </div>
@@ -260,10 +264,9 @@
                             Delete Book
                         </button>
                     @endif
-                    <!-- Save Changes button (mobile) -->
                     <button type="submit"
-                        class="w-full py-3 px-6 bg-gray-200 hover:bg-gray-300 text-true-dark font-semibold rounded-md">
-                        Save Changes
+                            class="w-full py-3 px-6 bg-gray-200 hover:bg-gray-300 rounded-md">
+                        {{ isset($book) ? 'Save Changes' : 'Add Book' }}
                     </button>
                 </div>
             </div>
