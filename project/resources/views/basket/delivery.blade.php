@@ -1,7 +1,8 @@
 @extends('layouts.basket')
 
 @section('basketContent')
-    <form action="/checkout" method="POST">
+    <form action="{{ route('checkout.store') }}" method="POST">
+
         @csrf
         <section class="flex justify-between flex-col md:flex-row px-8 py-4 md:gap-4 gap-2">
             <!-- Shipping section -->

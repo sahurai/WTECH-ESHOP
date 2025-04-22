@@ -99,5 +99,5 @@
             </div>
         </section>
     </section>
-    @include('basket.partials.order-buttons')
+    @include('basket.partials.order-buttons', ['step' => 3])
 @endsection

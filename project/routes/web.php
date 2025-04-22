@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
-
+use App\Http\Controllers\OrderController;
 
 Route::get('/', [BookController::class,'homepage'])->name('homepage');
 
@@ -59,3 +59,11 @@ Route::post('/basket',[CartController::class,'add'])->name('basket.add');
 Route::post('/basket/update', [CartController::class, 'update'])->name('basket.update');
 Route::post('/basket/clear', [CartController::class, 'clear'])->name('basket.clear');
 
+Route::get('checkout/delivery',[OrderController::class,'showDelivery'])->name('checkout.delivery');
+Route::post('checkout',[OrderController::class,'storeDelivery'])->name('checkout.store');
+Route::get('/checkout/shippingpayment', [OrderController::class, 'showShippingPayment'])
+    ->name('checkout.shippingpayment');
+Route::post('checkout/shipping',[OrderController::class,'storeShipping'])->name('checkout.shipping.store');
+Route::get('checkout/summary',[OrderController::class,'showSummary'])->name('checkout.summary');
+
+Route::post('checkout/confirm', [OrderController::class, 'confirmOrder'])->name('checkout.confirm');
