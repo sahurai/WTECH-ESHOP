@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\BookImage;
+use App\Models\Category;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use App\Services\BookFilterService;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -16,42 +18,48 @@ class BookController extends Controller
      */
     public function __construct()
     {
-        // The "check.role" middleware is applied only to create, store, edit, update, and destroy actions.
-        $this->middleware('check.role')->only(['create', 'store', 'edit', 'update', 'destroy']);
+        // Only admins and moderators can create, store, edit, update, or destroy books.
+        $this->middleware('check.role')->only([
+            'create', 'store', 'edit', 'update', 'destroy'
+        ]);
     }
 
     /**
      * Display a listing of books with filtering, sorting, and pagination.
-     *
-     * @param Request $request
-     * @return View
      */
     public function index(Request $request): View
     {
-        $isAdmin = auth()->check() && auth()->user()->is_admin;
+        // Check if the current user is admin or moderator
+        $isAdmin = auth()->check() && auth()->user()
+                ->roles()->whereIn('name', ['admin', 'moderator'])->exists();
+
+        // Check if this request is for the homepage
         $isHomepage = $request->is('/');
 
         if ($isHomepage) {
-            // Show homepage-style content
+            // Show a random selection of bestsellers
             $bestsellers = Book::with('images')->inRandomOrder()->take(10)->get();
+
+            // Show newest books by release year
             $new = Book::with('images')->orderBy('release_year', 'desc')->take(10)->get();
-    
-            return view('homepage', compact('bestsellers', 'new'));
+
+            // Return homepage view with admin flag
+            return view('homepage', compact('bestsellers', 'new', 'isAdmin'));
         }
+
         $query = Book::query();
         $category = null;
-        // Filter by category if provided (e.g. ?category_id=3)
+
+        // Filter by category if provided
         if ($request->filled('category_id')) {
             $categoryId = $request->input('category_id');
-            $category = \App\Models\Category::find($categoryId);
+            $category = Category::query()->find($categoryId);
             $query->whereHas('categories', function ($q) use ($categoryId) {
                 $q->where('categories.id', $categoryId);
             });
         }
-       
-        
 
-        // Filter by price range
+        // Filter by price range if provided
         if ($request->filled('price_min')) {
             $query->where('price', '>=', $request->input('price_min'));
         }
@@ -59,7 +67,7 @@ class BookController extends Controller
             $query->where('price', '<=', $request->input('price_max'));
         }
 
-        // Filter by pages count range
+        // Filter by pages count range if provided
         if ($request->filled('pages_count_min')) {
             $query->where('pages_count', '>=', $request->input('pages_count_min'));
         }
@@ -67,62 +75,74 @@ class BookController extends Controller
             $query->where('pages_count', '<=', $request->input('pages_count_max'));
         }
 
-        // Filter by language
+        // Filter by language if provided
         if ($request->filled('language')) {
             $query->where('language', $request->input('language'));
         }
 
-        // Full-text search on title, author, and description
+        // Full-text search on title, author, and description (case-insensitive)
         if ($request->filled('search')) {
-            $search = $request->input('search');
+            $search = mb_strtolower($request->input('search'));
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%$search%")
-                    ->orWhere('author', 'like', "%$search%")
-                    ->orWhere('description', 'like', "%$search%");
+                $q->whereRaw('LOWER(title) LIKE ?', ["%$search%"])
+                    ->orWhereRaw('LOWER(author) LIKE ?', ["%$search%"]);
             });
         }
 
-        // Allowed columns for sorting: title and price
-        $allowedSortOption  = [ 'title_asc', 'title_desc',
-        'price_asc', 'price_desc',
-        'release_year_asc', 'release_year_desc',];
+        // Define mapping for sort options to column and direction
+        $sortMap = [
+            'newest'        => ['release_year', 'desc'],
+            'oldest'        => ['release_year', 'asc'],
+            'title_asc'     => ['title', 'asc'],
+            'title_desc'    => ['title', 'desc'],
+            'price_asc'     => ['price', 'asc'],
+            'price_desc'    => ['price', 'desc'],
+        ];
 
-        // Determine sorting parameters; default sort is by title (ascending)
-        $sortOption  = $request->input('sort', 'title_asc');
-        if (!in_array($sortOption , $allowedSortOption)) {
-            $sortOption  = 'title_asc';
+        // Determine sort option, default to title ascending
+        $sortOption = $request->input('sort', 'title_asc');
+        if (!array_key_exists($sortOption, $sortMap)) {
+            $sortOption = 'title_asc';
         }
-        [$sortBy, $order] = explode('_', $sortOption);
+
+        // Apply sorting based on mapping
+        [$sortBy, $order] = $sortMap[$sortOption];
         $query->orderBy($sortBy, $order);
 
-        // Paginate results (e.g., 12 books per page)
-        $books = $query->paginate(10);
+        // Paginate results: 12 books per page
+        $books = $query->paginate(12);
 
-        return view('category', compact('books','isAdmin','category'));
+        // Return category view with books, admin flag, and category context
+        return view('category', compact('books', 'isAdmin', 'category'));
     }
 
     /**
      * Display details of a single book.
-     *
-     * @param Book $book
-     * @return View
      */
     public function show(Book $book): View
     {
-        // Eager load the relationships: categories, genres, and images
-        $isAdmin = false;
+        // Check if the current user is admin or moderator
+        $isAdmin = auth()->check() && auth()->user()
+                ->roles()->whereIn('name', ['admin', 'moderator'])->exists();
+
+        // Eager load relationships
         $book->load(['categories', 'genres', 'images']);
-        $recommends= Book::with('images')->whereHas('categories',function($query) use($book){
-            $query->whereIn('categories.id',$book->categories->pluck('id'));
-        })->where('books.id','!=',$book->id)->take(10)->get();
-        return view('product-page', compact('book','isAdmin','recommends'));
+
+        // Recommend other books in the same categories
+        $recommends = Book::with('images')
+            ->whereHas('categories', function ($q) use ($book) {
+                $q->whereIn('categories.id', $book->categories->pluck('id'));
+            })
+            ->where('books.id', '!=', $book->id)
+            ->take(10)
+            ->get();
+
+        // Return product page view
+        return view('product-page', compact('book', 'isAdmin', 'recommends'));
     }
 
     /**
-     * Show the form for creating a new book.
-     * Only admins or moderators are allowed.
-     *
-     * @return View
+     * Show the form for creating a new book (admin/moderator only).
      */
     public function create(): View
     {
@@ -131,64 +151,61 @@ class BookController extends Controller
 
     /**
      * Store a newly created book along with its images.
-     * Only admins or moderators are allowed.
-     *
-     * @param Request $request
-     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
         // Validate book data
         $validatedData = $request->validate([
-            'title'         => 'required|string|max:255',
-            'author'        => 'required|string|max:255',
-            'description'   => 'required|string',
-            'price'         => 'required|numeric',
-            'quantity'      => 'required|integer',
-            'pages_count'   => 'nullable|integer',
-            'release_year'  => 'nullable|integer',
-            'language'      => 'nullable|string|max:50',
-            'format'        => 'nullable|string|max:50',
-            'publisher'     => 'nullable|string|max:100',
-            'isbn'          => 'nullable|string|max:20',
-            'edition'       => 'nullable|string|max:50',
-            'dimensions'    => 'nullable|string|max:100',
-            'weight'        => 'nullable|numeric',
+            'title'        => 'required|string|max:255',
+            'author'       => 'required|string|max:255',
+            'description'  => 'required|string',
+            'price'        => 'required|numeric',
+            'quantity'     => 'required|integer',
+            'pages_count'  => 'nullable|integer',
+            'release_year' => 'nullable|integer',
+            'language'     => 'nullable|string|max:50',
+            'format'       => 'nullable|string|max:50',
+            'publisher'    => 'nullable|string|max:100',
+            'isbn'         => 'nullable|string|max:20',
+            'edition'      => 'nullable|string|max:50',
+            'dimensions'   => 'nullable|string|max:100',
+            'weight'       => 'nullable|numeric',
         ]);
 
-        $book = Book::query()->create($validatedData);
+        // Execute within a transaction to ensure atomicity
+        DB::transaction(function () use ($validatedData, $request) {
+            // Create book record
+            $book = Book::query()->create($validatedData);
 
-        // Sync categories and genres if provided (expecting arrays of IDs)
-        $categories = $request->input('categories', []);
-        $genres = $request->input('genres', []);
-        $book->categories()->sync($categories);
-        $book->genres()->sync($genres);
+            // Sync categories and genres
+            $categories = $request->input('categories', []);
+            $genres     = $request->input('genres', []);
+            $book->categories()->sync($categories);
+            $book->genres()->sync($genres);
 
-        // Validate and store book images (at least 2 images required)
-        $images = $request->input('images', []); // expecting an array of image URLs
-        if (count($images) < 2) {
-            // Delete the created book if the images requirement is not met
-            $book->delete();
-            return redirect()->back()->withInput()->with('error', 'At least two images are required.');
-        }
+            // Validate image URLs (at least 2 required)
+            $images = $request->input('images', []);
+            if (count($images) < 2) {
+                // Throw exception to rollback
+                throw new Exception('At least two images are required.');
+            }
 
-        foreach ($images as $index => $imageUrl) {
-            BookImage::query()->create([
-                'book_id'    => $book->id,
-                'image_url'  => $imageUrl,
-                'sort_order' => $index,
-            ]);
-        }
+            // Save images with sort order
+            foreach ($images as $index => $url) {
+                BookImage::query()->create([
+                    'book_id'   => $book->id,
+                    'image_url' => $url,
+                    'sort_order'=> $index,
+                ]);
+            }
+        });
 
-        return redirect()->route('books.index')->with('success', 'Book created successfully.');
+        return redirect()->route('books.index')
+            ->with('success', 'Book created successfully.');
     }
 
     /**
-     * Show the form for editing an existing book.
-     * Only admins or moderators are allowed.
-     *
-     * @param Book $book
-     * @return View
+     * Show the form for editing an existing book (admin/moderator only).
      */
     public function edit(Book $book): View
     {
@@ -197,67 +214,60 @@ class BookController extends Controller
 
     /**
      * Update the specified book along with its images.
-     * Only admins or moderators are allowed.
-     *
-     * @param Request $request
-     * @param Book $book
-     * @return RedirectResponse
      */
     public function update(Request $request, Book $book): RedirectResponse
     {
-        // Validate book data (using "sometimes" for optional update fields)
+        // Validate provided fields
         $validatedData = $request->validate([
-            'title'         => 'sometimes|required|string|max:255',
-            'author'        => 'sometimes|required|string|max:255',
-            'description'   => 'sometimes|required|string',
-            'price'         => 'sometimes|required|numeric',
-            'quantity'      => 'sometimes|required|integer',
-            'pages_count'   => 'nullable|integer',
-            'release_year'  => 'nullable|integer',
-            'language'      => 'nullable|string|max:50',
-            'format'        => 'nullable|string|max:50',
-            'publisher'     => 'nullable|string|max:100',
-            'isbn'          => 'nullable|string|max:20',
-            'edition'       => 'nullable|string|max:50',
-            'dimensions'    => 'nullable|string|max:100',
-            'weight'        => 'nullable|numeric',
+            'title'        => 'sometimes|required|string|max:255',
+            'author'       => 'sometimes|required|string|max:255',
+            'description'  => 'sometimes|required|string',
+            'price'        => 'sometimes|required|numeric',
+            'quantity'     => 'sometimes|required|integer',
+            'pages_count'  => 'nullable|integer',
+            'release_year' => 'nullable|integer',
+            'language'     => 'nullable|string|max:50',
+            'format'       => 'nullable|string|max:50',
+            'publisher'    => 'nullable|string|max:100',
+            'isbn'         => 'nullable|string|max:20',
+            'edition'      => 'nullable|string|max:50',
+            'dimensions'   => 'nullable|string|max:100',
+            'weight'       => 'nullable|numeric',
         ]);
 
+        // Update book record
         $book->update($validatedData);
 
-        // Sync categories and genres if provided
-        $categories = $request->input('categories', []);
-        $genres = $request->input('genres', []);
-        $book->categories()->sync($categories);
-        $book->genres()->sync($genres);
+        // Sync categories and genres
+        $book->categories()->sync($request->input('categories', []));
+        $book->genres()->sync($request->input('genres', []));
 
-        // Optionally update images if provided
+        // Update images if provided
         if ($request->has('images')) {
             $images = $request->input('images', []);
             if (count($images) < 2) {
-                return redirect()->back()->withInput()->with('error', 'At least two images are required.');
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'At least two images are required.');
             }
-            // Delete existing images and add new ones
+
+            // Delete old images and save new ones
             $book->images()->delete();
-            foreach ($images as $index => $imageUrl) {
+            foreach ($images as $index => $url) {
                 BookImage::query()->create([
-                    'book_id'    => $book->id,
-                    'image_url'  => $imageUrl,
-                    'sort_order' => $index,
+                    'book_id'   => $book->id,
+                    'image_url' => $url,
+                    'sort_order'=> $index,
                 ]);
             }
         }
 
-        return redirect()->route('books.show', $book->id)
+        return redirect()->route('books.show', $book)
             ->with('success', 'Book updated successfully.');
     }
 
     /**
-     * Remove the specified book from storage.
-     * Only admins or moderators are allowed.
-     *
-     * @param Book $book
-     * @return RedirectResponse
+     * Remove the specified book from storage (admin/moderator only).
      */
     public function destroy(Book $book): RedirectResponse
     {
@@ -266,6 +276,4 @@ class BookController extends Controller
         return redirect()->route('books.index')
             ->with('success', 'Book deleted successfully.');
     }
-
-
 }
