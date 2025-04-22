@@ -2,12 +2,12 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 
-Route::get('/', [BookController::class,'homepage'])->name('homepage');
+Route::get('/', [BookController::class, 'index'])->name('homepage');
+
 
 Route::get('/add', function () {
     // test data
@@ -45,13 +45,10 @@ Route::get('/edit', function () {
     return view('book-page', compact('book', 'isAdmin'));
 });
 
-Route::get('/category/{id}/books', [CategoryController::class, 'booksById'])->name('category.books');
-
 Route::get('/book/{book}',[BookController::class,'show'])->name('books.show');
 
 Auth::routes();
-
-Route::get('/search',[BookController::class,'search'])->name('books.search');
+Route::get('/books', [BookController::class, 'index'])->name('books.index');
 
 Route::get('/basket',[CartController::class,'index'])->name('basket.index');
 Route::post('/basket',[CartController::class,'add'])->name('basket.add');

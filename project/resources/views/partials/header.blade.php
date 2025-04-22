@@ -24,17 +24,17 @@
                 <div id="categories-menu"
                     class="absolute left-0 top-full mt-1 w-56 hidden rounded-md bg-white shadow-lg z-30">
                     @foreach ($categories as $category)
-                        <a href="{{ route('category.books', ['id' => $category->id]) }}"
+                        <a href="{{ route('books.index', ['category_id' => $category->id]) }}"
                             class="block px-4 py-2 hover:bg-gray-100 hover:rounded-md">{{ $category->name }}</a>
                     @endforeach
                 </div>
             </div>
 
             {{-- Search --}}
-            <form method="GET" action="{{ route('books.search') }}" class="w-full">
-                <input name="query" type="text" placeholder="Search…"
+            <form method="GET" action="{{ route('books.index') }}" class="w-full">
+                <input name="search" type="text" placeholder="Search…"
                     class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none"
-                    value="{{ request('query') }}">
+                    value="{{ request('search') }}">
             </form>
         </nav>
 
@@ -103,7 +103,7 @@
         <div id="mobile-categories-list"
             class="mx-4 overflow-hidden max-h-0 transition-[max-height] bg-white rounded-b-lg shadow-md">
             @foreach ($categories as $category)
-                <a href="{{ route('category.books', ['id' => $category->id]) }}"
+                <a href="{{ route('books.index', ['category_id' => $category->id]) }}"
                     class="block px-6 py-3 hover:bg-gray-100">
                     {{ $category->name }}
                 </a>
@@ -112,7 +112,11 @@
 
         {{-- Search --}}
         <div class="mt-6 px-4">
-            <input type="text" placeholder="Search…" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none">
+            <form method="GET" action="{{ route('books.index') }}" class="w-full">
+                <input name="search" type="text" placeholder="Search…"
+                    class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none"
+                    value="{{ request('search') }}">
+            </form>
         </div>
     </div>
 </div>

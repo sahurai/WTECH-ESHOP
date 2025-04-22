@@ -28,15 +28,28 @@ class BookController extends Controller
      */
     public function index(Request $request): View
     {
-        $query = Book::query();
+        $isAdmin = auth()->check() && auth()->user()->is_admin;
+        $isHomepage = $request->is('/');
 
+        if ($isHomepage) {
+            // Show homepage-style content
+            $bestsellers = Book::with('images')->inRandomOrder()->take(10)->get();
+            $new = Book::with('images')->orderBy('release_year', 'desc')->take(10)->get();
+    
+            return view('homepage', compact('bestsellers', 'new'));
+        }
+        $query = Book::query();
+        $category = null;
         // Filter by category if provided (e.g. ?category_id=3)
         if ($request->filled('category_id')) {
             $categoryId = $request->input('category_id');
+            $category = \App\Models\Category::find($categoryId);
             $query->whereHas('categories', function ($q) use ($categoryId) {
-                $q->where('id', $categoryId);
+                $q->where('categories.id', $categoryId);
             });
         }
+       
+        
 
         // Filter by price range
         if ($request->filled('price_min')) {
@@ -70,20 +83,22 @@ class BookController extends Controller
         }
 
         // Allowed columns for sorting: title and price
-        $allowedSortColumns = ['title', 'price'];
+        $allowedSortOption  = [ 'title_asc', 'title_desc',
+        'price_asc', 'price_desc',
+        'release_year_asc', 'release_year_desc',];
 
         // Determine sorting parameters; default sort is by title (ascending)
-        $sortBy = $request->input('sort_by', 'title');
-        if (!in_array($sortBy, $allowedSortColumns)) {
-            $sortBy = 'title';
+        $sortOption  = $request->input('sort', 'title_asc');
+        if (!in_array($sortOption , $allowedSortOption)) {
+            $sortOption  = 'title_asc';
         }
-        $order = $request->input('order', 'asc');
+        [$sortBy, $order] = explode('_', $sortOption);
         $query->orderBy($sortBy, $order);
 
         // Paginate results (e.g., 12 books per page)
-        $books = $query->paginate(12);
+        $books = $query->paginate(10);
 
-        return view('books.index', compact('books'));
+        return view('category', compact('books','isAdmin','category'));
     }
 
     /**
@@ -252,18 +267,5 @@ class BookController extends Controller
             ->with('success', 'Book deleted successfully.');
     }
 
-    public function homepage(): View
-    {
-        $bestsellers=Book::with('images')->inRandomOrder()->take(10)->get();
-        $new=Book::with('images')->orderBy('release_year','desc')->take(10)->get();
-        return view('homepage',compact('bestsellers','new'));
-    }
 
-    public function search(Request $request): View
-    {
-        $query=$request->query('query');
-        $books=BookFilterService::filter($request);
-        $isAdmin = auth()->check() && auth()->user()->is_admin;
-        return view('category',compact('books','query','isAdmin'));
-    }
 }

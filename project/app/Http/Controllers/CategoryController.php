@@ -128,12 +128,5 @@ class CategoryController extends Controller
         return redirect()->route('categories.index')
             ->with('success', 'Category deleted successfully.');
     }
-    public function booksById(Request $request, int $id)
-{
-    $category =  Category::findOrFail($id);
-    $books =BookFilterService::filter($request,$category->id);
-    $isAdmin = auth()->check() && auth()->user()->is_admin;
-
-    return view('category', compact('books', 'isAdmin', 'category'));
-}
+   
 }

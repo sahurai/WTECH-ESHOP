@@ -16,8 +16,8 @@
                     <h1 class="text-xl font-bold mt-4 text-true-black">
                         @if (isset($category))
                             {{ $category->name }}
-                        @elseif(isset($query))
-                            Search results for "{{ $query }}"
+                        @elseif(isset($search))
+                            Search results for "{{ $search }}"
                         @endif
                     </h1>
                 </header>
