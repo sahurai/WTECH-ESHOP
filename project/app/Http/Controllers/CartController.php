@@ -35,6 +35,8 @@ class CartController extends Controller
                 $totalPrice += $books[$bookId]->price * $quantity;
             }
         }
+        session()->put('total_price', $totalPrice);
+
 
         // Return the cart view with the cart data and associated books.
         return view('basket.basket', compact('cart', 'books','totalPrice'));
@@ -163,25 +165,84 @@ class CartController extends Controller
     public function storeDelivery(Request $request)
     {
         // Validate and store shipping info in session or DB
-        session()->put('info', $request->only(['name', 'email', 'address', 'country']));
+        session()->put('info', $request->only(['name', 'email', 'address', 'post_code_city','country','number']));
+
         return redirect()->route('checkout.shippingpayment');
     }
     public function showSummary()
     {
-        $shipping = session('shipping');
+        $shipping = session('shipping_details');
         $cart = session('cart', []);
-        return view('basket.summary', compact('shipping', 'cart'))->with('step', 3);
+        $info=session('info',[]);
+        $totalPrice=session('total_price',[]);
+        $books = [];
+        if (!empty($cart)) {
+           $books = Book::whereIn('id', array_keys($cart))->get()->keyBy('id');
+        }
+        $shippingMethods = [
+            'standard' => 'Standard Shipping (5-7 days)',
+            'express' => 'Express Shipping (2-3 days)',
+            'next_day' => 'Next Day Delivery',
+            'another' => 'Another Shipping Method',
+        ];
+    
+        $paymentMethods = [
+            'debit_card' => 'Debit Card',
+            'paypal' => 'PayPal',
+            'google_pay' => 'Google Pay',
+            'apple_pay' => 'Apple Pay',
+        ];
+    
+        return view('basket.summary', compact('shipping', 'cart','info','books','totalPrice',
+        'shippingMethods',
+        'paymentMethods'))->with('step', 3);
     }
     public function confirmOrder(Request $request)
     {
         $cart = session('cart', []);
         $shipping = session('shipping_details', []);
         $delivery = session('info', []);
-
+        $total_price = session('total_price', 0);
         //  save into db
+        // DB::beginTransaction();
 
-        session()->forget(['cart', 'shipping_details', 'delivery_info']);
+        try{
 
-        return redirect()->route('homepage')->with('success', 'Your order has been confirmed!');
+            // $order=Order::create([
+            //     'user_id' => Auth::id(),
+            //     'shipping_name'=>$delivery['name'],
+            //     'guest_email'=>$delivery['email'],
+            //     'shipping_address'=>$delivery['address'],
+            //     'shipping_city'=>$delivery['city']?? null,
+            //     'shipping_postal_code'=>$delivery['post_code_city'],
+            //     'shipping_country'=>$delivery['country'],
+            //     'shipping_method'=>$shipping['shipping'],
+            //     'payment_method'=>$shipping['payment'],
+            //     'total_amount'=>$total_price,
+            // ]);
+            // foreach($cart as $bookId=>$quantity){
+            //     $book=Book::find($bookId);
+            //     if($book){
+            //         OrderItem::create([
+            //             'order_id'=>$order->id,
+            //             'book_id'=>$book->id,
+            //             'quantity'=>$quantity,
+            //             'price'=>$book->price
+            //         ]);
+            //         $book->decrement('quantity', $quantity);
+            //     }
+            // }
+            // DB::commit();
+            session()->forget(['cart', 'shipping_details', 'info']);
+            return redirect()->route('homepage')->with('success', 'Your order has been confirmed!');
+            }catch(\Exception $e){
+
+                DB::rollback();
+                return redirect()->route('homepage')->with('error', 'Something went wrong while confirming your order.');
+            }
+
+        
+
+        
     }
 }

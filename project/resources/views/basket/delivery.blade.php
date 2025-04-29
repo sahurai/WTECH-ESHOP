@@ -47,7 +47,7 @@
                 <div class="space-y-2 text-sm md:text-base lg:text-lg text-blue">
                     <label class="block">
                         <span class="text-true-dark">Street and house number</span>
-                        <input type="text" name="street"
+                        <input type="text" name="address"
                             class="w-full border border-orange-300 shadow-md shadow-orange-200 rounded-md p-2 focus:ring focus:ring-orange-300"
                             required />
                     </label>

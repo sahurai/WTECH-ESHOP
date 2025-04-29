@@ -14,8 +14,8 @@
     @elseif ($step == 2)
         <a href="{{ route('checkout.delivery') }}"
             class="bg-dark-violet text-center font-semibold text-white px-2 py-2 rounded hover:bg-gray-600">Back</a>
-        <a href="{{ route('checkout.summary') }}"
-            class="bg-dark-violet text-white font-semibold px-2 py-2 rounded hover:bg-gray-600">Proceed</a>
+        <button type="submit"
+            class="bg-zinc-700  text-white font-semibold px-2 py-2 rounded hover:bg-gray-600">Proceed</button>
     @elseif ($step == 3)
         <a href="{{ route('checkout.shippingpayment') }}"
             class="bg-dark-violet text-center font-semibold text-white px-2 py-2 rounded hover:bg-gray-600">Back</a>

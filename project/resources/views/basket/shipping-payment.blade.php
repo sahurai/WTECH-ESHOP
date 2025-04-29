@@ -59,7 +59,7 @@
                     </label>
                     <label
                         class="flex items-center py-3 px-4 space-x-2 hover:bg-gray-100 rounded-lg border shadow-md shadow-orange-200">
-                        <input type="radio" name="payment" value="apply_pay" class="form-radio accent-red-400" />
+                        <input type="radio" name="payment" value="apple_pay" class="form-radio accent-red-400" />
                         <span class="text-blue">Apple Pay</span>
                     </label>
                 </div>
