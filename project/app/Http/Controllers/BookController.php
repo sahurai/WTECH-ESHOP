@@ -36,7 +36,7 @@ class BookController extends Controller
             $newest = Book::with('images')->orderBy('release_year', 'desc')->take(10)->get();
             return view('homepage', compact('bestsellers', 'newest', 'isAdmin'));
         }
-    
+
         $query = Book::query();
         $category = null;
 
