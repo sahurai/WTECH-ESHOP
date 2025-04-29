@@ -15,7 +15,6 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL,            -- Password hash
     address_line VARCHAR(255),                      -- Optional address line
     city VARCHAR(100),                              -- Optional city
-    state VARCHAR(100),                             -- Optional state/province
     postal_code VARCHAR(20),                        -- Optional postal code
     country VARCHAR(100),                           -- Optional country
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Record update timestamp
@@ -107,7 +106,6 @@ CREATE TABLE orders (
     shipping_name VARCHAR(255),                     -- Recipient's name for shipping
     shipping_address VARCHAR(255),                  -- Shipping address
     shipping_city VARCHAR(100),                     -- City
-    shipping_state VARCHAR(100),                    -- State/Province
     shipping_postal_code VARCHAR(20),               -- Postal code
     shipping_country VARCHAR(100),                  -- Country
     shipping_method VARCHAR(100),                   -- Selected shipping method

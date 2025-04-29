@@ -59,8 +59,9 @@
                 <img src="../assets/summary-page/user.svg" alt="Delivery Icon" class="w-12 h-12" />
                 <div>
                     <h3 class="font-bold">Delivery address</h3>
-                    <span class="block">{{ $info['name'] ?? '' }} {{ $info['surname'] ?? '' }}</span>
-                    <span class="blox text-sm">{{ $info['address'] ?? '' }}, {{ $info['post_code_city'] ?? '' }},
+                    <span class="block">{{ $info['username'] ?? '' }}</span>
+                    <span class="blox text-sm">{{ $info['address_line'] ?? '' }}, {{ $info['postal_code'] ?? '' }}
+                        {{ $info['city'] ?? '' }},
                         {{ $info['number'] ?? '' }}, {{ $info['country'] ?? '' }}</span>
                 </div>
             </div>

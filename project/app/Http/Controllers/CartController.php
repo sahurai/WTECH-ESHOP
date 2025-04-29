@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Collection;
 
 use App\Models\Book;
+use App\Models\Order;
+use App\Models\OrderItem;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -164,8 +168,32 @@ class CartController extends Controller
     }
     public function storeDelivery(Request $request)
     {
-        // Validate and store shipping info in session or DB
-        session()->put('info', $request->only(['name', 'email', 'address', 'post_code_city','country','number']));
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'surname' => 'required|string|max:100',
+            'email' => 'required|email',
+            'address_line' => 'required|string',
+            'city' => 'required|string',
+            'postal_code' => 'required|string|max:20',
+            'country' => 'required|string',
+            'number' => 'required|string|max:20',
+        ]);
+        if (Auth::check()) {
+            $user = Auth::user();
+            $user->update([
+                'address_line'  => $validated['address_line'],
+                'city'          => $validated['city'],
+                'postal_code'   => $validated['postal_code'],
+                'country'       => $validated['country'],
+                'number'        => $validated['number'],
+                'updated_at'    => now(),
+            ]);       
+
+        }
+        $validated['username'] = $validated['name'] . ' ' . $validated['surname'];
+        unset($validated['name'], $validated['surname']);
+        session()->put('info', $validated);
+        
 
         return redirect()->route('checkout.shippingpayment');
     }
@@ -204,35 +232,36 @@ class CartController extends Controller
         $delivery = session('info', []);
         $total_price = session('total_price', 0);
         //  save into db
-        // DB::beginTransaction();
+        DB::beginTransaction();
 
         try{
 
-            // $order=Order::create([
-            //     'user_id' => Auth::id(),
-            //     'shipping_name'=>$delivery['name'],
-            //     'guest_email'=>$delivery['email'],
-            //     'shipping_address'=>$delivery['address'],
-            //     'shipping_city'=>$delivery['city']?? null,
-            //     'shipping_postal_code'=>$delivery['post_code_city'],
-            //     'shipping_country'=>$delivery['country'],
-            //     'shipping_method'=>$shipping['shipping'],
-            //     'payment_method'=>$shipping['payment'],
-            //     'total_amount'=>$total_price,
-            // ]);
-            // foreach($cart as $bookId=>$quantity){
-            //     $book=Book::find($bookId);
-            //     if($book){
-            //         OrderItem::create([
-            //             'order_id'=>$order->id,
-            //             'book_id'=>$book->id,
-            //             'quantity'=>$quantity,
-            //             'price'=>$book->price
-            //         ]);
-            //         $book->decrement('quantity', $quantity);
-            //     }
-            // }
-            // DB::commit();
+            $order=Order::create([
+                'user_id' =>Auth::check()? Auth::id(): null,
+                'shipping_name'=>$delivery['username'],
+                'guest_email'=> $delivery['email'],
+                // 'status'=>'pending',
+                'shipping_address'=>$delivery['address_line'],
+                'shipping_city'=>$delivery['city'],
+                'shipping_postal_code'=>$delivery['postal_code'],
+                'shipping_country'=>$delivery['country'],
+                'shipping_method'=>$shipping['shipping'],
+                'payment_method'=>$shipping['payment'],
+                'total_amount'=>$total_price,
+            ]);
+            foreach($cart as $bookId=>$quantity){
+                $book=Book::find($bookId);
+                if($book){
+                    OrderItem::create([
+                        'order_id'=>$order->id,
+                        'book_id'=>$book->id,
+                        'quantity'=>$quantity,
+                        'price'=>$book->price
+                    ]);
+                    $book->decrement('quantity', $quantity);
+                }
+            }
+            DB::commit();
             session()->forget(['cart', 'shipping_details', 'info']);
             return redirect()->route('homepage')->with('success', 'Your order has been confirmed!');
             }catch(\Exception $e){

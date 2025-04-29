@@ -19,7 +19,6 @@ use Illuminate\Support\Carbon;
  * @property string      $remember_token
  * @property string|null $address_line
  * @property string|null $city
- * @property string|null $state
  * @property string|null $postal_code
  * @property string|null $country
  * @property Carbon|null $created_at
@@ -43,7 +42,6 @@ class User extends Authenticatable
         'password_hash',
         'address_line',
         'city',
-        'state',
         'postal_code',
         'country',
     ];

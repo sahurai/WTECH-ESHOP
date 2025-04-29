@@ -20,7 +20,6 @@ use Illuminate\Support\Carbon;
  * @property string|null      $shipping_name
  * @property string|null      $shipping_address
  * @property string|null      $shipping_city
- * @property string|null      $shipping_state
  * @property string|null      $shipping_postal_code
  * @property string|null      $shipping_country
  * @property string|null      $shipping_method
@@ -42,7 +41,6 @@ class Order extends Model
         'shipping_name',
         'shipping_address',
         'shipping_city',
-        'shipping_state',
         'shipping_postal_code',
         'shipping_country',
         'shipping_method',
