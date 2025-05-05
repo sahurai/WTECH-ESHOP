@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('shipping_name')->nullable();
             $table->string('shipping_address')->nullable();
             $table->string('shipping_city', 100)->nullable();
-            $table->string('shipping_state', 100)->nullable();
             $table->string('shipping_postal_code', 20)->nullable();
             $table->string('shipping_country', 100)->nullable();
             $table->string('shipping_method', 100)->nullable();
