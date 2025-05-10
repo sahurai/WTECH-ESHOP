@@ -38,6 +38,22 @@
                 @endforeach
             </ul>
         </section>
+        <!-- Genre filter example -->
+        <section class="mb-1">
+
+            <h3 class="font-medium">Genre</h3>
+            <ul class="space-y-1">
+                @foreach ($availableGenres as $genre)
+                    <li>
+                        <label class="inline-flex items-center space-x-2 text-blue">
+                            <input type="checkbox" class="form-checkbox" name="genre[]" value="{{ $genre }}"
+                                {{ in_array($genre, request()->input('genre', [])) ? 'checked' : '' }}>
+                            <span>{{ $genre }}</span>
+                        </label>
+                    </li>
+                @endforeach
+            </ul>
+        </section>
         <!-- Price filter example -->
         <section class="mb-1">
             <h3 class="font-medium text-true-dark">Price</h3>

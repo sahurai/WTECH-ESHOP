@@ -64,6 +64,11 @@ class BookController extends Controller
         if ($request->filled('author')) {
             $query->whereIn('author', $request->input('author'));
         }
+        if ($request->filled('genre')) {
+            $query->whereHas('genres', function ($q) use ($request) {
+                $q->whereIn('name', $request->input('genre'));
+            });
+        }
 
         // Search
         if ($request->filled('search')) {
@@ -92,10 +97,10 @@ class BookController extends Controller
 
         $availableLanguages = Book::select('language')->distinct()->whereNotNull('language')->pluck('language');
         $availableAuthors   = Book::select('author')->distinct()->whereNotNull('author')->pluck('author');
-
+        $availableGenres = Genre::whereHas('books')->pluck('name');
         $books = $query->paginate(12);
 
-        return view('category', compact('books', 'isAdmin', 'category', 'availableLanguages', 'availableAuthors'));
+        return view('category', compact('books', 'isAdmin', 'category', 'availableLanguages','availableGenres', 'availableAuthors'));
     }
 
     /**
